@@ -62,6 +62,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Server</th>
+                                    <th>Type</th>
                                     <th>Location</th>
                                     <th>Os</th>
                                     <th>Period</th>
@@ -79,6 +80,7 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->server }}</td>
+                                        <td>{{ $item->type }}</td>
                                         <td>{{ $item->location }}</td>
                                         <td>{{ $item->os }}</td>
                                         <td>{{ $item->period }}</td>
