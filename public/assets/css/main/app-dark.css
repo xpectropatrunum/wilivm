@@ -253,7 +253,7 @@ html[data-bs-theme=dark] address {
 
 html[data-bs-theme=dark] ol,
 html[data-bs-theme=dark] ul {
-    padding-left: 2rem;
+    padding-left: 0.7rem;
 }
 
 html[data-bs-theme=dark] ol,
