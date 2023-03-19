@@ -59,16 +59,16 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Server</th>
+                                    <th>User</th>
                                     <th>Type</th>
-                                    <th>Location</th>
+                                    <th>Plan</th>
                                     <th>Os</th>
-                                    <th>Period</th>
-
+                                    <th>Location</th>
+                                    <th>Cycle</th>
                                     <th>{{ __('admin.created_date') }}</th>
-                                    <th>Status</th>
+                                    <th>Expires At</th>
+                                    <th>Transaction Status</th>
+                                    <th>Service Status</th>
                                     <th>Actions</th>
 
                                 </tr>
@@ -77,36 +77,57 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->server }}</td>
-                                        <td>{{ $item->type }}</td>
-                                        <td>{{ $item->location }}</td>
-                                        <td>{{ $item->os }}</td>
-                                        <td>{{ $item->period }}</td>
+                                        <td><a href="/admin/users?search={{ $item->user->email }}"
+                                                target="_blank">{{ $item->user->email }}</a></td>
+                                        <td>{{ $item->service->type }}</td>
+                                        <td>{{ $item->service->plan }}</td>
+                                        <td>{{ $item->service->os_->name }}</td>
+                                        <td>{{ $item->service->location_->name }}</td>
+                                        <td>{{ $item->cycle }} Months</td>
                                         <td>{{ $item->created_at }}</td>
+                                        <td>{{ date("Y-m-d H:i", $item->expires_at) }}</td>
                                         <td>
 
 
-                                            @if ($item->status)
+                                            @if ($item->transactions()->latest()->first()->status == 1)
                                                 <div class="badge badge-success">Paid</div>
                                             @else
-                                                <div class="badge badge-warning">Not paid</div>
+                                                <div class="badge badge-warning">Unpaid</div>
+                                            @endif
+
+                                        </td>
+                                        <td>
+
+
+                                            @if ($item->service->status == 2)
+                                                <span class="badge bg-success">Active</span>
+                                            @elseif ($item->service->status == 5)
+                                                <span class="badge bg-warning">Proccessing</span>
+                                            @elseif ($item->service->status == 3)
+                                                <span class="badge bg-danger">Expired</span>
+                                            @elseif ($item->service->status == 4)
+                                                <span class="badge bg-danger">Canceled</span>
+                                            @else
+                                                <span class="badge bg-warning">not set</span>
+
                                             @endif
 
                                         </td>
                                         <td class="project-actions">
-                                          
+                                            <a href="{{ route('admin.orders.edit', $item->id) }}">
 
-                                            <button type="button" onclick="openModal('{{$item->id}}')" class="btn btn-primary btn-sm">
-                                                <i class="fas fa-envelope"></i>
-                                                Send Mail
-                                            </button>
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-pen"></i>
+                                                    Edit
+                                                </button>
+                                            </a>
 
-                                            <form action="{{ route('admin.orders.destroy',$item->id) }}" class="d-inline-block" method="POST">
+                                            <form action="{{ route('admin.orders.destroy', $item->id) }}"
+                                                class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this)" class="btn btn-danger btn-sm">
+                                                <button type="submit" onclick="swalConfirmDelete(this)"
+                                                    class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
                                                 </button>
@@ -136,27 +157,27 @@
 
     <div class="modal" id="myModal">
         <div class="modal-dialog">
-          <div class="modal-content">
-      
-            <!-- Modal Header -->
-            <div class="modal-header">
-              <h4 class="modal-title">Modal Heading</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <textarea class="w-100 editor form-control" name="message" placeholder="Your message ..."></textarea>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" onclick="sendMail()" class="btn btn-primary">Send</button>
+                </div>
+
             </div>
-      
-            <!-- Modal body -->
-            <div class="modal-body">
-              <textarea class="w-100 editor form-control" name="message" placeholder="Your message ..."></textarea>
-            </div>
-      
-            <!-- Modal footer -->
-            <div class="modal-footer">
-              <button type="button" onclick="sendMail()" class="btn btn-primary" >Send</button>
-            </div>
-      
-          </div>
         </div>
-      </div>
+    </div>
 @endsection
 
 @push('admin_css')
@@ -165,11 +186,13 @@
 @push('admin_js')
     <script>
         var id_ = "";
-        function openModal(id){
+
+        function openModal(id) {
             id_ = id
             $("#myModal").modal("show")
         }
-        function sendMail(){
+
+        function sendMail() {
             $.ajax({
                 url: '/admin/sendmail/' + id_,
                 type: 'post',
@@ -178,20 +201,20 @@
                     "_token": "{{ csrf_token() }}",
                 },
                 dataType: 'json',
-                success: function (res) {
-                    if(res == 1){
+                success: function(res) {
+                    if (res == 1) {
                         Toast.fire({
                             icon: 'success',
-                            'title':'Message send successfully'
+                            'title': 'Message send successfully'
                         })
                         $("#myModal").modal("hide")
-                    }else{
+                    } else {
                         Toast.fire({
                             icon: 'error',
-                            'title':'Something went wrong'
+                            'title': 'Something went wrong'
                         })
                     }
-                    
+
                 }
             });
         }

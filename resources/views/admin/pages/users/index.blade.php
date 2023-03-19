@@ -59,16 +59,12 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>{{ __('admin.full_name') }}</th>
-                                    <th>{{ 'UN' }}</th>
-                                    <th>{{ 'Powernation ID' }}</th>
-                                    <th>{{ 'National ID' }}</th>
-                                    <th>{{ 'Nickname' }}</th>
-                                    <th>{{ 'Verified' }}</th>
-
-                                    <th>{{ __('admin.created_date') }}</th>
-                                    <th>{{ 'Enabled' }}</th>
-                                    <th>{{ 'Actions' }}</th>
+                                    <th>Fullname</th>
+                                    <th>Email</th>
+                                    <th>Verified</th>
+                                    <th>Enabled</th>
+                                    <th>Created time</th>
+                                    <th>Actions</th>
 
                                 </tr>
                             </thead>
@@ -77,39 +73,55 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>
-                                            @if ($item->company_name)
-                                                {{ $item->company_name }}
-                                            @else
-                                                {{ App\Enums\ESalutationType::getKey($item->salutation) }}.
-                                                {{ $item->first_name }} {{ $item->last_name }}
-                                            @endif
+                                            {{ $item->first_name }} {{ $item->last_name }}
                                         </td>
-                                        <td>{{ $item->un ?: "-"}}</td>
-
-                                        <td>{{ $item->powernation_id }}</td>
-                                        <td>{{ $item->national_id }}</td>
-                                        <td>{{ $item->nickname }}</td>
-                                        <td>{{ collect($item->groups)->contains('id', App\Enums\EGroupAccessType::VERIFIED) ? 'YES' : 'NO' }}
-                                        </td>
-                                        <td>{{ (new Shamsi())->jdate($item->created_at, true) }}</td>
+                                        <td>{{ $item->email }}</td>
                                         <td>
                                             <div class="form-check">
-                                                @if ($item->enable)
-                                                    YES
-                                                @else
-                                                    NO
-                                                @endif
-
+                                                <input type="checkbox"
+                                                    data-url="{{ route('admin.users.verify', $item->id) }}"
+                                                    data-id="{{ $item->id }}" class="form-check-input changeStatus3"
+                                                    id="exampleCheck{{ $item->id }}"
+                                                    @if ($item->verified) checked @endif>
+                                                <label class="form-check-label" for="exampleCheck{{ $item->id }}">
+                                                    enable</label>
                                             </div>
                                         </td>
+
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    data-url="{{ route('admin.users.status', $item->id) }}"
+                                                    data-id="{{ $item->id }}" class="form-check-input changeStatus2"
+                                                    id="exampleCheck2{{ $item->id }}"
+                                                    @if ($item->status) checked @endif>
+                                                <label class="form-check-label" for="exampleCheck2{{ $item->id }}">
+                                                    enable</label>
+                                            </div>
+                                        </td>
+
+                                        <td>{{ $item->created_at }}</td>
                                         <td class="project-actions">
                                             <a class="btn btn-info btn-sm"
-                                                href="{{ route('admin.users.show', $item->id) }}">
-                                                <i class="fas fa-eye"></i>
-                                                {{ __('Show') }}
+                                                href="{{ route('admin.users.edit', $item->id) }}">
+                                                <i class="fas fa-pen"></i>
+                                                {{ __('Edit') }}
                                             </a>
 
-
+                                            <form action="{{ route('admin.users.destroy', $item->id) }}"
+                                                class="d-inline-block" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" onclick="swalConfirmDelete(this)"
+                                                    class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                    {{ __('admin.delete') }}
+                                                </button>
+                                            </form>
+                                            <a target="_blank" class="btn btn-outline-warning btn-sm"
+                                                href="{{ route('admin.users.login', $item->id) }}">
+                                                {{ __('Login') }}
+                                            </a>
                                         </td>
 
                                     </tr>
@@ -138,7 +150,8 @@
 @push('admin_js')
     <script>
         $(function() {
-            $('.changeStatus').on('change', function() {
+         
+            $('.changeStatus2').on('change', function() {
                 id = $(this).attr('data-id');
 
                 if ($(this).is(':checked')) {
@@ -151,7 +164,38 @@
                     url: $(this).attr('data-url'),
                     type: 'post',
                     data: {
-                        'enable': enable,
+                        'status': enable,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        // $("#beforeAfterLoading").addClass("spinner-border");
+                    },
+                    complete: function() {
+                        // $("#beforeAfterLoading").removeClass("spinner-border");
+                    },
+                    success: function(res) {
+                        Toast.fire({
+                            icon: 'success',
+                            'title': 'Record status successfully changed'
+                        })
+                    }
+                });
+            });
+            $('.changeStatus3').on('change', function() {
+                id = $(this).attr('data-id');
+
+                if ($(this).is(':checked')) {
+                    enable = 1;
+                } else {
+                    enable = 0;
+                }
+
+                $.ajax({
+                    url: $(this).attr('data-url'),
+                    type: 'post',
+                    data: {
+                        'verified': enable,
                         "_token": "{{ csrf_token() }}",
                     },
                     dataType: 'json',

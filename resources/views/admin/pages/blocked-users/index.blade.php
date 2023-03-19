@@ -23,10 +23,10 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center px-3">
                     <h3 class="card-title">Blocked Users</h3>
-                    <a class="btn btn-outline-primary btn-sm mx-3" href="{{ route('admin.blocked_users.create') }}"><i class="fa fa-plus"></i> {{ __('admin.add_new') }}</a>
+                    <a class="btn btn-outline-primary btn-sm mx-3" href="{{ route('admin.blocked-users.create') }}"><i class="fa fa-plus"></i> {{ __('admin.add_new') }}</a>
                 </div>
                 <div class="card-body p-3">
-                    <form class="frm-filter" action="{{ route('admin.blocked_users.index') }}" type="post" autocomplete="off">
+                    <form class="frm-filter" action="{{ route('admin.blocked-users.index') }}" type="post" autocomplete="off">
                         @csrf
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -62,7 +62,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>{{ __('admin.full_name') }}</th>
-                                <th>{{ 'Powernation ID' }}</th>
                                 <th>{{ 'From' }}</th>
                                 <th>{{ 'To' }}</th>
                                 <th>{{ __('admin.created_date') }}</th>
@@ -74,24 +73,24 @@
                             @foreach($items as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->user->first_name }} {{ $item->user->last_name }}</td>
-                                    <td>{{ $item->user->powernation_id ?? '' }}</td>
-                                    <td>{{ (new Shamsi)->jdate($item->from_datetime) }}</td>
-                                    <td>{{ (new Shamsi)->jdate($item->to_datetime) }}</td>
-                                    <td>{{ (new Shamsi)->jdate($item->created_at) }}</td>
+                                    <td><a href="{{route('admin.users.index', ["search" => $item->user->id])}}">
+                                        {{ $item->user->first_name }} {{ $item->user->last_name }}</a></td>
+                                    <td>{{ $item->from_datetime }}</td>
+                                    <td>{{ $item->to_datetime }}</td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <div class="form-check">
-                                            <input type="checkbox" data-url="{{ route('admin.blocked_users.status',$item->id) }}" data-id="{{ $item->id }}" class="form-check-input changeStatus" id="exampleCheck{{ $item->id }}" @if($item->enable) checked @endif>
+                                            <input type="checkbox" data-url="{{ route('admin.blocked-users.status',$item->id) }}" data-id="{{ $item->id }}" class="form-check-input changeStatus2" id="exampleCheck{{ $item->id }}" @if($item->enable) checked @endif>
                                             <label class="form-check-label" for="exampleCheck{{ $item->id }}"> enable</label>
                                         </div>
                                     </td>
                                     <td class="project-actions">
-                                        <a class="btn btn-info btn-sm" href="{{ route('admin.blocked_users.edit',$item->id) }}">
+                                        <a class="btn btn-info btn-sm" href="{{ route('admin.blocked-users.edit',$item->id) }}">
                                             <i class="fas fa-pencil-alt"></i>
                                             {{ __('admin.edit') }}
                                         </a>
 
-                                        <form action="{{ route('admin.blocked_users.destroy',$item->id) }}" class="d-inline-block" method="POST">
+                                        <form action="{{ route('admin.blocked-users.destroy',$item->id) }}" class="d-inline-block" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" onclick="swalConfirmDelete(this)" class="btn btn-danger btn-sm">
@@ -125,7 +124,7 @@
 @push('admin_js')
     <script>
         $(function (){
-            $('.changeStatus').on('change',function (){
+            $('.changeStatus2').on('change',function (){
                 if ($(this).is(':checked'))
                 {
                     enable= 1;

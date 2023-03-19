@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ENotificationType;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderDelivered;
 use App\Models\DoctorSpecialty;
 use App\Models\Order;
+use App\Models\OrderLabel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -31,6 +33,7 @@ class OrderController extends Controller
         $search = "";
         $limit = 10;
         $query = Order::latest();
+        auth()->user()->notifications()->where(["type" => ENotificationType::Deploying])->update(["new" => 0]);
 
 
         if ($request->search) {
@@ -57,14 +60,35 @@ class OrderController extends Controller
         }
         return redirect()->route("admin.orders.index")->with("error", "Something went wrong");
     }
+    function update(Request $request, Order $order)
+    {
+        $request->merge([
+            "label_ids" => json_encode($request->label_ids)
+        ]);
+      
+        $updated = $order->service->update($request->only("username", "password", "ip", "status", "label_ids"));
+        $order->update($request->only("label_ids"));
+        if ($updated) {
+            if ($request->inform) {
+                Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
+            }
+            return redirect()->back()->withSuccess("Order is updated successfully!");
+        }
+        return redirect()->back()->withError("Something went wrong");
+    }
+    function edit(Order $order)
+    {
+        $labels = OrderLabel::where("enable", 1)->get();
+
+        return view("admin.pages.orders.edit", compact('order', 'labels'));
+    }
     function sendMail(Request $request, Order $order)
     {
-        
 
-        if(Mail::to($order->email)->send(new OrderDelivered($order, $request->message))){
+
+        if (Mail::to($order->email)->send(new OrderDelivered($order, $request->message))) {
             return 1;
         }
         return 0;
-
     }
 }

@@ -27,7 +27,6 @@ class OrderDelivered extends Mailable
     public function __construct(Order $order, $message)
     {
         $this->order = $order;
-        $this->message__ = $message;
     }
     /**
      * Get the message envelope.

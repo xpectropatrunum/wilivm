@@ -1,0 +1,154 @@
+@extends('user.layouts.master')
+
+@section('title', 'Show ticket')
+
+
+@section('content')
+
+
+    <div class="page-heading">
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>{{ $ticket->title }}</h3>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('panel.tickets') }}">Tickets</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Ticket #{{ $ticket->id }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="media d-flex align-items-center">
+
+                                <div class="name flex-grow-1">
+                                    <h6 class="mb-2">Last update:
+                                        {{ MyHelper::getNormaliazedTime($ticket->updated_at, 1) }}</h6>
+
+                                        <h6 class="mb-0">Department:
+                                            {{ App\Enums\ETicketDepartment::getKey($ticket->department) }}</h6>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-body pt-4 bg-grey">
+                            <div class="chat-content">
+                                @foreach ($ticket->conversations as $item)
+                                    @if ($item->type == 0)
+                                        <div class="chat chat-left">
+                                            <div class="chat-body">
+                                                <div class="chat-message">
+                                                    {!! $item->message !!}
+                                                    <span> {{ MyHelper::getNormaliazedTime($item->created_at) }}</span> 
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="chat">
+                                            <div class="chat-body">
+                                                <div class="chat-message">
+                                                    {!! $item->message !!}
+                                                   <span> {{ MyHelper::getNormaliazedTime($item->created_at) }}</span> 
+                                                </div>
+                                                <div></div>
+
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+
+
+
+                            </div>
+                        </div>
+                        <form class="card-footer" method="POST" action="{{route("panel.tickets.send", $ticket->id)}}">
+                            @csrf
+                            <div class="align-items-center">
+                               
+                                <div class="d-flex flex-grow-1 col-12">
+                                    <textarea name="message" rows="4" type="text" class="form-control" placeholder="Type your message.."></textarea>
+                                </div>
+                                <div class="col-12 mt-2 float-right" style="
+                                        text-align: right;
+                                    ">
+                                    <button class="btn btn-primary btn"
+                                   >
+                                   
+                                    <i class="bi bi-send-fill"></i>
+                                    {{ __('Send') }}
+                                </button>
+                                </div>
+                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+@endsection
+
+@push('admin_css')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
+    <style>
+        .chat {
+            border-radius: 5px
+        }
+
+        .chat.chat-left .chat-message {
+            background: #5a8dee !important;
+            color: #fff;
+            float: left !important
+        }
+
+        .chat p {
+            margin-bottom: 0
+        }
+
+
+        .chat .chat-message {
+            background-color: #fafbfb !important;
+            border-radius: .267rem !important;
+            box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .3) !important;
+            clear: both !important;
+            color: #525361;
+            float: right !important;
+            margin: .2rem 0 1.8rem .2rem !important;
+            max-width: calc(100% - 5rem) !important;
+            min-width: 200px !important;
+            padding: .75rem 1rem 1.2rem 1rem !important;
+            position: relative !important;
+            text-align: left !important;
+            word-break: break-word !important
+        }
+        .chat .chat-message span{
+            color: #7c7c7c;
+            position: absolute;
+            left: 5px;
+            bottom: -1px;
+            font-size: 0.8em;
+        }
+        .chat-left .chat-message  span{
+            color: white;
+            text-align: right;
+            position: absolute;
+            right: 5px;
+            bottom: -1px;
+            font-size: 0.8em;
+        }
+    </style>
+@endpush
+

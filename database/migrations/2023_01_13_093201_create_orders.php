@@ -13,19 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string("name");
-            $table->string("email");
-            $table->string("server");
-            $table->string("os");
-            $table->string("location");
-            $table->string("period");
-            $table->string("price");
-            $table->string("transaction_id")->nullable();
-            $table->integer("status")->default(0);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('orders')) {
+
+            Schema::create('orders', function (Blueprint $table) {
+                $table->id();
+                $table->integer("server_id");
+                $table->integer("user_id");
+                $table->float("price");
+                $table->float("discount")->default(0);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+       // Schema::dropIfExists('orders');
     }
 };

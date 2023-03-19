@@ -21,11 +21,12 @@
     {{-- Base Stylesheets --}}
     <link rel="stylesheet" href="{{ asset('admin-panel/libs/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-panel/libs/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    @if(app()->getLocale() == 'fa')
-    <link rel="stylesheet" href="{{ asset('admin-panel/libs/bootstrap/css/bootstrap-rtl.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('admin-panel/libs/persian-datepicker/dist/css/persian-datepicker.css') }}">
+    @if (app()->getLocale() == 'fa')
+        <link rel="stylesheet" href="{{ asset('admin-panel/libs/bootstrap/css/bootstrap-rtl.min.css') }}">
+        <link rel="stylesheet"
+            href="{{ asset('admin-panel/libs/persian-datepicker/dist/css/persian-datepicker.css') }}">
     @else
-    <link rel="stylesheet" href="{{ asset('admin-panel/libs/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin-panel/libs/bootstrap/css/bootstrap.min.css') }}">
     @endif
     <link rel="stylesheet" href="{{ asset('admin-panel/libs/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-panel/libs/sweetalert2/sweetalert2.min.css') }}">
@@ -34,10 +35,10 @@
     {{-- Custom Stylesheets --}}
     @stack('admin_css')
 
-    @if(app()->getLocale() == 'fa')
-    <link rel="stylesheet" href="{{ asset('admin-panel/dist/css/adminlte-rtl.min.css') }}">
+    @if (app()->getLocale() == 'fa')
+        <link rel="stylesheet" href="{{ asset('admin-panel/dist/css/adminlte-rtl.min.css') }}">
     @else
-    <link rel="stylesheet" href="{{ asset('admin-panel/dist/css/adminlte.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin-panel/dist/css/adminlte.min.css') }}">
     @endif
 
     {{-- Favicon --}}
@@ -70,18 +71,18 @@
                     @yield('content_header')
 
                     {{-- status Alert --}}
-                    @if(session('status'))
+                    @if (session('status'))
                         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
-                            {{session('status')}}
+                            {{ session('status') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                     @endif
 
-                    @if(session('error'))
+                    @if (session('error'))
                         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                            {{session('error')}}
+                            {{ session('error') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -102,9 +103,9 @@
                     @endif
 
                     {{-- Success Alert --}}
-                    @if(session('success'))
+                    @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                            {{session('success')}}
+                            {{ session('success') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -133,8 +134,106 @@
     <script src="{{ asset('admin-panel/libs/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
     <script src="{{ asset('admin-panel/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('admin-panel/dist/js/app.js') }}"></script>
+    <script>
+        $(function() {
+            ///searchbox
 
+            $("[name=search]").on("input", function() {
+                search = $(this).val()
+                if (search.length == 0) {
+                    $(".dropdown-search").css("display", "none");
+                    $(".type-more").hide();
+                    $(".search-users").hide()
+                    $(".search-tickets").hide()
+                    $(".search-orders").hide()
+
+                } else if (search.length < 3) {
+                    $(".dropdown-search").css("display", "block");
+                    $(".type-more").show();
+                    $(".search-users").hide()
+                    $(".search-tickets").hide()
+                    $(".search-orders").hide()
+                    $(".type-more").text("Type atleast 3 characters to search");
+                } else {
+                    $(".dropdown-search").css("display", "block");
+                    $(".type-more").hide();
+                    $(".search-users").show()
+                    $(".search-tickets").show()
+                    $(".search-orders").show()
+
+                }
+
+                $.ajax({
+                    url: "{{route('admin.dashboard.search')}}",
+                    type: 'post',
+                    data: {
+                        'search': search,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        // $("#beforeAfterLoading").addClass("spinner-border");
+                    },
+                    complete: function() {
+                        // $("#beforeAfterLoading").removeClass("spinner-border");
+                    },
+                    success: function(res) {
+                        $(".search-users").html("")
+                        $(".search-orders").html("")
+                        $(".search-tickets").html("")
+                        res.users.map(item => {
+                            $(".search-users").append(`<span
+                            class="dropdown-item dropdown-header text-left cursor-pointer" ><a href="/admin/users/?search=${item.id}"><i class="nav-icon fas fa-user"></i> ${item.first_name} ${item.last_name} - ${item.email}</a></span>`)
+                        })
+                        res.orders.map(item => {
+                            $(".search-orders").append(`<span
+                            class="dropdown-item dropdown-header text-left cursor-pointer"><a href="/admin/orders/${item.id}/edit"><i class="nav-icon fas fa-shopping-cart"></i> Order #${item.id}</a></span>`)
+                        })
+                        res.tickets.map(item => {
+                            $(".search-tickets").append(`<span
+                            class="dropdown-item dropdown-header text-left cursor-pointer"><a href="/admin/tickets/${item.id}"><i class="nav-icon fas fa-ticket-alt"></i>  Ticket #${item.id}</a></span>`)
+                        })
+                    },
+                    error: function(res) {
+                       console.log("Error")
+                    }
+                });
+            })
+            $('.changeStatus').on('change', function() {
+                id = $(this).attr('data-id');
+
+                if ($(this).is(':checked')) {
+                    enable = 1;
+                } else {
+                    enable = 0;
+                }
+
+                $.ajax({
+                    url: $(this).attr('data-url'),
+                    type: 'post',
+                    data: {
+                        'enabled': enable,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        // $("#beforeAfterLoading").addClass("spinner-border");
+                    },
+                    complete: function() {
+                        // $("#beforeAfterLoading").removeClass("spinner-border");
+                    },
+                    success: function(res) {
+                        Toast.fire({
+                            icon: 'success',
+                            'title': 'Record status successfully changed'
+                        })
+                    }
+                });
+            });
+        });
+    </script>
     {{-- Custom Scripts --}}
     @stack('admin_js')
 </body>
+
 </html>

@@ -9,7 +9,7 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb @if(app()->getLocale() == 'fa') float-sm-left @else float-sm-right @endif">
-                <li class="breadcrumb-item"><a href="{{ route('admin.blocked_users.index') }}">all blocked users</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.blocked-users.index') }}">all blocked users</a></li>
                 <li class="breadcrumb-item active">Add new block user</li>
             </ol>
         </div>
@@ -23,18 +23,21 @@
                 <div class="card-header">
                     <h3 class="card-title">Add new block user</h3>
                 </div>
-                <form action="{{ route('admin.blocked_users.store') }}" method="post">
+                <form action="{{ route('admin.blocked-users.store') }}" method="post">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             
                             <div class="form-group col-lg-4">
                                 <label>User</label>
-                                <select name="user_id" class="form-control" id="search-user" required>
-                                    <option value=""></option>
+                                <select name="user_id" class="form-control select2" id="search-user" required>
+                                    @foreach (App\Models\User::all() as $item)
+                                    <option value="{{$item->id}}">{{$item->first_name}} {{$item->last_name}} - {{$item->email}}</option>
+                                        
+                                    @endforeach
+                                    
                                 </select>
                             </div>
-                            <div class="w-100"></div>
                             <div class="form-group col-lg-4">
                                 <label>From date time:</label>
                                 <input type="text" name="from_datetime" id="from-datetime" class="form-control @error('from_datetime') is-invalid @enderror" value="{{ old('from_datetime') }}" required>
@@ -61,7 +64,7 @@
                     </div>
                     <!-- /.card-body -->
 
-                    <div class="card-footer text-center">
+                    <div class="card-footer text-left">
                         <button type="submit" class="btn btn-primary">{{ __('admin.add') }}</button>
                     </div>
                 </form>
@@ -81,28 +84,7 @@
 
     <script>
         $(function () {
-            $("#search-user").select2({
-                minimumInputLength: 1,
-                ajax: {
-                    url: '{{ route('admin.blocked_users.search_user_ajax') }}',
-                    dataType: "json",
-                    type: "GET",
-                    delay: 500,
-                    data: function (params) {
-                        var queryParameters = {
-                            q: params.term,
-                            _token: "{{ csrf_token() }}",
-                        }
-                        return queryParameters;
-                    },
-                    processResults: function (response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
+         
 
             $('#from-datetime,#to-datetime').datepicker({
                 language: 'en',

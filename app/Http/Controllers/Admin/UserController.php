@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 
@@ -27,22 +28,21 @@ class UserController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query = ApiHelper::users();
+        $query = User::latest();
 
 
         if ($request->search) {
-            $searching_for = $request->search;
             $search = $request->search;
-            $query = $query->filter(function ($item) use ($searching_for) {
-                return Str::containsInsensitive($item->first_name, $searching_for) ||
-                    Str::containsInsensitive($item->last_name, $searching_for) ||
-                    Str::containsInsensitive($item->powernation_id, $searching_for) ||
-                    Str::containsInsensitive($item->national_id, $searching_for) ||
-                    Str::containsInsensitive($item->phone, $searching_for) ||
-                    Str::containsInsensitive($item->email, $searching_for) ||
-                    Str::containsInsensitive($item->company_name, $searching_for) ||
-                    Str::containsInsensitive($item->nickname, $searching_for);
-            });
+            if(is_numeric($search)){
+                $query = $query
+                ->where("id", $search);
+            }else{
+                $query = $query
+                ->where("first_name", $search)
+                ->orWhere("last_name", $search)
+                ->orWhere("email", $search);
+            }
+          
         }
 
         if ($request->limit) {
@@ -55,26 +55,32 @@ class UserController extends Controller
 
         return view('admin.pages.users.index', compact('items', 'search', 'limit'));
     }
-    public function genId($user_id){
-        $un = rand(999999999, 9999999999);
-        if(User::updateOrCreate(["user_id"=> (int)$user_id], ["user_id"=> (int)$user_id, "un" =>  $un ])){
-            return ["success" => 1, "msg" => "User Number Changed successfully", "un" => $un];
 
-        }
-        return ["success" => 0, "msg" => "Something went wrong"];
-
+    
+    public function loginAsUser(User $user)
+    {
+        auth()->guard("web")->login($user);
+        return redirect()->route("panel.dashboard")->withSuccess("Hi Admin!");
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function create()
     {
-        //
+        return view('admin.pages.users.create');
     }
-
+    public function changeStatus(Request $request, User $user)
+    {
+        $request->validate([
+            'status' => 'required'
+        ]);
+        return $user->update($request->except('_token'));
+    }
+    public function changeVerify(Request $request, User $user)
+    {
+        $request->validate([
+            'verified' => 'required'
+        ]);
+        return $user->update($request->except('_token'));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -83,8 +89,67 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->merge([
+            "email" => strtolower($request->email),
+        ]);
+        $rules = [
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => "required|email|unique:users,email",
+            "password" => "required",
+            "password_confirm" => "required|same:password",
+        ];
+        $request->validate($rules);
+        $request->merge([
+            "password" => Hash::make($request->password),
+        ]);
+        if (!$request->verified) {
+            $request->merge([
+                "verified" => 0,
+            ]);
+        }
+    
+        $created = User::create($request->all());
+        if ($created) {
+            return redirect()->route("admin.users.index")->withSuccess("User is created successfully!");
+        }
+        return redirect()->back()->withError("Something went wrong");
     }
+
+    public function update(Request $request, User $user)
+    {
+        $request->merge([
+            "email" => strtolower($request->email),
+        ]);
+        $rules = [
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => "required|email|unique:users,email," . $user->id,
+            "password_confirm" => "same:password",
+        ];
+        $request->validate($rules);
+        if (!$request->verified) {
+            $request->merge([
+                "verified" => 0,
+            ]);
+        }
+        if($request->password){
+            $request->merge([
+                "password" => Hash::make($request->password),
+            ]);
+        }else{
+            $request->merge([
+                "password" => $user->password,
+            ]);
+        }
+    
+        $created = $user->update($request->all());
+        if ($created) {
+            return redirect()->back()->withSuccess("User is updated successfully!");
+        }
+        return redirect()->back()->withError("Something went wrong");
+    }
+
 
     /**
      * Display the specified resource.
@@ -100,11 +165,18 @@ class UserController extends Controller
      * @param  \App\Models\DoctorSpecialty  $DoctorSpecialty
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit(User $user)
     {
 
-        $user = ApiHelper::getUser($id);
-        return view('admin.pages.users.show', compact('user'));
+        return view('admin.pages.users.edit', compact('user'));
+
+    }
+    public function destroy(User $user)
+    {
+
+        $user->delete();
+        return redirect()->back()->withSuccess("User is removed successfully!");
+
 
     }
 }

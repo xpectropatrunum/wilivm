@@ -57,9 +57,76 @@
             <div>
 
                 <p class="text-justify">
-                    {!!$message__!!}
+                    Dear {{$order->user->first_name}}, your order is ready now!
                 </p>
 
+                <div>
+                    <span>
+                        Type:
+
+                    </span>
+                    <span>
+                        {{$order->service->type}}
+
+                    </span>
+                </div>
+
+                <div>
+                    <span>
+                        Plan:
+
+                    </span>
+                    <span>
+                        {{$order->service->plan}}
+
+                    </span>
+                </div>
+
+                <div>
+                    <span>
+                        Location:
+
+                    </span>
+                    <span>
+                        {{$order->service->location_->name}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        Os:
+
+                    </span>
+                    <span>
+                        {{$order->service->os_->name}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        Ip:
+
+                    </span>
+                    <span>
+                        {{$order->service->ip}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        Username:
+
+                    </span>
+                    <span>
+                        {{$order->service->username}}
+                    </span>
+                </div>
+                <div>
+                    <span>
+                        Password:
+
+                    </span>
+                    <span>
+                        {{$order->service->password}}
+                    </span>
+                </div>
 
 
             
