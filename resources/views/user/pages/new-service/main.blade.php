@@ -52,7 +52,7 @@
 
                                             </li>
                                             <li>
-                                                <i class="bi bi-check-circle"></i>Money-Back Guarantee
+                                                <i class="bi bi-check-circle"></i>7D Guarantee
                                             </li>
                                             <li>
                                                 <i class="bi bi-check-circle"></i>24/7 Support​
