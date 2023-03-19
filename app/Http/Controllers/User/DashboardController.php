@@ -31,7 +31,7 @@ class DashboardController extends Controller
         for ($i = 0; $i < 10; $i++) {
             $code .= $chars[mt_rand(0, strlen($chars) - 1)];
         }
-        if(auth()->user()->affiliate_code){
+        if(!auth()->user()->affiliate_code){
             auth()->user()->update(["affiliate_code" => $code]);
         }
 
