@@ -177,10 +177,11 @@
 
                                     <div class="flex mt-2 " dir="rtl">
                                         <button type="submit" class="btn btn-lg btn-primary me-1 mb-1 pay-button">
-                                            <span class="spinner-form spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"> </span>
+                                            <span class="spinner-form spinner-border spinner-border-sm" role="status"
+                                                aria-hidden="true" style="display: none;"> </span>
                                             Pay
                                             <i class="bi bi-credit-card-2-back-fill"></i>
-                                            
+
                                         </button>
 
 
@@ -208,17 +209,16 @@
     </div>
     <form class="pm-form" action="https://perfectmoney.com/api/step1.asp" method="POST">
 
-            <input type="hidden" name="PAYEE_ACCOUNT" value="U42835088">
-            <input type="hidden" name="PAYEE_NAME" value="Wilivm">
-            <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount}}">
-            <input type="hidden" name="PAYMENT_UNITS" value="USD">
-            <input type="hidden" name="STATUS_URL" value="{{ env('APP_URL') . 'api/order/perfectmoney' }}">
-            <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') . "invoices/show/{$order->id}/success" }}">
-            <input type="hidden" name="NOPAYMENT_URL"
-                value="{{ env('APP_URL') . "invoices/show/{$order->id}/fail" }}">
-            <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
-            <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
-            <input type="hidden" name="ORDER_NUM" value="{{ $order->id }}">
+        <input type="hidden" name="PAYEE_ACCOUNT" value="U42835088">
+        <input type="hidden" name="PAYEE_NAME" value="Wilivm">
+        <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount }}">
+        <input type="hidden" name="PAYMENT_UNITS" value="USD">
+        <input type="hidden" name="STATUS_URL" value="{{ env('APP_URL') . 'api/order/perfectmoney' }}">
+        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') . "invoices/show/{$order->id}/success" }}">
+        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL') . "invoices/show/{$order->id}/fail" }}">
+        <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
+        <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
+        <input type="hidden" name="ORDER_NUM" value="{{ $order->id }}">
     </form>
     <form class="cp-form" action="https://www.coinpayments.net/index.php" method="post" target="_top">
         <input type="hidden" name="cmd" value="_pay">
@@ -229,10 +229,10 @@
         <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
         <input type="hidden" name="currency" value="USD">
-        <input type="hidden" name="invoice" value="{{ $order->id}}">
+        <input type="hidden" name="invoice" value="{{ $order->id }}">
         <input type="hidden" name="want_shipping" value="0">
-        <input type="hidden" name="amountf" value="{{ $order->price - $order->discount}}">
-        <input type="hidden" name="item_name" value="{{ $order->service->type}}">
+        <input type="hidden" name="amountf" value="{{ $order->price - $order->discount }}">
+        <input type="hidden" name="item_name" value="{{ $order->service->type }}">
 
     </form>
 @endsection
@@ -243,6 +243,18 @@
 @endpush
 @push('admin_js')
     <script>
+        @if (($status ?? 0) == 'fail')
+            Swal.fire({
+                icon: "error",
+                'title': "The payment was unsuccessful."
+            })
+        @endif
+        @if (($status ?? 0) == 'success')
+            Swal.fire({
+                icon: "success",
+                'title': "Payment was successful."
+            })
+        @endif
         var method = 1;
         $('[name=method]').change(function() {
             method = $(this).val();
@@ -299,11 +311,11 @@
                     "_token": "{{ csrf_token() }}",
                 },
                 dataType: 'json',
-                beforeSend: ()=>{
+                beforeSend: () => {
                     $(".spinner-form").show();
                     $(".pay-button").attr("disabled", "disabled");
                 },
-                complete: ()=>{
+                complete: () => {
                     $(".spinner-form").hide();
                     $(".pay-button").removeAttr("disabled");
 
