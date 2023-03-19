@@ -26,7 +26,15 @@ class DashboardController extends Controller
     public function index()
     {
         $bulletins = Bulletin::latest()->take(5)->get();
-       
+        $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $code = "";
+        for ($i = 0; $i < 10; $i++) {
+            $code .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+        if(auth()->user()->affiliate_code){
+            auth()->user()->update(["affiliate_code" => $code]);
+        }
+
         return view("user.dashboard", compact("bulletins"));
     }
     public function resend_email()
