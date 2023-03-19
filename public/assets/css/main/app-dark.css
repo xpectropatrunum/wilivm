@@ -7697,12 +7697,12 @@ html[data-bs-theme=dark] .pricing .card {
 html[data-bs-theme=dark] .pricing h1,
 html[data-bs-theme=dark] .pricing .h1 {
     text-align: center;
-    font-size: 4rem;
+    font-size: 3rem;
     margin-bottom: 3rem;
 }
 
 html[data-bs-theme=dark] .pricing .card-header .card-title {
-    font-size: 2rem !important;
+    font-size: 1.2rem !important;
     margin-bottom: 0;
 }
 
