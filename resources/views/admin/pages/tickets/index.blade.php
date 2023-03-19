@@ -76,7 +76,7 @@
                                                 target="_blank">{{ $item->user->email }}</a></td>
 
                                         <td>{{ $item->title }}</td>
-                                        <td>{{ App\enums\ETicketDepartment::getKey($item->department) }}</td>
+                                        <td>{{ App\Enums\ETicketDepartment::getKey($item->department) }}</td>
                                         <td>
 
 
