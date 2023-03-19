@@ -61,51 +61,61 @@ class MyHelper
     }
     static function sendSMS($type, $data)
     {
-        $phone = Admin::role('admin')->first()->phone;
-        if(!$phone){
-            Log::error('super admin phone is not found');
-            return;
-        }
+        $admins = Admin::role('admin')->get();
+
         $user = $data["user"];
         $user_fullname = urlencode($user->first_name . " " . $user->last_name);
-        $append = "";
-        switch ($type) {
-            case "inform_order":
-                $pattern = "6ikckh3xul3v5l6";
-                $order = $data["order"];
-                $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=number&v3={$order->id}";
-                break;
+       
 
-            case "inform_ticket":
-                $pattern = "6okn0v670keil05";
-                $ticket = $data["ticket"];
-                $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=title&v3={$ticket->title}";
-                break;
 
-            case "inform_request":
-                $pattern = "1tkf5tsf0az008f";
-                $request = $data["request"];
-                $request_name = urlencode($request->name);
-                $service = urlencode($data["service"]->type);
-                $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=request&v3={$request_name}&p4=service&v4={$service}";
-                break;
 
+        foreach ($admins as $admin) {
+            $phone = $admin->phone;
+
+            if (!$phone) {
+                Log::error('super admin phone is not found');
+            }
+            $append = "";
+
+            switch ($type) {
+                case "inform_order":
+                    $pattern = "6ikckh3xul3v5l6";
+                    $order = $data["order"];
+                    $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=number&v3={$order->id}";
+                    break;
+
+                case "inform_ticket":
+                    $pattern = "6okn0v670keil05";
+                    $ticket = $data["ticket"];
+                    $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=title&v3={$ticket->title}";
+                    break;
+
+                case "inform_request":
+                    $pattern = "1tkf5tsf0az008f";
+                    $request = $data["request"];
+                    $request_name = urlencode($request->name);
+                    $service = urlencode($data["service"]->type);
+                    $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=request&v3={$request_name}&p4=service&v4={$service}";
+                    break;
+            }
+           
+
+
+            try {
+                $url = "http://ippanel.com:8080/?apikey=" . env("FARAZ_SMS_API_KEY") . $append;
+                $handler = curl_init($url);
+                curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+                $response2 = curl_exec($handler);
+
+                Log::debug($url);
+
+                 $response2;
+            } catch (\Exception $e) {
+                Log::warning("send sms " . $e->getMessage());
+            }
         }
-
-        try{
-            $url = "http://ippanel.com:8080/?apikey=" . env("FARAZ_SMS_API_KEY") . $append;
-            $handler = curl_init($url);
-            curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
-            $response2 = curl_exec($handler);
-    
-            Log::debug($url);
-    
-            return $response2;
-        }catch(\Exception $e){
-            Log::warning("send sms " . $e->getMessage());
-        }
-      
     }
+   
     static function dateOfMonths()
     {
         $month = (new Shamsi)->jNumber()[1];
