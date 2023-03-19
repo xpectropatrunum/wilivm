@@ -32,7 +32,7 @@
 
         <section class="section">
             <div class="row">
-                <div class="col-12 col-md-10 offset-md-1">
+                <div class="col-12 col-md-12">
                     <div class="pricing">
                         <div class="row align-items-center justify-content-center">
                             @foreach ($prices as $key => $item)
@@ -52,7 +52,7 @@
 
                                             </li>
                                             <li>
-                                                <i class="bi bi-check-circle"></i>7D Guarantee
+                                                <i class="bi bi-check-circle"></i>Money-Back Guarantee
                                             </li>
                                             <li>
                                                 <i class="bi bi-check-circle"></i>24/7 Support​
