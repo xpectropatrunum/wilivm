@@ -98,15 +98,15 @@ class AdminController extends Controller
                 "verified" => 0,
             ]);
         }
-    
+
         $created = Admin::create($request->all());
         if ($created) {
             $created->roles()->detach();
-            foreach($request->roles ?? [] as $role){
+            foreach ($request->roles ?? [] as $role) {
                 $role = Role::find($role);
                 $created->assignRole($role);
             }
-          
+
             return redirect()->route("admin.admins.index")->withSuccess("Admin is created successfully!");
         }
         return redirect()->back()->withError("Something went wrong");
@@ -123,21 +123,21 @@ class AdminController extends Controller
             "password_confirm" => "same:password",
         ];
         $request->validate($rules);
-       
-        if($request->password){
+
+        if ($request->password) {
             $request->merge([
                 "password" => Hash::make($request->password),
             ]);
-        }else{
+        } else {
             $request->merge([
                 "password" => $admin->password,
             ]);
         }
-    
+
         $created = $admin->update($request->all());
         if ($created) {
             $admin->roles()->detach();
-            foreach($request->roles ?? [] as $role){
+            foreach ($request->roles ?? [] as $role) {
                 $role = Role::find($role);
                 $admin->assignRole($role);
             }
@@ -165,14 +165,14 @@ class AdminController extends Controller
     {
 
         return view('admin.pages.admins.edit', compact('admin'));
-
     }
     public function destroy(Admin $admin)
     {
 
+        if ($admin->hasRole("admin")) {
+            return redirect()->back()->withError("You could not remove admin!");
+        }
         $admin->delete();
-        return redirect()->back()->withSuccess("User is removed successfully!");
-
-
+        return redirect()->back()->withSuccess("Deleted successfully!");
     }
 }
