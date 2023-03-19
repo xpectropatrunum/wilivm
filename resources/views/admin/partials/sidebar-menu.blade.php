@@ -248,6 +248,35 @@
 
                     </ul>
                 </li>
+                <li class="nav-item has-treeview {{ request()->routeIs(['admin.labels.*']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-file-signature"></i>
+                        <p>
+                            Service Requests
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul
+                        class="nav nav-treeview {{ request()->routeIs(['admin.requests.*']) ? 'd-block' : 'display-none' }}">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.requests.all') }}"
+                                class="nav-link {{ request()->routeIs(['admin.requests.all']) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.all') }} requests</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.requests.index') }}"
+                                class="nav-link {{ request()->routeIs(['admin.requests.index']) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.all') }} request types</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
                 <li class="nav-item has-treeview {{ request()->routeIs(['admin.logs.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-history"></i>
@@ -368,35 +397,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview {{ request()->routeIs(['admin.labels.*']) ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file-signature"></i>
-                        <p>
-                            Service Requests
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul
-                        class="nav nav-treeview {{ request()->routeIs(['admin.requests.*']) ? 'd-block' : 'display-none' }}">
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.requests.all') }}"
-                                class="nav-link {{ request()->routeIs(['admin.requests.all']) ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('admin.all') }} requests</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('admin.requests.index') }}"
-                                class="nav-link {{ request()->routeIs(['admin.requests.index']) ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('admin.all') }} request types</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
+             
 
                 <li class="mt-4  nav-item has-treeview {{ request()->routeIs(['admin.servers.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
