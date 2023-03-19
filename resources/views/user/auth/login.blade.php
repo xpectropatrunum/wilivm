@@ -74,7 +74,7 @@
         </div>
         <div class="col-lg-7 d-none d-lg-block">
             <div id="auth-right" >
-                <img src="{{asset("assets/illustration/login.svg")}}" alt="">
+                <img src="{{asset("assets/illustration/login.svg")}}" height="max-height: 100vh;" alt="">
 
             </div>
         </div>
