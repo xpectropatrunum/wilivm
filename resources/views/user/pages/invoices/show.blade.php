@@ -161,6 +161,14 @@
                                                 </label>
                                             </div>
 
+
+                                            <div class="form-check mx-2">
+                                                <input class="form-check-input" type="radio" id="method_2" name="method"
+                                                    value="3">
+                                                <label class="form-check-label" for="method_2">
+                                                    Coinpayments
+                                                </label>
+                                            </div>
                                         </div>
 
 
@@ -199,28 +207,33 @@
         </section>
     </div>
     <form class="pm-form" action="https://perfectmoney.com/api/step1.asp" method="POST">
-        <p>
+
             <input type="hidden" name="PAYEE_ACCOUNT" value="U42835088">
             <input type="hidden" name="PAYEE_NAME" value="Wilivm">
             <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount}}">
             <input type="hidden" name="PAYMENT_UNITS" value="USD">
-
-
-
-
             <input type="hidden" name="STATUS_URL" value="{{ env('APP_URL') . 'api/order/perfectmoney' }}">
             <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') . "invoices/{$order->id}?status=ok" }}">
             <input type="hidden" name="NOPAYMENT_URL"
                 value="{{ env('APP_URL') . "invoices/{$order->id}?status=canceled" }}">
             <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
-
-
-
             <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
-
             <input type="hidden" name="ORDER_NUM" value="{{ $order->id }}">
+    </form>
+    <form class="cp-form" action="https://www.coinpayments.net/index.php" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_pay">
+        <input type="hidden" name="reset" value="1">
+        <input type="hidden" name="merchant" value="{{ env('COINPAYMENTS_MERCHANT') }}">
+        <input type="hidden" name="success_url" value="{{ env('APP_URL') . 'invoices/{$order->id}/success' }}">
+        <input type="hidden" name="cancel_url" value="{{ env('APP_URL') . 'invoices/{$order->id}/fail' }}">
+        <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">
+        <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+        <input type="hidden" name="currency" value="USD">
+        <input type="hidden" name="invoice" value="{{ $order->id}}">
+        <input type="hidden" name="want_shipping" value="0">
+        <input type="hidden" name="amountf" value="{{ $order->price - $order->discount}}">
+        <input type="hidden" name="item_name" value="{{ $order->service->type}}">
 
-        </p>
     </form>
 @endsection
 
@@ -301,7 +314,10 @@
                             $(".pm-form").submit();
                             return;
                         }
-
+                        if (res.next == "cp") {
+                            $(".cp-form").submit();
+                            return;
+                        }
                         if (res.message) {
                             Swal.fire({
                                 icon: "success",

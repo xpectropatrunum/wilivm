@@ -50,20 +50,40 @@
                                         <label>Payment Method</label>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 row">
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="method" id="method" checked
-                                            value="1">
-                                        <label class="form-check-label" for="method">
-                                            Perfect Money
-                                        </label>
+
+                                    <div class="col-lg-4 col-12">
+                                        <img src="{{ asset('assets/images/logo/perfect-money-logo-vector.svg') }}"
+                                            width="150" style="background: #f3f3f3;border-radius: 8px;" />
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="radio" name="method" id="method3"
+                                                checked value="1">
+                                            <label class="form-check-label" for="method3">
+                                                Perfect Money
+                                            </label>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+
+
+                                        <img src="{{ asset('assets/images/logo/cp.svg') }}" width="150"
+                                            style="background: #f3f3f3;border-radius: 8px;" />
+                                        <div class="form-check  mt-2">
+                                            <input class="form-check-input" type="radio" name="method" id="method2"
+                                                value="2">
+                                            <label class="form-check-label" for="method2">
+                                                Coinpayments
+                                            </label>
+                                        </div>
+
+
+
                                     </div>
 
-
-                                    <img src="{{ asset('assets/images/logo/perfect-money-logo-vector.svg') }}"
-                                        width="150"
-                                        style="background: #f3f3f3;border-radius: 8px;" />
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">
@@ -136,7 +156,7 @@
                                     @foreach (auth()->user()->wallet->transaction()->where('status', 1)->latest()->get() as $key => $item)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ $item->type == App\Enums\EWalletTransactionType::Minus ? '-' : '+' }}${{ $item->amount  }}
+                                            <td>{{ $item->type == App\Enums\EWalletTransactionType::Minus ? '-' : '+' }}${{ $item->amount }}
                                             </td>
                                             <td>
                                                 @if ($item->type == App\Enums\EWalletTransactionType::Refund)
@@ -176,6 +196,21 @@
             <input type="hidden" name="ORDER_NUM" value="">
         </p>
     </form>
+    <form class="cp-form" action="https://www.coinpayments.net/index.php" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_pay">
+        <input type="hidden" name="reset" value="1">
+        <input type="hidden" name="merchant" value="{{ env('COINPAYMENTS_MERCHANT') }}">
+        <input type="hidden" name="success_url" value="{{ env('APP_URL') . 'wallet/success' }}">
+        <input type="hidden" name="cancel_url" value="{{ env('APP_URL') . 'wallet/fail' }}">
+        <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">
+        <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+        <input type="hidden" name="currency" value="USD">
+        <input type="hidden" name="invoice" value="">
+        <input type="hidden" name="want_shipping" value="0">
+        <input type="hidden" name="amountf" value="">
+        <input type="hidden" name="item_name" value="Charge Wallet">
+
+    </form>
 @endsection
 
 @push('admin_css')
@@ -192,6 +227,10 @@
     <script src="{{ asset('assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
     <script src="{{ asset('assets/js/pages/simple-datatables.js') }}"></script>
     <script>
+        var method = 1;
+        $('[name=method]').change(function() {
+            method = $(this).val();
+        });
         @if (($status ?? 0) == 'fail')
             Swal.fire({
                 icon: "error",
@@ -225,9 +264,16 @@
                             'title': 'Record status successfully changed'
                         })
                     } else {
-                        $("[name=PAYMENT_AMOUNT]").val(res.amount)
-                        $("[name=ORDER_NUM]").val(res.id)
-                        $("form.pm-form").submit()
+                        if (method == 1) {
+                            $("[name=PAYMENT_AMOUNT]").val(res.amount)
+                            $("[name=ORDER_NUM]").val(res.id)
+                            $("form.pm-form").submit()
+                        } else if (method == 2) {
+                            $("[name=amountf]").val(res.amount)
+                            $("[name=invoice]").val(res.id)
+                            $("form.cp-form").submit()
+                        }
+
                     }
 
                 },

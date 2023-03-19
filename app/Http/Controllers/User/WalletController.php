@@ -35,7 +35,7 @@ class WalletController extends Controller
     public function api(Request $request)
     {
         Log::warning($request->all());
-        return view("user.pages.wallet.main", compact("status"));
+       
     }
     public function deposit(Request $request)
     {
@@ -60,8 +60,15 @@ class WalletController extends Controller
                 "type" => EWalletTransactionType::Add,
             ]);
            
-            
-
+            return $tx;
+        } if ($request->method == 2) {
+            $tx = auth()->user()->wallet->transaction()->create([
+                "amount" => round($request->amount, 2),
+                "status" => 0,
+                "tx_id" => 0,
+                "type" => EWalletTransactionType::Add,
+            ]);
+           
             return $tx;
         }
         return redirect()->back()->withError("Invalid payment method.");

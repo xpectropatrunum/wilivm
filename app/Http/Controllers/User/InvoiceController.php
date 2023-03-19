@@ -94,6 +94,9 @@ class InvoiceController extends Controller
 
                 return ["success" => 1, "message" => "The transaction was successful."];
             }
+        } elseif ($request->method == 3) {
+            return ["success" => 1, "next" => "cp"];
+
         }
     }
 
