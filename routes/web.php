@@ -171,6 +171,8 @@ Route::name("panel.")->group(function () {
         Route::get('new-service/{id}', [ServiceController::class, 'show_service'])->name("new-service.show");
         Route::get('invoices', [InvoiceController::class, 'index'])->name("invoices");
         Route::get('invoices/show/{order}', [InvoiceController::class, 'show'])->name("invoices.show");
+        Route::get('invoices/show/{order}/{status}', [InvoiceController::class, 'status'])->name("invoices.status");
+
         Route::post('invoices/pay/{order}', [InvoiceController::class, 'pay'])->name("invoices.pay");
         Route::post('invoices/off/{order}', [InvoiceController::class, 'off'])->name("invoices.off");
 
