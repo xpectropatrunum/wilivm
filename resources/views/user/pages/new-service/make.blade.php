@@ -186,7 +186,7 @@
         var final_price = base_price;
         $("[name=location]").change(function(){
             id =  $(this).val()
-            $add = prices.find(item => item.id == id).price
+            $add = parseInt(prices.find(item => item.id == id).price)
             add = $add
             final_price = (add + base_price)* $("[name=cycle]").val();
 
