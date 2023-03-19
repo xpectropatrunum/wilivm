@@ -169,8 +169,10 @@
 
                                     <div class="flex mt-2 " dir="rtl">
                                         <button type="submit" class="btn btn-lg btn-primary me-1 mb-1 pay-button">
+                                            <span class="spinner-form spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"> </span>
                                             Pay
                                             <i class="bi bi-credit-card-2-back-fill"></i>
+                                            
                                         </button>
 
 
@@ -284,6 +286,15 @@
                     "_token": "{{ csrf_token() }}",
                 },
                 dataType: 'json',
+                beforeSend: ()=>{
+                    $(".spinner-form").show();
+                    $(".pay-button").attr("disabled", "disabled");
+                },
+                complete: ()=>{
+                    $(".spinner-form").hide();
+                    $(".pay-button").removeAttr("disabled");
+
+                },
                 success: function(res) {
                     if (res.success) {
                         if (res.next == "pm") {

@@ -320,8 +320,6 @@
 @endsection
 
 @push('admin_css')
-
-    <link rel="stylesheet" href="{{ asset('assets/css/shared/iconly.css') }}">
 @endpush
 
 @push('admin_js')
