@@ -248,7 +248,7 @@
 
                     </ul>
                 </li>
-                <li class="nav-item has-treeview {{ request()->routeIs(['admin.labels.*']) ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ request()->routeIs(['admin.requests.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-file-signature"></i>
                         <p>
