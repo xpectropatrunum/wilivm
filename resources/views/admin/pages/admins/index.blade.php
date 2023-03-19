@@ -71,46 +71,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
-                                    @if ($item->hasRole('admin'))
-                                        @if ($item->id == auth()->user()->id)
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>
-                                                    {{ $item->name }}
-                                                </td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>{{ $item->phone }}</td>
-                                                <td>{{ $item->username }}</td>
-                                                <td>
-                                                    @foreach ($item->getRoleNames() as $role)
-                                                        <a
-                                                            href="/admin/roles?search={{ $role }}">{{ $role }}</a><br>
-                                                    @endforeach
-
-                                                </td>
-
-                                                <td>{{ $item->created_at }}</td>
-                                                <td class="project-actions">
-                                                    <a class="btn btn-info btn-sm"
-                                                        href="{{ route('admin.admins.edit', $item->id) }}">
-                                                        <i class="fas fa-pen"></i>
-                                                        {{ __('Edit') }}
-                                                    </a>
-                                                    <form action="{{ route('admin.admins.destroy', $item->id) }}"
-                                                        class="d-inline-block" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" onclick="swalConfirmDelete(this)"
-                                                            class="btn btn-danger btn-sm">
-                                                            <i class="fas fa-trash"></i>
-                                                            {{ __('admin.delete') }}
-                                                        </button>
-                                                    </form>
-                                                </td>
-
-                                            </tr>
-                                        @endif
-                                        @else
+                                   
                                         <tr>
                                             <td>{{ $item->id }}</td>
                                             <td>
@@ -147,7 +108,7 @@
                                             </td>
 
                                         </tr>
-                                    @endif
+                                   
                                 @endforeach
                             </tbody>
                         </table>
