@@ -58,7 +58,7 @@ class InvoiceController extends Controller
 
         return view('user.pages.invoices.main', compact('items', 'search', 'limit'));
     }
-    public function status(Request $request, $status, Order $order)
+    public function status(Request $request,Order $order, $status)
     {
         return view("user.pages.invoices.show", compact("status", "order"));
     }
