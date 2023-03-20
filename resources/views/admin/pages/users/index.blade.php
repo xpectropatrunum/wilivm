@@ -108,7 +108,7 @@
                                                 {{ __('Edit') }}
                                             </a>
 
-                                            <form action="{{ route('admin.users.destroy', $item->id) }}"
+                                            {{-- <form action="{{ route('admin.users.destroy', $item->id) }}"
                                                 class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
@@ -117,7 +117,7 @@
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
                                                 </button>
-                                            </form>
+                                            </form> --}}
                                             <a target="_blank" class="btn btn-outline-warning btn-sm"
                                                 href="{{ route('admin.users.login', $item->id) }}">
                                                 {{ __('Login') }}

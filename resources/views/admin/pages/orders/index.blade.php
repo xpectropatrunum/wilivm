@@ -77,8 +77,8 @@
                                 @foreach ($items as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td><a href="/admin/users?search={{ $item->user->email }}"
-                                                target="_blank">{{ $item->user->email }}</a></td>
+                                        <td><a href="/admin/users?search={{ $item->user?->email }}"
+                                                target="_blank">{{ $item->user?->email }}</a></td>
                                         <td>{{ $item->service->type }}</td>
                                         <td>{{ $item->service->plan }}</td>
                                         <td>{{ $item->service->os_->name }}</td>
