@@ -17,6 +17,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Request as ModelsRequest;
 use App\Models\Server;
+use App\Models\ServerPlan;
 use App\Models\ServerType;
 use App\Models\TvTemp;
 use App\Models\UserService;
@@ -99,13 +100,19 @@ class ServiceController extends Controller
         $request->validate([
             "cycle" => "required"
         ]);
+        
+        $plan =ServerPlan::where(["name" => $service->plan, "enabled" => 1])->firstOrFail();
+        $type = ServerType::where(["name" => $service->type, "enabled" => 1])->firstOrFail();
+        $server = Server::where(["server_type_id" =>  $type->id, "server_plan_id" => $plan->id])->first();
+
+        $price = round(($server->price + $service->location_->price) * $request->cycle, 2);
         $order = Order::create(
             [
                 "server_id" => $service->id,
                 "user_id" => auth()->user()->id,
                 "cycle" => $request->cycle,
                 "expires_at" => $service->order->expires_at +  $request->cycle * 86400 * 30,
-                "price" => 10,
+                "price" => $price 
             ]
         );
         if($order){
