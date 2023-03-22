@@ -41,8 +41,8 @@
 
         
 
-            <a href="{{ route('panel.new-service') }}" class='sidebar-link'>
-                <i class="bi bi-plus-square-dotted"></i>
+            <a href="{{ route('panel.new-service') }}" class='sidebar-link' style="color:white;background:#23a455">
+                <i class="bi bi-plus-square-dotted" style="color:white"></i>
               
 
                 <span>New Service Order</span>
