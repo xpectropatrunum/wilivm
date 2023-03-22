@@ -185,7 +185,7 @@
 
 
                                     <div class="flex mt-2 " dir="rtl">
-                                        <button type="submit" class="btn btn-lg btn-primary me-1 mb-1 pay-button">
+                                        <button type="submit" class="btn btn-lg btn-success me-1 mb-1 pay-button">
                                             <span class="spinner-form spinner-border spinner-border-sm" role="status"
                                                 aria-hidden="true" style="display: none;"> </span>
                                             Pay

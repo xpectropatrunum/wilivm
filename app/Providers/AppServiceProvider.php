@@ -45,10 +45,7 @@ class AppServiceProvider extends ServiceProvider
                             "url" => "dashboard",
                             "icon" => "grid-fill",
                         ],
-                        [
-                            "name" => "Order new service", "url" => "new-service",
-                            "icon" => "plus-square-dotted",
-                        ],
+                       
                         [
                             "name" => "Services", "url" => "services",
                             "icon" => "pc-display",

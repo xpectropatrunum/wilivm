@@ -38,6 +38,16 @@
     <div class="sidebar-menu">
         <ul class="menu">
             <li class="sidebar-title">Client area</li>
+
+        
+
+            <a href="{{ route('panel.new-service') }}" class='sidebar-link'>
+                <i class="bi bi-plus-square-dotted"></i>
+              
+
+                <span>New Service Order</span>
+              
+            </a>
             @foreach ($menus as $menu)
                 <li
                     class="sidebar-item {{ request()->routeIs(['panel.' . $menu->url . '.*', 'panel.' . $menu->url]) ? 'active' : '' }}">
