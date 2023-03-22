@@ -214,8 +214,8 @@
         <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount }}">
         <input type="hidden" name="PAYMENT_UNITS" value="USD">
         <input type="hidden" name="STATUS_URL" value="{{ env('APP_URL') . 'api/order/perfectmoney' }}">
-        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') . "invoices/show/{{$order->id}}/success" }}">
-        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL') . "invoices/show/{{$order->id}}/fail" }}">
+        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/success">
+        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/fail">
         <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
         <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
         <input type="hidden" name="ORDER_NUM" value="{{ $order->id }}">
@@ -224,8 +224,8 @@
         <input type="hidden" name="cmd" value="_pay">
         <input type="hidden" name="reset" value="1">
         <input type="hidden" name="merchant" value="{{ env('COINPAYMENTS_MERCHANT') }}">
-        <input type="hidden" name="success_url" value="{{ env('APP_URL') . 'invoices/show/{{$order->id}}/success' }}">
-        <input type="hidden" name="cancel_url" value="{{ env('APP_URL') . 'invoices/show/{{$order->id}}/fail' }}">
+        <input type="hidden" name="success_url" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/success">
+        <input type="hidden" name="cancel_url" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/fail' }}">
         <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
         <input type="hidden" name="currency" value="USD">
