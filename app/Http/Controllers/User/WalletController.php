@@ -38,22 +38,13 @@ class WalletController extends Controller
     }
     public function cpIPN(Request $request)
     {
-        $tx_id = "CPHC0E0Q24BP42RGH1LYPIUMCU";
+        $tx_id = "CPHC5SS6VHCKOPC91RYXB4SCR9";
 
         $transaction = Transaction::where("tx_id", $tx_id)->first();
-        $transaction->status = 1;
-        $transaction->save();
-        Log::debug("Txn cp status: $tx_id  :: paid");
 
-        $order = $transaction->order;
-        Log::debug("Txn cp status: $tx_id  :: paid " . $order->id);
 
-        if ($order->service->status != EServiceType::Active) {
-            $order->service->status = EServiceType::Deploying;
-        }
-       
-
-        $order->service->save();
+        return $order = $transaction->order;
+      
 
 
         $merchant_id = env("COINPAYMENTS_MERCHANT");
