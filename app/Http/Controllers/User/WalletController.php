@@ -38,12 +38,7 @@ class WalletController extends Controller
     }
     public function cpIPN(Request $request)
     {
-        $tx_id = "CPHC5SS6VHCKOPC91RYXB4SCR9";
-
-        $transaction = Transaction::where("tx_id", $tx_id)->first();
-
-
-        return $order = $transaction->order;
+       
       
 
 
