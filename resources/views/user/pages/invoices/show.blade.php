@@ -144,14 +144,18 @@
                                     <div class="col-12 mt-2 d-flex">
                                         Payment Method:
 
+
                                         <div class="d-flex">
-                                            <div class="form-check mx-2">
-                                                <input class="form-check-input" type="radio" name="method" id="method__"
-                                                    checked value="1">
-                                                <label class="form-check-label" for="method__">
-                                                    Perfect Money
-                                                </label>
-                                            </div>
+                                            @if (env('PERFECTMONEY'))
+                                                <div class="form-check mx-2">
+                                                    <input class="form-check-input" type="radio" name="method"
+                                                        id="method__" checked value="1">
+                                                    <label class="form-check-label" for="method__">
+                                                        Perfect Money
+                                                    </label>
+                                                </div>
+                                            @endif
+
 
                                             <div class="form-check mx-2">
                                                 <input class="form-check-input" type="radio" id="method_" name="method"
@@ -161,14 +165,17 @@
                                                 </label>
                                             </div>
 
+                                            @if (env('COINPAYMENTS'))
+                                                <div class="form-check mx-2">
+                                                    <input class="form-check-input" type="radio" id="method_2"
+                                                        name="method" value="3">
+                                                    <label class="form-check-label" for="method_2">
+                                                        Coinpayments
+                                                    </label>
+                                                </div>
+                                            @endif
 
-                                            <div class="form-check mx-2">
-                                                <input class="form-check-input" type="radio" id="method_2" name="method"
-                                                    value="3">
-                                                <label class="form-check-label" for="method_2">
-                                                    Coinpayments
-                                                </label>
-                                            </div>
+
                                         </div>
 
 
@@ -214,8 +221,8 @@
         <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount }}">
         <input type="hidden" name="PAYMENT_UNITS" value="USD">
         <input type="hidden" name="STATUS_URL" value="{{ env('APP_URL') . 'api/order/perfectmoney' }}">
-        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/success">
-        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/fail">
+        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/success">
+        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/fail">
         <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
         <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
         <input type="hidden" name="ORDER_NUM" value="{{ $order->id }}">
@@ -224,8 +231,8 @@
         <input type="hidden" name="cmd" value="_pay">
         <input type="hidden" name="reset" value="1">
         <input type="hidden" name="merchant" value="{{ env('COINPAYMENTS_MERCHANT') }}">
-        <input type="hidden" name="success_url" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/success">
-        <input type="hidden" name="cancel_url" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/fail' }}">
+        <input type="hidden" name="success_url" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/success">
+        <input type="hidden" name="cancel_url" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/fail' }}">
         <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/order/coinpayments' }}">
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
         <input type="hidden" name="currency" value="USD">
@@ -276,7 +283,7 @@
                             'title': res.message
                         });
                         setTimeout(() => {
-                            window.location.href = "{{route('panel.invoices')}}"
+                            window.location.href = "{{ route('panel.invoices') }}"
                         }, 2000)
 
 
@@ -336,7 +343,7 @@
                                 'title': res.message
                             });
                             setTimeout(() => {
-                                window.location.href = "{{route('panel.invoices')}}"
+                                window.location.href = "{{ route('panel.invoices') }}"
                             }, 2000)
 
 
