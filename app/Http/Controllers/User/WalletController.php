@@ -79,6 +79,21 @@ class WalletController extends Controller
             $transaction = $order->transactions()->latest()->first();
             $transaction->tx_id = $tx_id;
             $transaction->save();
+
+            $transaction = Transaction::where("tx_id", $tx_id)->first();
+            $transaction->status = 1;
+            $transaction->save();
+            Log::debug("Txn cp status: $tx_id  :: paid");
+
+            $order = $transaction->order;
+            if ($order->service->status != EServiceType::Active) {
+                $order->service->status = EServiceType::Deploying;
+            }
+           
+
+            $order->service->save();
+
+            
         } elseif ($_POST["status"] == 100) {
             $transaction = Transaction::where("tx_id", $tx_id)->first();
             $transaction->status = 1;
