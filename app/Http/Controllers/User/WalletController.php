@@ -36,26 +36,33 @@ class WalletController extends Controller
         $merchant_id = env("COINPAYMENTS_MERCHANT");
         $secret = env("COINPAYMENTS_SECRET");
         if (!isset($_SERVER['HTTP_HMAC']) || empty($_SERVER['HTTP_HMAC'])) {
+            Log::debug("No HMAC signature sent");
+
             die("No HMAC signature sent");
         }
 
         $merchant = isset($_POST['merchant']) ? $_POST['merchant'] : '';
         if (empty($merchant)) {
-            die("No Merchant ID passed");
+
+            Log::debug("No Merchant ID passed");
+            die();
         }
 
         if ($merchant != $merchant_id) {
-            die("Invalid Merchant ID");
+            Log::debug("Invalid Merchant ID");
+            die();
         }
 
         $request = file_get_contents('php://input');
         if ($request === FALSE || empty($request)) {
-            die("Error reading POST data");
+            Log::debug("Error reading POST data");
+            die();
         }
 
         $hmac = hash_hmac("sha512", $request, $secret);
         if ($hmac != $_SERVER['HTTP_HMAC']) {
-            die("HMAC signature does not match");
+            Log::debug("HMAC signature does not match");
+            die();
         }
         $tx_id =  $_POST["txn_id"];
         $id =  $_POST["invoice"];
