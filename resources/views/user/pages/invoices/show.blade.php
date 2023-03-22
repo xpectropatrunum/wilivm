@@ -142,13 +142,14 @@
                                         </div>
                                     </div>
                                     <div class="col-12 mt-2">
-                                        Payment Method:
+                                       
 
+                                        <h5> Payment Method:</h5>
 
 
                                         <div class="row">
                                             @if (env('PERFECTMONEY'))
-                                                <div class="form-check col-lg-4 col-12">
+                                                <div class="form-check  col-12">
                                                     <input class="form-check-input" type="radio" name="method"
                                                         id="method__" checked value="1">
                                                     <label class="form-check-label" for="method__">
@@ -158,7 +159,7 @@
                                             @endif
 
 
-                                            <div class="form-check col-lg-4 col-12">
+                                            <div class="form-check  col-12">
                                                 <input class="form-check-input" type="radio" id="method_" name="method"
                                                     value="2">
                                                 <label class="form-check-label" for="method_">
@@ -167,7 +168,7 @@
                                             </div>
 
                                             @if (env('COINPAYMENTS'))
-                                            <div class="form-check col-lg-4 col-12">
+                                            <div class="form-check  col-12">
                                                 <input class="form-check-input" type="radio" id="method_2"
                                                         name="method" value="3">
                                                     <label class="form-check-label" for="method_2">
