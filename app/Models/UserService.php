@@ -53,13 +53,19 @@ class UserService extends Authenticatable
             }
         );
         static::updating(
+
             function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Update,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
+                try{
+                    Log::create([
+                        "admin_id" => auth()->user()->id,
+                        "type" => ELogType::Update,
+                        "model" => self::class,
+                        "related_id" => $item,
+                    ]);
+                }catch(\Exception $e){
+
+                }
+              
             }
         );
         static::created(
