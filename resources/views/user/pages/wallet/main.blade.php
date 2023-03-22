@@ -67,22 +67,24 @@
 
 
                                     </div>
-                                    <div class="col-lg-4 col-12">
+                                    @if (env('COINPAYMENTS'))
+                                        <div class="col-lg-4 col-12">
 
 
-                                        <img src="{{ asset('assets/images/logo/cp.svg') }}" width="150"
-                                            style="background: #f3f3f3;border-radius: 8px;" />
-                                        <div class="form-check  mt-2">
-                                            <input class="form-check-input" type="radio" name="method" id="method2"
-                                                value="2">
-                                            <label class="form-check-label" for="method2">
-                                                Coinpayments
-                                            </label>
+                                            <img src="{{ asset('assets/images/logo/cp.svg') }}" width="150"
+                                                style="background: #f3f3f3;border-radius: 8px;" />
+                                            <div class="form-check  mt-2">
+                                                <input class="form-check-input" type="radio" name="method" id="method2"
+                                                    value="2">
+                                                <label class="form-check-label" for="method2">
+                                                    CoinPayments (Bitcoin, ETH, USDT, more)
+                                                </label>
+                                            </div>
+
+
+
                                         </div>
-
-
-
-                                    </div>
+                                    @endif
 
                                 </div>
                                 <div class="col-12 d-flex justify-content-end">

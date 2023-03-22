@@ -127,7 +127,7 @@
                                     <div class="col-12 d-flex mt-3">
                                         <div class="col-lg-3 col-12">
                                             <div class="form-group">
-                                                <label>Off Code</label>
+                                                <label>Coupon Code</label>
 
                                                 <div class="d-flex">
                                                     <input class="form-control" name="code">
@@ -172,7 +172,7 @@
                                                 <input class="form-check-input" type="radio" id="method_2"
                                                         name="method" value="3">
                                                     <label class="form-check-label" for="method_2">
-                                                        Coinpayments
+                                                        CoinPayments (Bitcoin, ETH, USDT, more)
                                                     </label>
                                                 </div>
                                             @endif
