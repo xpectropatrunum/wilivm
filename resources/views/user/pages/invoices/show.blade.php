@@ -276,7 +276,7 @@
                             'title': res.message
                         });
                         setTimeout(() => {
-                            window.location.href = window.location.href
+                            window.location.href = "{{route('panel.invoices')}}"
                         }, 2000)
 
 
