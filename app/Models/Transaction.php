@@ -26,5 +26,8 @@ class Transaction extends Model
     function user(){
         return $this->belongsTo(User::class, Order::class);
     }
+    function order(){
+        return $this->belongsTo(Order::class);
+    }
   
 }

@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
+use App\Enums\EServiceType;
 use App\Enums\ETicketDepartment;
 use App\Enums\EWalletTransactionType;
+use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
+use App\Mail\MailTemplate;
 use App\Models\Bulletin;
 use App\Models\Doctor;
 use App\Models\DoctorImage;
 use App\Models\DoctorSpecialty;
+use App\Models\Email;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Server;
@@ -21,6 +26,7 @@ use App\Models\TvTemp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class WalletController extends Controller
 {
@@ -78,6 +84,20 @@ class WalletController extends Controller
             $transaction->status = 1;
             $transaction->save();
             Log::debug("Txn cp status: $tx_id  :: paid");
+
+            $order = $transaction->order;
+            if ($order->service->status != EServiceType::Active) {
+                $order->service->status = EServiceType::Deploying;
+            }
+           
+
+            $order->service->save();
+            MyHelper::sendSMS("inform_order", ["user" => $order->user, "order" => $order]);
+            $email = Email::where("type", EEmailType::Payed_invoice)->first();
+            Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            $email = Email::where("type", EEmailType::Deploying_server)->first();
+            Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+
 
             //file_get_contents("https://panel.wilivm.com/api/notify_admin/$od");
         } elseif ($_POST["status"] == -1) {
