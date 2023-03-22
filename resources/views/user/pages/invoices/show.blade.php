@@ -226,7 +226,7 @@
         <input type="hidden" name="merchant" value="{{ env('COINPAYMENTS_MERCHANT') }}">
         <input type="hidden" name="success_url" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/success">
         <input type="hidden" name="cancel_url" value="{{ env('APP_URL')}}invoices/show/{{$order->id}}/fail' }}">
-        <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">
+        <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/order/coinpayments' }}">
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
         <input type="hidden" name="currency" value="USD">
         <input type="hidden" name="invoice" value="{{ $order->id }}">
