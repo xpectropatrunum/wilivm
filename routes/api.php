@@ -19,3 +19,4 @@ Route::post('wallet/perfectmoney', [WalletController::class, 'api']);
 Route::post('order/perfectmoney', [WalletController::class, 'api']);
 Route::get('order/perfectmoney', [WalletController::class, 'api']);
 Route::get('order/coinpayments', [WalletController::class, 'cpIPN']);
+Route::post('order/coinpayments', [WalletController::class, 'cpIPN']);
