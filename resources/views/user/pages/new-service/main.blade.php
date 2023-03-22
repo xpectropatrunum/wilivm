@@ -62,7 +62,7 @@
                                         <div class="card-footer">
                                             <a href="{{route('panel.new-service.show',$item[0]->server_type_id)}}">
                                                 <button class="btn btn-primary btn-block">
-                                                    Order Now
+                                                    Buy Now
                                                 </button>
                                             </a>
                                         </div>

@@ -80,7 +80,7 @@
                                                     href="{{ route('panel.new-service.make', [$item->server_type_id, $item->server_plan_id]) }}">
 
                                                     <button class="btn btn-outline-white btn-block">
-                                                        Order Now
+                                                        Buy Now
                                                     </button>
                                                 </a>
                                             </div>
@@ -125,7 +125,7 @@
                                                 <a
                                                     href="{{ route('panel.new-service.make', [$item->server_type_id, $item->server_plan_id]) }}">
                                                     <button class="btn btn-primary btn-block">
-                                                        Order Now
+                                                        Buy Now
                                                     </button></a>
                                             </div>
                                         </div>
