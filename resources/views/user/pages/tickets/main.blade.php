@@ -28,7 +28,7 @@
                 <div class="card-header">
                     Manage your services.
 
-                    <a class="btn btn-primary btn-sm" style="float:right"
+                    <a class="btn btn-success btn-sm" style="float:right"
                     href="{{ route('panel.tickets.create') }}">
                     <i class="bi bi-plus-lg"></i>
                     {{ __('New Ticket') }}
