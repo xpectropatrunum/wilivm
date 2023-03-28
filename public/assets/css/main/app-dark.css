@@ -9465,7 +9465,3 @@ html[data-bs-theme=dark] table.custom {
     border-spacing: 10px;
 }
 
-html[data-bs-theme=dark] .logo img,
-html[data-bs-theme=dark] .auth-logo img {
-    filter: grayscale(90%);
-}
