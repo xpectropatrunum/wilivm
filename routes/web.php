@@ -171,7 +171,7 @@ Route::name("panel.")->group(function () {
         Route::get('new-service/{id}', [ServiceController::class, 'show_service'])->name("new-service.show");
         Route::get('invoices', [InvoiceController::class, 'index'])->name("invoices");
         Route::get('invoices/show/{order}', [InvoiceController::class, 'show'])->name("invoices.show");
-        Route::get('invoices/show/{order}/{status}', [InvoiceController::class, 'status'])->name("invoices.status");
+        Route::post('invoices/show/{order}/{status}', [InvoiceController::class, 'status'])->name("invoices.status");
 
         Route::post('invoices/pay/{order}', [InvoiceController::class, 'pay'])->name("invoices.pay");
         Route::post('invoices/off/{order}', [InvoiceController::class, 'off'])->name("invoices.off");
@@ -180,7 +180,7 @@ Route::name("panel.")->group(function () {
         Route::get('wallet', [WalletController::class, 'index'])->name("wallet");
         Route::post('wallet/deposit', [WalletController::class, 'deposit'])->name("wallet.deposit");
         Route::post('wallet/withdraw', [WalletController::class, 'withdraw'])->name("wallet.withdraw");
-        Route::get('wallet/{status}', [WalletController::class, 'status'])->name("wallet.status");
+        Route::post('wallet/{status}', [WalletController::class, 'status'])->name("wallet.status");
 
 
         Route::get('tickets', [UserTicketController::class, 'index'])->name("tickets");
