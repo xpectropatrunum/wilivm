@@ -56,11 +56,7 @@ class TicketController extends Controller
 
        
     }
-    public function order_form($serverType, $serverPlan)
-    {
-        $plan = Server::with("type")->where(["enabled" => 1, "server_type_id" => $serverType,  "server_plan_id" => $serverPlan])->first();
-        return view("user.pages.new-service.make", compact("plan"));
-    }
+
    
     public function create()
     {

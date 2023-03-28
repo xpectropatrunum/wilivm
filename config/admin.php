@@ -12,8 +12,7 @@ return [
     */
 
     'title' => 'admin.admin_title', // use in trans
-    'footer' => 
-    date("Y") . ' © <a href="https://wilivm.com">Wilivm</a>', 
+    'footer' => 'admin.footer', //use in trans
 
     /*
     |--------------------------------------------------------------------------
