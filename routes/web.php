@@ -59,12 +59,12 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-// Route::get('/', function () {
-//     // Admin::create(["username" => "admin", "password" => Hash::make("123")]);
-// });
-Route::get('/order-submition/{order}', function (Order $order) {
-    Mail::to($order->email)->send(new OrderShipped($order));
-});
+
+
+Route::get('auth/google', [AuthLoginController::class, "redirectToGoogle"])->name("redirect.google");
+
+Route::get('auth/google/callback', [AuthLoginController::class, "handleGoogleCallback"]);
+
 Route::prefix("admin")->name("admin.")->group(function () {
 
 
@@ -167,7 +167,7 @@ Route::name("panel.")->group(function () {
         Route::post('new-service/{id}/{_id}', [ServiceController::class, 'submit_order'])->name("new-service.submit");
         Route::get('resend-email', [UserDashboardController::class, 'resend_email'])->name("resend-email")->middleware('throttle:api');;
 
-        
+
         Route::get('new-service/{id}', [ServiceController::class, 'show_service'])->name("new-service.show");
         Route::get('invoices', [InvoiceController::class, 'index'])->name("invoices");
         Route::get('invoices/show/{order}', [InvoiceController::class, 'show'])->name("invoices.show");

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -18,6 +20,50 @@ class LoginController extends Controller
         }
         return view("user.auth.login");
     }
+    public function redirectToGoogle()
+
+    {
+
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+
+    {
+
+        try {
+
+            $user = Socialite::driver('google')->user();
+
+            $finduser = User::where('google_id', $user->id)->first();
+
+            if ($finduser) {
+
+                Auth::login($finduser);
+
+                return redirect('/home');
+            } else {
+
+                $newUser = User::create([
+
+                    'first_name' => $user->name,
+
+                    'email' => $user->email,
+
+                    'google_id' => $user->id
+
+                ]);
+
+                Auth::login($newUser);
+
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+
+            return redirect('auth/google');
+        }
+    }
+
     public function loginAttemp(Request $request)
     {
 
@@ -40,7 +86,6 @@ class LoginController extends Controller
 
                 if ($response->success === false) {
                     return redirect()->back()->withError("Something went wrong with recaptcha");
-                   
                 }
             }
 
@@ -51,21 +96,20 @@ class LoginController extends Controller
         }
 
 
-        
+
         if (Auth::guard('web')->attempt($request->only("email", 'password'), $request->filled('remember'))) {
             session()->put("recaptcha", 0);
 
             $blockedUser = auth()->user()->blockedUser;
-            if($blockedUser){
+            if ($blockedUser) {
                 $is_blocked = auth()->user()->blockedUser()->where('enable', 1)->where('to_datetime', '>=', now())->where('from_datetime', '<=', now())->first();
-                if($is_blocked){
+                if ($is_blocked) {
                     $this->guard("web")->logout();
                     return redirect()
-                    ->back()
-                    ->with('error', $is_blocked->description);
+                        ->back()
+                        ->with('error', $is_blocked->description);
                 }
-          
-            } 
+            }
 
 
             return redirect()

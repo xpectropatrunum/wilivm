@@ -63,6 +63,8 @@
                     @endif
 
                     <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">{{ __('admin.sign_in') }}</button>
+
+                    <a href="{{route('redirect.google')}}"  class="btn btn-primary btn-block btn-lg shadow-lg mt-4">{{ __('Login via Google') }}</a>
                 </form>
                 <div class="text-center mt-5 text-lg fs-6">
                     <p class="text-gray-600"><a
