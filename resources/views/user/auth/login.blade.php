@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">
-            <div id="auth-right" >
+            <div id="auth-right" style="display: flex;justify-content: center">
                 <img src="{{asset("assets/illustration/login.svg")}}" style="max-height: 100vh;" alt="">
 
             </div>
