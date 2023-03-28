@@ -9,7 +9,7 @@
         <div class="col-lg-5 col-12">
             <div id="auth-left">
                 <div class="auth-logo">
-                    <a href="/"><img src="{{ asset('assets/images/logo/wilivm-logo.png') }}" style="height: 60px;" alt="Wilivm" ></a>
+                    <a href="/"><img src="{{ asset('assets/images/logo/wilivm-logo.png') }}" style="height: 100px;" alt="Wilivm" ></a>
                 </div>
                 <h1 class="auth-title">{{ __('admin.reset_password') }}</h1>
                 <p class="auth-subtitle mb-5">{{ __('admin.password_reset_message') }}</p>
