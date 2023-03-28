@@ -193,7 +193,7 @@
             <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') . 'wallet/success' }}">
             <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL') . 'wallet/fail' }}">
             <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
-            <input type="hidden" name="NOPAYMENT_URL_METHOD" value="POST">
+            <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
 
             <input type="hidden" name="ORDER_NUM" value="">
         </p>
