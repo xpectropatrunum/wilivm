@@ -218,7 +218,7 @@
     </div>
     <form class="pm-form" action="https://perfectmoney.com/api/step1.asp" method="POST">
 
-        <input type="hidden" name="PAYEE_ACCOUNT" value="U42835088">
+        <input type="hidden" name="PAYEE_ACCOUNT" value="{{env("PERFECTMONEY_ACC")}}">
         <input type="hidden" name="PAYEE_NAME" value="Wilivm">
         <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount }}">
         <input type="hidden" name="PAYMENT_UNITS" value="USD">

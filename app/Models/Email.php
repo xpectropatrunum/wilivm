@@ -38,35 +38,41 @@ class Email extends Model
         }
 
 
-        static::deleting(
-            function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Delete,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
-            }
-        );
-        static::updating(
-            function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Update,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
-            }
-        );
-        static::created(
-            function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Create,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
-            }
-        );
+        try {
+
+
+            static::deleting(
+                function ($item) {
+                    Log::create([
+                        "admin_id" => auth()->user()->id,
+                        "type" => ELogType::Delete,
+                        "model" => self::class,
+                        "related_id" => $item,
+                    ]);
+                }
+            );
+            static::updating(
+                function ($item) {
+                    Log::create([
+                        "admin_id" => auth()->user()->id,
+                        "type" => ELogType::Update,
+                        "model" => self::class,
+                        "related_id" => $item,
+                    ]);
+                }
+            );
+            static::created(
+                function ($item) {
+                    Log::create([
+                        "admin_id" => auth()->user()->id,
+                        "type" => ELogType::Create,
+                        "model" => self::class,
+                        "related_id" => $item,
+                    ]);
+                }
+            );
+        } catch (\Exception $e) {
+           
+        }
     }
 }

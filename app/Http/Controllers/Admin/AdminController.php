@@ -98,7 +98,9 @@ class AdminController extends Controller
                 "verified" => 0,
             ]);
         }
-
+        $request->merge([
+            "sms" => json_encode($request->sms),
+        ]);
         $created = Admin::create($request->all());
         if ($created) {
             $created->roles()->detach();
@@ -123,7 +125,9 @@ class AdminController extends Controller
             "password_confirm" => "same:password",
         ];
         $request->validate($rules);
-
+        $request->merge([
+            "sms" => json_encode($request->sms),
+        ]);
         if ($request->password) {
             $request->merge([
                 "password" => Hash::make($request->password),

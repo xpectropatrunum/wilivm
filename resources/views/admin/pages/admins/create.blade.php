@@ -64,6 +64,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group col-lg-4">
+                                <label>sms</label>
+                                <select name="sms[]" multiple class="form-control select2">
+                                    @foreach (App\Enums\ESmsType::asSelectArray() as $key => $sms)
+                                        <option value="{{ $key }}" >
+                                            {{ $sms }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                            
                         </div>
                     </div>
