@@ -74,6 +74,7 @@ class MyHelper
         foreach ($admins as $admin) {
             $phone = $admin->phone;
             if(!in_array($type, json_decode($admin->sms))){
+                dd("not found");
                 continue;
             }
 
