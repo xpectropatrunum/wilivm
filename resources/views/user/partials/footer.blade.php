@@ -1,3 +1,3 @@
 <footer class="main-footer">
-    {{ trans(config('admin.footer')) }}
+    {!! config('admin.footer') !!}
 </footer>
