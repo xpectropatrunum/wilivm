@@ -69,7 +69,7 @@
                                 <label>sms</label>
                                 <select name="sms[]" multiple class="form-control select2">
                                     @foreach (App\Enums\ESmsType::asSelectArray() as $key => $sms)
-                                        <option value="{{ $key }}" @if (in_array(json_decode($admin->sms), $key)) selected @endif>
+                                        <option value="{{ $key }}" @if (in_array($key,json_decode($admin->sms))) selected @endif>
                                             {{ $sms }}</option>
                                     @endforeach
                                 </select>
