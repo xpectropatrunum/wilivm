@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Enums\EServiceType;
+use App\Enums\ESmsType;
 use App\Enums\ETicketDepartment;
 use App\Enums\EWalletTransactionType;
 use App\Helpers\MyHelper;
@@ -98,8 +99,8 @@ class WalletController extends Controller
            
 
             $order->service->save();
-            MyHelper::sendSMS("inform_order", ["user" => $order->user, "order" => $order]);
-            $email = Email::where("type", EEmailType::Payed_invoice)->first();
+            MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
+            $email = Email::where("type", EEmailType::Paid_invoice)->first();
             Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
             $email = Email::where("type", EEmailType::Deploying_server)->first();
             Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Enums\ESmsType;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Log;
 
@@ -72,26 +73,30 @@ class MyHelper
 
         foreach ($admins as $admin) {
             $phone = $admin->phone;
+            if(!in_array($type, json_decode($admin->sms))){
+                continue;
+            }
 
             if (!$phone) {
                 Log::error('super admin phone is not found');
             }
             $append = "";
+           
 
             switch ($type) {
-                case "inform_order":
+                case ESmsType::Order:
                     $pattern = "6ikckh3xul3v5l6";
                     $order = $data["order"];
                     $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=number&v3={$order->id}";
                     break;
 
-                case "inform_ticket":
+                case ESmsType::Ticket:
                     $pattern = "6okn0v670keil05";
                     $ticket = $data["ticket"];
                     $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=title&v3={$ticket->title}";
                     break;
 
-                case "inform_request":
+                case ESmsType::Request:
                     $pattern = "1tkf5tsf0az008f";
                     $request = $data["request"];
                     $request_name = urlencode($request->name);

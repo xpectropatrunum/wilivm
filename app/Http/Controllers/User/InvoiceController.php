@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Enums\EEmailType;
 use App\Enums\EOffType;
 use App\Enums\EServiceType;
+use App\Enums\ESmsType;
 use App\Enums\EWalletTransactionType;
 use App\Helpers\ApiHelper;
 use App\Helpers\MyHelper;
@@ -90,8 +91,8 @@ class InvoiceController extends Controller
                
 
                 $order->service->save();
-                MyHelper::sendSMS("inform_order", ["user" => auth()->user(), "order" => $order]);
-                $email = Email::where("type", EEmailType::Payed_invoice)->first();
+                MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
+                $email = Email::where("type", EEmailType::Paid_invoice)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 $email = Email::where("type", EEmailType::Deploying_server)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));

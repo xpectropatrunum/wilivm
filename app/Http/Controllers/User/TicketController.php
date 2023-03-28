@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\ENotificationType;
+use App\Enums\ESmsType;
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
@@ -78,7 +79,7 @@ class TicketController extends Controller
 
         $ticket = auth()->user()->tickets()->create(["title" => $request->title, "status" => 0, "new" => 0 ,"department" => $request->department]);
         if($ticket){
-            MyHelper::sendSMS("inform_ticket", ["user" => auth()->user(), "ticket" => $ticket]);
+            MyHelper::sendSMS(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
             $ticket->conversations()->create(["message" => $request->message,]);
             return redirect()->route("panel.tickets")->withSuccess("The ticket is created successfully.");
         }
