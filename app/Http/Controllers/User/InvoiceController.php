@@ -39,7 +39,7 @@ class InvoiceController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query = auth()->user()->orders()::latest();
+        $query = auth()->user()->orders()->latest();
 
 
         if ($request->search) {
