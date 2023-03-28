@@ -115,7 +115,7 @@
                 </div>
             @endif
             @yield('content')
-          
+
         </div>
     </div>
     <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
@@ -130,6 +130,19 @@
             var intials = $('#first_name').text().charAt(0) + $('#last_name').text().charAt(0);
             var profileImage = $('#profileImage').text(intials);
         });
+    </script>
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/63d7b1e8c2f1ac1e203057f2/1go18ttv5';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
     </script>
     @stack('admin_js')
 

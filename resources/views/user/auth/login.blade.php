@@ -62,9 +62,9 @@
                         </div>
                     @endif
 
-                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">{{ __('admin.sign_in') }}</button>
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">{{ __('admin.sign_in') }}</button>
                 </form>
-                <div class="text-center mt-5 text-lg fs-4">
+                <div class="text-center mt-5 text-lg fs-6">
                     <p class="text-gray-600"><a
                             href="{{ route('panel.register') }}">{{ __('admin.register_a_new_membership') }}</a>.</p>
                     <p><a class="font-bold" href="{{ route('panel.forget') }}">{{ __('admin.i_forgot_my_password') }}</a>.

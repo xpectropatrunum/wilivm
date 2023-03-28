@@ -48,35 +48,35 @@
                                             @csrf
                                             <div class="form-body">
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
                                                         <div class="form-group">
                                                             <label>Type</label>
                                                             <input class="form-control" value="{{ $plan->type->name }}"
                                                                 disabled>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
                                                         <div class="form-group">
                                                             <label>Plan</label>
                                                             <input class="form-control" value="{{ $plan->plan->name }}"
                                                                 disabled>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
                                                         <div class="form-group">
                                                             <label>Ram</label>
                                                             <input class="form-control" value="{{ $plan->ram }}"
                                                                 disabled>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
                                                         <div class="form-group">
                                                             <label>Cpu</label>
                                                             <input class="form-control" value="{{ $plan->cpu }}"
                                                                 disabled>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
                                                         <div class="form-group">
                                                             <label>Storage</label>
                                                             <input class="form-control" value="{{ $plan->storage }}"
@@ -84,7 +84,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
                                                         <div class="form-group">
                                                             <label>Bandwith</label>
                                                             <input class="form-control" value="{{ $plan->bandwith }}"
@@ -93,7 +93,7 @@
                                                     </div>
 
 
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
 
                                                         <div class="form-group">
                                                             <label>Location</label>
@@ -108,7 +108,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
 
                                                         <div class="form-group">
                                                             <label>Os</label>
@@ -123,7 +123,7 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-3 col-12">
+                                                    <div class="col-lg-4 col-12">
 
                                                         <div class="form-group">
                                                             <label>Billing Cycle</label>
@@ -140,7 +140,7 @@
                                                     </div>
                                                     <div class="mt-2 col-12 d-flex justify-content-end align-items-center">
                                                         <strong class="mx-4">Price: <span class="final-price px-2">${{$plan->price}}</span></strong>
-                                                        <button type="submit" class="btn btn-primary me-1 mb-1">
+                                                        <button type="submit" class="btn btn-success me-1 mb-1">
                                                             Submit
                                                         </button>
                                                       

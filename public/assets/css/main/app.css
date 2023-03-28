@@ -20585,7 +20585,7 @@ table tbody td {
 }
 
 .form-group[class*=has-icon-] .form-control.form-control-xl~.form-control-icon i {
-    font-size: 1.6rem;
+    font-size: 1rem;
 }
 
 .form-group[class*=has-icon-] .form-control.form-control-xl~.form-control-icon i:before {
@@ -20634,7 +20634,7 @@ table tbody td {
 
 .form-control.form-control-xl {
     padding: 0.85rem 1rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .form-control.form-control-xl~.form-control-icon {
@@ -22062,7 +22062,7 @@ a {
 
 .invoice-price .invoice-price-right {
     width: 25%;
-    background: #2d353c;
+    background: #07178b;
     color: #fff;
     font-size: 28px;
     text-align: right;

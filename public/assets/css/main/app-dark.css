@@ -7896,7 +7896,7 @@ html[data-bs-theme=dark] .form-group[class*=has-icon-] .form-control:focus~.form
 }
 
 html[data-bs-theme=dark] .form-group[class*=has-icon-] .form-control.form-control-xl {
-    padding-left: 3rem;
+    padding-left: 1rem;
 }
 
 html[data-bs-theme=dark] .form-group[class*=has-icon-] .form-control.form-control-xl~.form-control-icon i {
@@ -7949,7 +7949,7 @@ html[data-bs-theme=dark] .form-control.form-control-lg~.form-control-icon {
 
 html[data-bs-theme=dark] .form-control.form-control-xl {
     padding: 0.85rem 1rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 html[data-bs-theme=dark] .form-control.form-control-xl~.form-control-icon {
@@ -9422,7 +9422,7 @@ html[data-bs-theme=dark] .invoice-price .invoice-price-row {
 
 html[data-bs-theme=dark] .invoice-price .invoice-price-right {
     width: 25%;
-    background: #2d353c;
+    background: #07178b;
     color: #fff;
     font-size: 28px;
     text-align: right;

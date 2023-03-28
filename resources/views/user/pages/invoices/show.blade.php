@@ -285,7 +285,7 @@
                             'title': res.message
                         });
                         setTimeout(() => {
-                            window.location.href = "{{ route('panel.invoices') }}"
+                            window.location.href = "{{ route('panel.services') }}"
                         }, 2000)
 
 
@@ -345,7 +345,7 @@
                                 'title': res.message
                             });
                             setTimeout(() => {
-                                window.location.href = "{{ route('panel.invoices') }}"
+                                window.location.href = "{{ route('panel.services') }}"
                             }, 2000)
 
 

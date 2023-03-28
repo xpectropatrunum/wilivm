@@ -11,12 +11,12 @@
         .box {
             width: 95%;
             border-radius: 8px;
-            border: solid 2px #cc2222;
+            border: solid 2px #051367;
             margin: =20px auto;
         }
 
         .title {
-            background: #cc2222;
+            background: #051367;
             color: white;
             padding: 20px;
             border-radius: 5px=5px 0 0;
@@ -43,7 +43,7 @@
         .button {
             padding: 8px 15px;
             color: white !important;
-            background: #cc2222;
+            background: #051367;
             text-align: center;
             border-radius: 45px;
         }

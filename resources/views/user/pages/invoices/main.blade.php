@@ -65,7 +65,7 @@
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <a href="{{ route('panel.invoices.show', $item->id) }}"
-                                            class="btn btn-primary">Show</a>
+                                            class="btn btn-success">Show</a>
 
 
 

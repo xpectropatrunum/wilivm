@@ -54,8 +54,8 @@
 
 
                                     <div class="col-lg-4 col-12">
-                                        <img src="{{ asset('assets/images/logo/perfect-money-logo-vector.svg') }}"
-                                            width="150" style="background: #f3f3f3;border-radius: 8px;" />
+                                        {{-- <img src="{{ asset('assets/images/logo/perfect-money-logo-vector.svg') }}"
+                                            width="150" style="background: #f3f3f3;border-radius: 8px;" /> --}}
                                         <div class="form-check mt-2">
                                             <input class="form-check-input" type="radio" name="method" id="method3"
                                                 checked value="1">
@@ -71,8 +71,8 @@
                                         <div class="col-lg-4 col-12">
 
 
-                                            <img src="{{ asset('assets/images/logo/cp.svg') }}" width="150"
-                                                style="background: #f3f3f3;border-radius: 8px;" />
+                                            {{-- <img src="{{ asset('assets/images/logo/cp.svg') }}" width="150"
+                                                style="background: #f3f3f3;border-radius: 8px;" /> --}}
                                             <div class="form-check  mt-2">
                                                 <input class="form-check-input" type="radio" name="method" id="method2"
                                                     value="2">

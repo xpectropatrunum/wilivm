@@ -70,9 +70,9 @@
                             <i class="bi bi-shield-lock"></i>
                         </div>
                     </div>
-                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">Sign Up</button>
                 </form>
-                <div class="text-center mt-5 text-lg fs-4">
+                <div class="text-center mt-5 text-lg fs-6">
                     <p class='text-gray-600'><a class="font-bold" href="{{ route('panel.login') }}"
                             class="text-center">{{ __('admin.i_already_have_a_membership') }}</a>.</p>
                 </div>

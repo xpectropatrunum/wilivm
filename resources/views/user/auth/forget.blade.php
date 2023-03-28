@@ -52,9 +52,9 @@
                         </div>
                     </div>
                     <button
-                        class="btn btn-primary btn-block btn-lg shadow-lg mt-5">{{ __('admin.send_password_reset_link') }}</button>
+                        class="btn btn-primary btn-block btn-lg shadow-lg mt-4">{{ __('admin.send_password_reset_link') }}</button>
                 </form>
-                <div class="text-center mt-5 text-lg fs-4">
+                <div class="text-center mt-5 text-lg fs-6">
                     <p class="text-gray-600"><a
                             href="{{ route('panel.register') }}">{{ __('admin.register_a_new_membership') }}</a>.</p>
                     <p><a class="font-bold"
