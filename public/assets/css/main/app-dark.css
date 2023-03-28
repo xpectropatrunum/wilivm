@@ -707,6 +707,11 @@ html[data-bs-theme=dark] .figure-caption {
     color: #6c757d;
 }
 
+html[data-bs-theme=dark]  .logo img,
+html[data-bs-theme=dark]  .auth-logo img {
+    filter: hue-rotate(270deg) saturate(0%) brightness(664%);
+}
+
 html[data-bs-theme=dark] .container,
 html[data-bs-theme=dark] .container-fluid,
 html[data-bs-theme=dark] .container-xxl,

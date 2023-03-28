@@ -22112,7 +22112,3 @@ table.custom {
     border-spacing: 10px;
 }
 
-.logo img,
-.auth-logo img {
-    filter: hue-rotate(90deg) brightness(10%) grayscale(90%);
-}
