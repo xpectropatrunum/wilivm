@@ -99,7 +99,7 @@ class AdminController extends Controller
             ]);
         }
         $request->merge([
-            "sms" => json_encode($request->sms),
+            "sms" => json_encode($request->sms ?? []),
         ]);
         $created = Admin::create($request->all());
         if ($created) {
@@ -126,7 +126,7 @@ class AdminController extends Controller
         ];
         $request->validate($rules);
         $request->merge([
-            "sms" => json_encode($request->sms),
+            "sms" => json_encode($request->sms ?? []),
         ]);
         if ($request->password) {
             $request->merge([
