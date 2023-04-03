@@ -34,7 +34,7 @@ class LoginController extends Controller
         try {
 
             $user = Socialite::driver('google')->user();
-            $finduser = User::where('google_id', $user->user->id)->first();
+            $finduser = User::where('google_id', $user->user["id"])->first();
 
             if ($finduser) {
 
@@ -63,7 +63,6 @@ class LoginController extends Controller
                 return redirect()->back();
             }
         } catch (\Exception $e) {
-            dd($e->getMessage());
 
             return redirect('auth/google');
         }
