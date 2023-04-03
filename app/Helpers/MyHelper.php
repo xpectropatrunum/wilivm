@@ -58,7 +58,7 @@ class MyHelper
         }
 
 
-        return date("Y-m-d H:i", $order->expires_at);
+        return date("Y-m-d H:i", $order->expires_at ?? 0);
     }
     static function sendSMS($type, $data)
     {
