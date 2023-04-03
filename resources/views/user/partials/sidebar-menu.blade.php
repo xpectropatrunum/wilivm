@@ -73,7 +73,7 @@
         padding-left: 20px;
     "> 
             <div class="float-start">
-    <p>{{date(Y)}} @ Wilivm
+    <p>{{date("Y")}} @ Wilivm
     </p>
             </div>
 
