@@ -49,7 +49,7 @@ class LoginController extends Controller
                     'first_name' => $user->name,
 
                     'email' => $user->email,
-                    'verified' => $user->email,
+                    'verified' => 1,
 
                     'google_id' => $user->id
 
