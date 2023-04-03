@@ -53,7 +53,7 @@ class SettingsController extends Controller
         if (
             Hash::check($request->old_password, auth()->user()->password) || !auth()->user()->password
         ) {
-            auth()->user()->password = Hash::make($request->password);
+            auth()->user()->password = Hash::make($request->new_password);
             auth()->user()->save();
             return redirect()->back()->withSuccess("The password is updated successfully.");
         }
