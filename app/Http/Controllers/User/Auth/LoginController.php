@@ -45,23 +45,23 @@ class LoginController extends Controller
             } else {
 
               
-                $newUser = User::create([
+                // $newUser = User::create([
 
-                    'first_name' => $user->user->given_name,
-                    'last_name' => $user->user->family_name,
+                //     'first_name' => $user->user->given_name,
+                //     'last_name' => $user->user->family_name,
 
-                    'email' => $user->email,
-                    'verified' => 1,
+                //     'email' => $user->email,
+                //     'verified' => 1,
 
-                    'google_id' => $user->user->id
+                //     'google_id' => $user->user->id
 
-                ]);
+                // ]);
 
-                Auth::login($newUser);
-                if(!$newUser->wallet){
-                    $newUser->wallet()->create();
-                }
-                return redirect()->back();
+                // Auth::login($newUser);
+                // if(!$newUser->wallet){
+                //     $newUser->wallet()->create();
+                // }
+                // return redirect()->back();
             }
         } catch (\Exception $e) {
             dd($e->getMessage());
