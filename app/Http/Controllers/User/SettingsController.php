@@ -15,6 +15,7 @@ use App\Models\Server;
 use App\Models\ServerType;
 use App\Models\TvTemp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class SettingsController extends Controller
@@ -33,6 +34,30 @@ class SettingsController extends Controller
     function validate_mobile($mobile)
     {
         return preg_match('/^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/', $mobile);
+    }
+    function security(Request $request)
+    {
+        if (auth()->user()->password) {
+            $request->validate([
+                "old_password" => "required",
+                "new_password" => "required",
+                "confirm_password" => "required|same:new_password",
+            ]);
+        } else {
+            $request->validate([
+                "new_password" => "required",
+                "confirm_password" => "required|same:new_password",
+            ]);
+        }
+
+        if (
+            Hash::check($request->old_password, auth()->user()->password) || !auth()->user()->password
+        ) {
+            auth()->user()->password = Hash::make($request->password);
+            auth()->user()->save();
+            return redirect()->back()->withSuccess("The password is updated successfully.");
+        }
+        return redirect()->back()->withError("The password does not match with our data.");
     }
     public function store(Request $request)
     {
@@ -61,7 +86,7 @@ class SettingsController extends Controller
         }
 
         $user->update($user->verified ? $request->except("email") : $request->all());
-       
+
         if ($request->email != $user->email && !$user->verified) {
             $user->verified = 0;
             $user->save();

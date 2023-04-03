@@ -140,6 +140,79 @@
                 </div>
             </div>
         </section>
+
+        <section>
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Security</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form" method="POST" action="{{ route('panel.settings.security') }}">
+                                    @csrf
+                                    <div class="row">
+                                        @if (auth()->user()->password)
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label for="old_password">Old password</label>
+                                                    <input type="password" name="old_password" required
+                                                        class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label for="new_password">New password</label>
+                                                    <input type="password" name="new_password" required
+                                                        class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4 col-12">
+                                                <div class="form-group">
+                                                    <label for="confirm_password">Password Confirmation</label>
+                                                    <input type="password" name="confirm_password" required
+                                                        class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="new_password">New password</label>
+                                                    <input type="password" name="new_password" required
+                                                        class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="confirm_password">Password Confirmation</label>
+                                                    <input type="password" name="confirm_password" required
+                                                        class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                        @endif
+
+
+
+                                        <div class="col-12 d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">
+                                                Apply Changes
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
 @endsection
@@ -151,14 +224,13 @@
 @push('admin_js')
     <script src="{{ asset('assets/extensions/choices/main.js') }}"></script>
     <script>
-
-  
-        let selected_states = countries.find(item => item.name == "{{auth()->user()->country ?? "Afghanistan"}}").states.map(item => {
-            return {
-                value: item.name,
-                label: item.name
-            }
-        });
+        let selected_states = countries.find(item => item.name == "{{ auth()->user()->country ?? 'Afghanistan' }}").states
+            .map(item => {
+                return {
+                    value: item.name,
+                    label: item.name
+                }
+            });
 
         let country = new Choices("[name=country]");
         let state = new Choices("[name=state]", {
@@ -173,7 +245,8 @@
                 selected_states.push({
                     value: item.name,
                     label: item.name,
-                    selected: "{{auth()->user()->state}}" == item.name ? true :(index == 0 ? true: false),
+                    selected: "{{ auth()->user()->state }}" == item.name ? true : (index == 0 ?
+                        true : false),
                 })
             })
             state.clearStore()

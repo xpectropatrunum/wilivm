@@ -193,5 +193,6 @@ Route::name("panel.")->group(function () {
         Route::get('affiliate', [AffiliateController::class, 'index'])->name("affiliate");
         Route::get('settings', [SettingsController::class, 'index'])->name("settings");
         Route::post('settings/store', [SettingsController::class, 'store'])->name("settings.store");
+        Route::post('settings/security', [SettingsController::class, 'security'])->name("settings.security");
     });
 });
