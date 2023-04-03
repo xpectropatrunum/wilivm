@@ -1,3 +1,3 @@
 <footer class="main-footer">
-    {!! config('admin.footer') !!}
+    {{date("Y")}} @ Wilivm
 </footer>
