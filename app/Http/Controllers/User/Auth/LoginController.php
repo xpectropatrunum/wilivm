@@ -55,7 +55,9 @@ class LoginController extends Controller
                 ]);
 
                 Auth::login($newUser);
-
+                if(!$newUser->wallet){
+                    $newUser->wallet()->create();
+                }
                 return redirect()->back();
             }
         } catch (\Exception $e) {
