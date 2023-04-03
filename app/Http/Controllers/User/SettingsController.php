@@ -40,12 +40,12 @@ class SettingsController extends Controller
         if (auth()->user()->password) {
             $request->validate([
                 "old_password" => "required",
-                "new_password" => "required",
+                "new_password" => "required|min:6",
                 "confirm_password" => "required|same:new_password",
             ]);
         } else {
             $request->validate([
-                "new_password" => "required",
+                "new_password" => "required|min:6",
                 "confirm_password" => "required|same:new_password",
             ]);
         }
