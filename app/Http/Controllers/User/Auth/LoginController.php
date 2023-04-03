@@ -44,6 +44,7 @@ class LoginController extends Controller
                 return redirect()->back();
             } else {
 
+                dd( $user );
                 $newUser = User::create([
 
                     'first_name' => $user->name,
