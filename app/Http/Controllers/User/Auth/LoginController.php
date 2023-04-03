@@ -35,7 +35,7 @@ class LoginController extends Controller
 
             $user = Socialite::driver('google')->user();
 
-            $finduser = User::where('google_id', $user->id)->first();
+            $finduser = User::where('google_id', $user->user->id)->first();
 
             if ($finduser) {
 
@@ -47,12 +47,13 @@ class LoginController extends Controller
                 dd( $user );
                 $newUser = User::create([
 
-                    'first_name' => $user->name,
+                    'first_name' => $user->user->given_name,
+                    'last_name' => $user->user->family_name,
 
                     'email' => $user->email,
                     'verified' => 1,
 
-                    'google_id' => $user->id
+                    'google_id' => $user->user->id
 
                 ]);
 
