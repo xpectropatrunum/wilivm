@@ -73,7 +73,7 @@
         padding-left: 20px;
     "> 
             <div class="float-start">
-    <p>{!! config('admin.footer') !!}
+    <p>{{date(Y)}} @ Wilivm
     </p>
             </div>
 
