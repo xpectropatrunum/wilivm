@@ -50,10 +50,10 @@
                                         <label>Payment Method</label>
                                     </div>
                                 </div>
-                                <div class="col-12 row">
+                                <div class="col-12">
 
 
-                                    <div class="col-lg-4 col-12">
+                                    <div class="col-12">
                                         {{-- <img src="{{ asset('assets/images/logo/perfect-money-logo-vector.svg') }}"
                                             width="150" style="background: #f3f3f3;border-radius: 8px;" /> --}}
                                         <div class="form-check mt-2">
@@ -68,7 +68,7 @@
 
                                     </div>
                                     @if (env('COINPAYMENTS'))
-                                        <div class="col-lg-4 col-12">
+                                        <div class="col-12">
 
 
                                             {{-- <img src="{{ asset('assets/images/logo/cp.svg') }}" width="150"
