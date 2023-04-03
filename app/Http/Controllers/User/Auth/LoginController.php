@@ -49,6 +49,7 @@ class LoginController extends Controller
                     'first_name' => $user->name,
 
                     'email' => $user->email,
+                    'verified' => $user->email,
 
                     'google_id' => $user->id
 
@@ -61,6 +62,7 @@ class LoginController extends Controller
                 return redirect()->back();
             }
         } catch (\Exception $e) {
+            dd($e->getMessage());
 
             return redirect('auth/google');
         }
