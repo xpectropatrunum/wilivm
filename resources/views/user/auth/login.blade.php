@@ -88,7 +88,7 @@
         <script>
             $("form").on("submit", function(e){
 
-                e.preventDefaults();
+                e.preventDefault();
                 grecaptcha.ready(function() {
                     grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
                             action: 'validate_captcha'
