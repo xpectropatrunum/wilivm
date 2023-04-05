@@ -63,7 +63,7 @@
                         </div>
                     @endif
 
-                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4 g-recaptcha" data-sitekey="reCAPTCAH_site_key" data-callback="onSubmit" data-action="submit">{{ __('admin.sign_in') }}</button>
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">{{ __('admin.sign_in') }}</button>
 
                     <a href="{{route('redirect.google')}}"  class="btn btn-primary btn-block btn-lg shadow-lg mt-4" style="display:">{{ __('Login via Google') }}</a>
                 </form>
@@ -86,14 +86,19 @@
     @if (session('recaptcha'))
         <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE') }}"></script>
         <script>
-            grecaptcha.ready(function() {
-                grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
-                        action: 'validate_captcha'
-                    })
-                    .then(function(token) {
-                        document.getElementById('g_recaptcha_response').value = token;
-                    });
-            });
+            $("form").on("submit", function(e){
+
+                e.preventDefaults();
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
+                            action: 'validate_captcha'
+                        })
+                        .then(function(token) {
+                            document.getElementById('g_recaptcha_response').value = token;
+                        });
+                });
+            })
+           
         </script>
     @endif
 
