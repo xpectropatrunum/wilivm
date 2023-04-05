@@ -91,10 +91,12 @@
                 e.preventDefault();
                 grecaptcha.ready(function() {
                     grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
-                            action: 'validate_captcha'
+                            action: 'create_comment'
                         })
                         .then(function(token) {
-                            document.getElementById('g_recaptcha_response').value = token;
+                           
+                            $('#g_recaptcha_response').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+                           
                         });
                 });
             })
