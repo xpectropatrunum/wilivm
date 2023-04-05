@@ -96,6 +96,7 @@
                         .then(function(token) {
                            
                             $('#g_recaptcha_response').val(token);
+                            $("form").submit()
                            
                         });
                 });
