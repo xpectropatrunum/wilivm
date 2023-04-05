@@ -95,7 +95,7 @@
                         })
                         .then(function(token) {
                            
-                            $('#g_recaptcha_response').prepend('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
+                            $('#g_recaptcha_response').parent().append('<input type="hidden" name="g-recaptcha-response" value="' + token + '">');
                            
                         });
                 });
