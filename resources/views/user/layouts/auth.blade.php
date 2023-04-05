@@ -22,6 +22,7 @@
 
     <script src="{{ asset('assets/js/initTheme.js') }}"></script>
  
+    <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
 
 
    
