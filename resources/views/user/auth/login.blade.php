@@ -59,7 +59,6 @@
                         <div class="form-check form-check-lg d-flex align-items-end">
                             <input type="hidden" id="g_recaptcha_response" name="g_recaptcha_response">
                             <input type="hidden" name="action" value="validate_captcha">
-                        
                         </div>
                     @endif
 
@@ -86,22 +85,14 @@
     @if (session('recaptcha'))
         <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE') }}"></script>
         <script>
-            $("form").on("submit", function(e){
-
-                e.preventDefault();
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
-                            action: 'create_comment'
-                        })
-                        .then(function(token) {
-                           
-                            $('#g_recaptcha_response').val(token);
-                            $("form").submit()
-                           
-                        });
-                });
-            })
-           
+            grecaptcha.ready(function() {
+                grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
+                        action: 'validate_captcha'
+                    })
+                    .then(function(token) {
+                        document.getElementById('g_recaptcha_response').value = token;
+                    });
+            });
         </script>
     @endif
 
