@@ -56,7 +56,6 @@
                         </label>
                     </div>
                     @if (session('recaptcha'))
-                    <div class="g-recaptcha" data-sitekey="{{env("RECAPTCHA_SITE")}}"></div>
                         <div class="form-check form-check-lg d-flex align-items-end">
                             <input type="hidden" id="g_recaptcha_response" name="g_recaptcha_response">
                             <input type="hidden" name="action" value="validate_captcha">
@@ -64,7 +63,7 @@
                         </div>
                     @endif
 
-                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">{{ __('admin.sign_in') }}</button>
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4 g-recaptcha" data-sitekey="reCAPTCAH_site_key" data-callback="onSubmit" data-action="submit">{{ __('admin.sign_in') }}</button>
 
                     <a href="{{route('redirect.google')}}"  class="btn btn-primary btn-block btn-lg shadow-lg mt-4" style="display:">{{ __('Login via Google') }}</a>
                 </form>
