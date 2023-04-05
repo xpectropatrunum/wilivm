@@ -95,7 +95,7 @@
                         })
                         .then(function(token) {
                            
-                            $('#g_recaptcha_response').value(token);
+                            $('#g_recaptcha_response').val(token);
                            
                         });
                 });
