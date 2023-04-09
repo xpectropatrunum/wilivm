@@ -37,14 +37,19 @@ class Order extends Model
     {
         return $this->hasOne(UserService::class, "id", "server_id");
     }
-    protected $appends = ['status'];
+    protected $appends = ['status', 'date'];
     function getStatusAttribute()
     {
-        return $this->transaction?->status ?? 0;
+        return $this->transactions()?->first()?->status ?? 0;
     }
     function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    function getDateAttribute()
+    {
+        return date("d M Y", strtotime($this->attributes["created_at"]));
     }
     function getLabelsAttribute()
     {
@@ -94,4 +99,6 @@ class Order extends Model
             }
         );
     }
+
+
 }

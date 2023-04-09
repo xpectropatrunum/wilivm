@@ -25,14 +25,31 @@ class DashboardController extends Controller
     public function index()
     {
 
-        // $role = Role::updateOrCreate(['name' => 'admin']);
+        $orders = Order::latest()->get();
+        $data = [];
+        foreach($orders as $order){
+            
+            if($order->status){
+                if(count($data) > 31){
+                    break;
+                }
+                try{
+                    $data[$order->date] += $order->price - $order->discount; 
+    
+                }catch(\Exception $e){
+                    $data[$order->date] = 0; 
+    
+                }
+            }
+        
 
-        // $permissions = Permission::pluck('id','id')->all();
+        }
 
-        // $role->syncPermissions($permissions);
-        // auth()->guard("admin")->user()->assignRole([$role->id]);
+        $data = array_reverse($data);
 
-        return view("admin.dashboard");
+       
+
+        return view("admin.dashboard", compact("data"));
     }
 
     /**
