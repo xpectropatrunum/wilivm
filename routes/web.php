@@ -76,7 +76,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
     Route::get('login', [LoginController::class, 'index'])->name("login");
     Route::post('logout', [LoginController::class, 'logout'])->name("logout");
     Route::post('login/attemp', [LoginController::class, 'loginAttemp'])->name("login.attemp");
-    Route::group(['middleware' => ['auth:admin']], function () {
+    Route::group(['middleware' => ['auth:admin', 'permission']], function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name("dashboard");
         Route::post('search', [DashboardController::class, 'search'])->name("dashboard.search");
 
