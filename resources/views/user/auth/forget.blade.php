@@ -14,30 +14,16 @@
             <div class="row">
                 <div class="login-right py-20 py-lg-40 d-flex flex-column align-items-center justify-content-center">
 
-                    <a href="/" target="_blank" id="logo" class="mb-0 mb-lg-30">
-                        <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wilivm-logo.png') }}"
-                            alt="Wilivm" width="150" height="auto">
+                    <a href="/" target="_blank" class="mb-0">
+                        <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wili-white.svg') }}"
+                            alt="Wilivm" width="250" height="auto" >
                     </a>
+    
 
 
-                    <div id="login-anime" class="d-none d-lg-block">
-                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/screen.svg" class="screen">
-                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/phone.svg" class="phone"
-                            style="transform: translateY(-3.82131%) translateX(-4.9229px);">
-                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/lock.svg" class="lock">
-                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/lock-unlocked.svg"
-                            class="lock-unlocked">
-                        <div class="pass">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg" class="">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg" class="">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg" class="">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
-                                class="invisible">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
-                                class="invisible">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
-                                class="invisible">
-                        </div>
+                    <div id="login-anime" class="d-none d-lg-flex justify-content-center">
+                        <img src="{{asset('assets/images/logo/login.svg')}}" class="screen">
+                      
                     </div>
 
                 </div>
@@ -158,7 +144,7 @@
 
 
                                             <button type="submit" id="kt_login_signin_submit"
-                                                class="btn btn-warning font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
+                                                class="btn btn-wili font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
                                                 {{ __('admin.send_password_reset_link') }}
                                             </button>
                                         </div>

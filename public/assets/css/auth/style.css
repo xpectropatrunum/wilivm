@@ -28349,7 +28349,7 @@ a.text-white:hover {
 }
 
 .bg-light-warning {
-    background-color: #fff4de!important
+    background-color: #051367!important
 }
 
 .bg-hover-light-warning {
@@ -28361,11 +28361,11 @@ a.text-white:hover {
 .bg-hover-light-warning:hover {
     -webkit-transition: all .15s ease;
     transition: all .15s ease;
-    background-color: #fff4de!important
+    background-color: #051367!important
 }
 
 .bg-diagonal-light-warning:before {
-    background-color: #fff4de!important
+    background-color: #051367!important
 }
 
 .bg-light-danger {
@@ -37732,23 +37732,23 @@ a.text-white:hover {
 }
 
 .border-light-warning {
-    border-color: #fff4de!important
+    border-color: #051367!important
 }
 
 .border-top-light-warning {
-    border-top-color: #fff4de!important
+    border-top-color: #051367!important
 }
 
 .border-right-light-warning {
-    border-right-color: #fff4de!important
+    border-right-color: #051367!important
 }
 
 .border-bottom-light-warning {
-    border-bottom-color: #fff4de!important
+    border-bottom-color: #051367!important
 }
 
 .border-left-light-warning {
-    border-left-color: #fff4de!important
+    border-left-color: #051367!important
 }
 
 .border-light-danger {
@@ -46438,7 +46438,7 @@ a.text-hover-info:hover .svg-icon svg:hover g [fill] {
 }
 
 .text-light-warning {
-    color: #fff4de!important
+    color: #051367!important
 }
 
 .text-hover-warning,
@@ -48950,7 +48950,7 @@ button {
 }
 
 .nav.nav-tabs.nav-tabs-line.nav-tabs-line-warning {
-    border-bottom-color: #fff4de!important
+    border-bottom-color: #051367!important
 }
 
 .nav.nav-tabs.nav-tabs-line.nav-tabs-line-warning .nav-link.active,
@@ -50249,7 +50249,7 @@ button {
 
 .nav.nav-pills.nav-group.nav-warning .nav-link {
     color: #ffa800;
-    background-color: #fff4de;
+    background-color: #051367;
     border: 0
 }
 
@@ -51701,7 +51701,7 @@ button {
 }
 
 .alert.alert-custom.alert-light-warning {
-    background-color: #fff4de;
+    background-color: #051367;
     border-color: transparent
 }
 
@@ -56965,7 +56965,7 @@ button {
 
 .btn.btn-light-warning {
     color: #ffa800;
-    background-color: #fff4de;
+    background-color: #051367;
     border-color: transparent
 }
 
@@ -57026,7 +57026,7 @@ button {
 .btn.btn-light-warning.disabled,
 .btn.btn-light-warning:disabled {
     color: #ffa800;
-    background-color: #fff4de;
+    background-color: #051367;
     border-color: transparent
 }
 
@@ -57357,7 +57357,7 @@ button {
 .btn.btn-hover-light-warning:focus:not(.btn-text),
 .btn.btn-hover-light-warning:hover:not(.btn-text):not(:disabled):not(.disabled) {
     color: #ffa800;
-    background-color: #fff4de;
+    background-color: #051367;
     border-color: transparent
 }
 
@@ -57393,7 +57393,7 @@ button {
 .show .btn.btn-hover-light-warning.btn-dropdown,
 .show>.btn.btn-hover-light-warning.dropdown-toggle {
     color: #ffa800;
-    background-color: #fff4de;
+    background-color: #051367;
     border-color: transparent
 }
 
@@ -67670,7 +67670,7 @@ code {
 }
 
 .checkbox.checkbox-light-warning>span {
-    background-color: #fff4de;
+    background-color: #051367;
     border: 1px solid transparent
 }
 
@@ -68470,7 +68470,7 @@ code {
 }
 
 .radio.checkbox-light-warning>span {
-    background-color: #fff4de;
+    background-color: #051367;
     border: 1px solid transparent
 }
 
@@ -68511,7 +68511,7 @@ code {
 }
 
 .radio.radio-accent.radio-warning>input:focus~span {
-    border-color: #fff4de
+    border-color: #051367
 }
 
 .radio.radio-accent.radio-warning>input:focus~span:after {
@@ -68519,7 +68519,7 @@ code {
 }
 
 .radio.radio-accent.radio-warning>input:checked~span {
-    border-color: #fff4de
+    border-color: #051367
 }
 
 .radio.radio-accent.radio-warning>input:checked~span:after {
@@ -69812,7 +69812,7 @@ code {
 
 .label.label-light-warning {
     color: #ffa800;
-    background-color: #fff4de
+    background-color: #051367
 }
 
 .label.label-danger {
@@ -70187,7 +70187,7 @@ code {
 }
 
 .symbol.symbol-light-warning .symbol-label {
-    background-color: #fff4de;
+    background-color: #051367;
     color: #ffa800
 }
 
@@ -77889,7 +77889,7 @@ code {
 }
 
 .svg.svg-fill-light-warning {
-    fill: #fff4de!important
+    fill: #051367!important
 }
 
 .svg.svg-fill-danger {
@@ -78484,7 +78484,7 @@ code {
 }
 
 .timeline.timeline-5 .timeline-items .timeline-item .timeline-desc.timeline-desc-light-warning::before {
-    background-color: #fff4de
+    background-color: #051367
 }
 
 .timeline.timeline-5 .timeline-items .timeline-item .timeline-desc.timeline-desc-danger::before {
@@ -84550,7 +84550,7 @@ code {
 }
 
 .noUi-target.nouislider.nouislider-bg-light-warning {
-    background: #fff4de
+    background: #051367
 }
 
 .noUi-target.nouislider.nouislider-connect-danger .noUi-connect {
@@ -91844,15 +91844,34 @@ jdp-container .jdp-btn-today {
 
 body,
 html {
-    font-family: IRANSans, Times New Roman, Tahoma, Arial, serif;
+    font-family: Tahoma, Arial, serif;
     line-height: 1.85;
     direction: rtl;
     text-align: right;
     background: #f8f8f8
 }
 
+.btn-wili {
+    background: #051367;
+    border-color: #051367;
+    color: white
+}
+
+.btn.btn-wili:hover:not(.btn-text):not(:disabled):not(.disabled) {
+    color: #fff;
+    background-color: #050f4a;
+    border-color: #050f4a;
+}
+
+.btn.btn-wili.focus:not(.btn-text),
+.btn.btn-wili:focus:not(.btn-text) {
+    color: #fff;
+    background-color: #051367;
+    border-color: #051367;
+}
+
 .datepicker-plot-area {
-    font-family: IRANSans, Times New Roman, Tahoma, Arial, serif!important;
+    font-family: Tahoma, Arial, serif!important;
     line-height: 1.85!important
 }
 
@@ -93172,7 +93191,7 @@ html {
 }
 
 .fa-text {
-    font-family: IRANSans, Times New Roman, Tahoma, Arial, serif!important
+    font-family: Tahoma, Arial, serif!important
 }
 
 #custom-alert,
@@ -93658,7 +93677,7 @@ html {
 .login-body:before {
     right: 0;
     left: 60%;
-    background: #fff4de
+    background: #051367
 }
 
 .login-body:after,
@@ -93713,7 +93732,7 @@ html {
 
 .login-body .row .right-cleaner {
     z-index: -1;
-    background: #fff4de;
+    background: #051367;
     position: absolute;
     width: 40%;
     right: 0;
@@ -93769,7 +93788,7 @@ html {
     .login-body .row .login-right {
         flex: 0 0 100%;
         max-width: 100%;
-        background: #fff4de
+        background: #051367
     }
 }
 
@@ -93917,7 +93936,7 @@ html {
     border-left: 0!important;
     border-right: inherit!important;
     border-radius: .42rem 0 0 .42rem!important;
-    font-family: IRANSans, Times New Roman, Tahoma, Arial, serif!important;
+    font-family: Tahoma, Arial, serif!important;
     direction: rtl!important;
     text-align: right!important
 }
