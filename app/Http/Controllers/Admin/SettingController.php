@@ -21,55 +21,14 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $items = Setting::pluck("value", "name")->toArray();
+        $items = Setting::pluck("value", "key")->toArray();
         return view('admin.pages.settings.index',compact('items'));
     }
 
-    public function background()
-    {
-        $items = Setting::where('type','background')->pluck('value','name')->toArray();
-
-        return view('admin.pages.settings.background',compact('items'));
-    }
-
-  
-
-    public function maintenance()
-    {
-        $items = Setting::where('type','maintenance')->pluck('value','name')->toArray();
-
-        return view('admin.pages.settings.maintenance',compact('items'));
-    }
-
-    public function intro()
-    {
-        $items = Setting::where('type','intro')->pluck('value','name')->toArray();
-
-        return view('admin.pages.settings.intro',compact('items'));
-    }
-
-    public function partners()
-    {
-        $partners = Setting::select('id','name', 'value')->where('type','partners')->get()->map(function ($partner) {
-            $partner->value= (array) json_decode($partner->value);
-            return $partner;
-        })->toArray();
-
-        $counter= collect($partners)->max('name');
-
-        return view('admin.pages.settings.partners',compact('partners','counter'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         $request->validate([
-            'type'=>'required',
             'settings'=>'required'
         ]);
 
@@ -134,7 +93,7 @@ class SettingController extends Controller
             }
 
             Setting::updateOrCreate(
-                ['type' => $request->type, 'name' => $key],
+                ['key' => $key],
                 ['value' => is_array($value) ? json_encode($value) : $value]
             );
         }

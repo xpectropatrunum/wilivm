@@ -21,6 +21,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Server;
 use App\Models\ServerType;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use App\Models\TvTemp;
@@ -42,9 +43,10 @@ class WalletController extends Controller
        
       
 
+        $settings = Setting::pluck("value", "key");
 
-        $merchant_id = env("COINPAYMENTS_MERCHANT");
-        $secret = env("COINPAYMENTS_SECRET");
+        $merchant_id = $settings["COINPAYMENTS_MERCHANT"];
+        $secret = $settings["COINPAYMENTS_SECRET"];
         if (!isset($_SERVER['HTTP_HMAC']) || empty($_SERVER['HTTP_HMAC'])) {
             Log::debug("No HMAC signature sent");
 

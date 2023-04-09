@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\MailTemplate;
 use App\Mail\UserRegistered;
 use App\Models\Email;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +41,8 @@ class RegisterController extends Controller
     public function create(Request $request)
     {
 
+        $settings = Setting::pluck("value", "key");
+
 
         $request->merge([
             "email" => strtolower($request->email),
@@ -57,7 +60,7 @@ class RegisterController extends Controller
             return redirect()->back()->withError("Wait while recaptcha is loading");
         } else {
             $response = file_get_contents(
-                "https://www.google.com/recaptcha/api/siteverify?secret=" . env("RECAPTCHA_SECRET") . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']
+                "https://www.google.com/recaptcha/api/siteverify?secret=" . $settings["RECAPTCHA_SECRET"] . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']
             );
             $response = json_decode($response);
 

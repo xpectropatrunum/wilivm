@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RequestController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ServerController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Admin\TicketTemplateController;
 use App\Http\Controllers\Admin\TicketTemplateTypeController;
@@ -75,7 +76,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
     Route::get('login', [LoginController::class, 'index'])->name("login");
     Route::post('logout', [LoginController::class, 'logout'])->name("logout");
     Route::post('login/attemp', [LoginController::class, 'loginAttemp'])->name("login.attemp");
-    Route::group(['middleware' => ['auth:admin', 'permission']], function () {
+    Route::group(['middleware' => ['auth:admin']], function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name("dashboard");
         Route::post('search', [DashboardController::class, 'search'])->name("dashboard.search");
 
@@ -138,6 +139,9 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
         Route::resource('orders', OrderController::class);
         Route::post('sendmail/{order}', [OrderController::class, "sendMail"])->name("sendmail");
+
+        Route::resource('settings', SettingController::class);
+
     });
 });
 

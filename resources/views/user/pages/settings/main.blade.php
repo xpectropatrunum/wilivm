@@ -6,9 +6,7 @@
 @section('content')
 
 
-    <script>
-        const countries = {!! json_encode($countries) !!};
-    </script>
+ 
     <div class="page-heading">
         <div class="page-title">
             <div class="row">

@@ -185,7 +185,7 @@
     </div>
     <form action="https://perfectmoney.com/api/step1.asp" method="POST" class="pm-form">
         <p>
-            <input type="hidden" name="PAYEE_ACCOUNT" value="{{env("PERFECTMONEY_ACC")}}">
+            <input type="hidden" name="PAYEE_ACCOUNT" value="{{$settings["PERFECTMONEY_ACC"]}}">
             <input type="hidden" name="PAYEE_NAME" value="Wilivm">
             <input type="hidden" name="PAYMENT_AMOUNT" value="">
             <input type="hidden" name="PAYMENT_UNITS" value="USD">
@@ -201,7 +201,7 @@
     <form class="cp-form" action="https://www.coinpayments.net/index.php" method="post" target="_top">
         <input type="hidden" name="cmd" value="_pay">
         <input type="hidden" name="reset" value="1">
-        <input type="hidden" name="merchant" value="{{ env('COINPAYMENTS_MERCHANT') }}">
+        <input type="hidden" name="merchant" value="{{ $settings['COINPAYMENTS_MERCHANT'] }}">
         <input type="hidden" name="success_url" value="{{ env('APP_URL') . 'wallet/success' }}">
         <input type="hidden" name="cancel_url" value="{{ env('APP_URL') . 'wallet/fail' }}">
         <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">

@@ -21,30 +21,20 @@
         <div class="col-lg-6">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0">{{ __('admin.contact') }}</h5>
+                    <h5 class="m-0">Google recaptcha v3</h5>
                 </div>
                 <form action="{{ route('admin.settings.store') }}" method="post">
                     @csrf
                     <input type="hidden" name="type" value="contact">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.address') }}</label>
-                            <input type="text" value="{{ old('address',isset($items['address']) ? $items['address'] : '') }}" name="settings[address]" class="form-control @error('address') is-invalid @enderror">
+                            <label for="exampleInputEmail1">Site Key</label>
+                            <input type="text" value="{{ old('RECAPTCHA_SITE',isset($items['RECAPTCHA_SITE']) ? $items['RECAPTCHA_SITE'] : '') }}" name="settings[RECAPTCHA_SITE]" class="form-control @error('RECAPTCHA_SITE') is-invalid @enderror">
                         </div>
 
                         <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.mobile') }}</label>
-                            <input type="text" value="{{ old('mobile',isset($items['mobile']) ? $items['mobile'] : '') }}" name="settings[mobile]" class="form-control @error('mobile') is-invalid @enderror">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.tel') }}</label>
-                            <input type="text" value="{{ old('tel',isset($items['tel']) ? $items['tel'] : '') }}" name="settings[tel]" class="form-control @error('tel') is-invalid @enderror">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.email') }}</label>
-                            <input type="email" value="{{ old('email',isset($items['email']) ? $items['email'] : '') }}" name="settings[email]" dir="ltr" class="form-control @error('email') is-invalid @enderror">
+                            <label for="exampleInputEmail1">Secret Key</label>
+                            <input type="text" value="{{ old('RECAPTCHA_SECRET',isset($items['RECAPTCHA_SECRET']) ? $items['RECAPTCHA_SECRET'] : '') }}" name="settings[RECAPTCHA_SECRET]" class="form-control @error('RECAPTCHA_SITE') is-invalid @enderror">
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -59,64 +49,16 @@
         <div class="col-lg-6">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0">{{ __('admin.socials') }}</h5>
+                    <h5 class="m-0">Faraz SMS</h5>
                 </div>
                 <form action="{{ route('admin.settings.store') }}" method="post">
                     @csrf
-                    <input type="hidden" name="type" value="social">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.telegram') }}</label>
-                            <input type="text" value="{{ old('telegram',isset($items['telegram']) ? $items['telegram'] : '') }}" name="settings[telegram]" class="form-control @error('telegram') is-invalid @enderror" dir="ltr">
+                            <label for="exampleInputEmail1">API Key</label>
+                            <input type="text" value="{{ old('FARAZ_SMS_API_KEY',isset($items['FARAZ_SMS_API_KEY']) ? $items['FARAZ_SMS_API_KEY'] : '') }}" name="settings[FARAZ_SMS_API_KEY]" class="form-control @error('FARAZ_SMS_API_KEY') is-invalid @enderror" dir="ltr">
                         </div>
 
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ 'Linkedin' }}</label>
-                            <input type="text" value="{{ old('linkedin',isset($items['linkedin']) ? $items['linkedin'] : '') }}" name="settings[linkedin]" class="form-control @error('linkedin') is-invalid @enderror" dir="ltr">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.instagram') }}</label>
-                            <input type="text" value="{{ old('instagram',isset($items['instagram']) ? $items['instagram'] : '') }}" name="settings[instagram]" class="form-control @error('instagram') is-invalid @enderror" dir="ltr">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.whatsapp') }}</label>
-                            <input type="text" value="{{ old('whatsapp',isset($items['whatsapp']) ? $items['whatsapp'] : '') }}" name="settings[whatsapp]" class="form-control @error('whatsapp') is-invalid @enderror" dir="ltr">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.twitter') }}</label>
-                            <input type="text" value="{{ old('twitter',isset($items['twitter']) ? $items['twitter'] : '') }}" name="settings[twitter]" class="form-control @error('twitter') is-invalid @enderror" dir="ltr">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">{{ __('admin.facebook') }}</label>
-                            <input type="text" value="{{ old('facebook',isset($items['facebook']) ? $items['facebook'] : '') }}" name="settings[facebook]" class="form-control @error('facebook') is-invalid @enderror" dir="ltr">
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('admin.apply').' '.__('admin.changes') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="m-0">Message User Login</h5>
-                </div>
-                <form action="{{ route('admin.settings.store') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="type" value="message_template">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">message template</label>
-                            <textarea name="settings[user_login]" class="editor form-control" rows="5">{{ old('user_login',$items['user_login'] ?? '') }}</textarea>
-                        </div>
                     </div>
                     <!-- /.card-body -->
 
@@ -129,16 +71,72 @@
         <div class="col-lg-6">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0">Message Doctor Login</h5>
+                    <h5 class="m-0">Perfect Money</h5>
                 </div>
                 <form action="{{ route('admin.settings.store') }}" method="post">
                     @csrf
-                    <input type="hidden" name="type" value="message_template">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">message template</label>
-                            <textarea name="settings[doctor_login]" class="editor form-control" rows="5">{{ old('doctor_login',$items['doctor_login'] ?? '') }}</textarea>
+                            <label for="exampleInputEmail1">Account</label>
+                            <input type="text" value="{{ old('PERFECTMONEY_ACC',isset($items['PERFECTMONEY_ACC']) ? $items['PERFECTMONEY_ACC'] : '') }}" name="settings[PERFECTMONEY_ACC]" class="form-control @error('PERFECTMONEY_ACC') is-invalid @enderror" dir="ltr">
                         </div>
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">{{ __('admin.apply').' '.__('admin.changes') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Coinpayments</h5>
+                </div>
+                
+                <form action="{{ route('admin.settings.store') }}" method="post">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Merchant</label>
+                            <input type="text" value="{{ old('COINPAYMENTS_MERCHANT',isset($items['COINPAYMENTS_MERCHANT']) ? $items['COINPAYMENTS_MERCHANT'] : '') }}" name="settings[COINPAYMENTS_MERCHANT]" class="form-control @error('COINPAYMENTS_MERCHANT') is-invalid @enderror" dir="ltr">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Secret</label>
+                            <input type="text" value="{{ old('COINPAYMENTS_SECRET',isset($items['COINPAYMENTS_SECRET']) ? $items['COINPAYMENTS_SECRET'] : '') }}" name="settings[COINPAYMENTS_SECRET]" class="form-control @error('COINPAYMENTS_SECRET') is-invalid @enderror" dir="ltr">
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">{{ __('admin.apply').' '.__('admin.changes') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Google login</h5>
+                </div>
+                
+                <form action="{{ route('admin.settings.store') }}" method="post">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Client Secret</label>
+                            <input type="text" value="{{ old('GOOGLE_CLIENT_SECRET',isset($items['GOOGLE_CLIENT_SECRET']) ? $items['GOOGLE_CLIENT_SECRET'] : '') }}" name="settings[GOOGLE_CLIENT_SECRET]" class="form-control @error('GOOGLE_CLIENT_SECRET') is-invalid @enderror" dir="ltr">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Client ID</label>
+                            <input type="text" value="{{ old('GOOGLE_CLIENT_ID',isset($items['GOOGLE_CLIENT_ID']) ? $items['GOOGLE_CLIENT_ID'] : '') }}" name="settings[GOOGLE_CLIENT_ID]" class="form-control @error('GOOGLE_CLIENT_ID') is-invalid @enderror" dir="ltr">
+                        </div>
+
+
                     </div>
                     <!-- /.card-body -->
 
@@ -150,74 +148,7 @@
         </div>
 
      
-        <div class="col-lg-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="m-0">Intro Text FA</h5>
-                </div>
-                <form action="{{ route('admin.settings.store') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="type" value="intro_simple_public">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">message</label>
-                            <textarea name="settings[intro_fa]" class="editor form-control" rows="5">{{ old('intro_fa',$items['intro_fa'] ?? '') }}</textarea>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('admin.apply').' '.__('admin.changes') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="m-0">Intro Text EN</h5>
-                </div>
-                <form action="{{ route('admin.settings.store') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="type" value="intro_simple_public">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">message</label>
-                            <textarea name="settings[intro_en]" class="editor form-control" rows="5">{{ old('intro_en',$items['intro_en'] ?? '') }}</textarea>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('admin.apply').' '.__('admin.changes') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="m-0">Map</h5>
-                </div>
-                <form action="{{ route('admin.settings.store') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="type" value="map">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label>Api Url</label>
-                            <input type="text" value="{{ old('api_map',isset($items['api_map']) ? $items['api_map'] : 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw') }}" name="settings[api_map]" class="form-control @error('api_map') is-invalid @enderror">
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">{{ __('admin.apply').' '.__('admin.changes') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+   
     </div>
 @endsection
 

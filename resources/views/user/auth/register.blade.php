@@ -271,10 +271,10 @@
 
                
 
-    <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ $settings['RECAPTCHA_SITE'] }}"></script>
     <script>
         grecaptcha.ready(function() {
-            grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
+            grecaptcha.execute('{{ $settings['RECAPTCHA_SITE'] }}', {
                     action: 'validate_captcha'
                 })
                 .then(function(token) {

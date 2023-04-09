@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +74,7 @@ class LoginController extends Controller
 
         $this->validator($request);
         if (session()->get("recaptcha")) {
-
+            $settings = Setting::pluck("value", "key");
 
             if (isset($request->g_recaptcha_response)) {
                 $captcha = $request->g_recaptcha_response;
@@ -84,7 +85,7 @@ class LoginController extends Controller
                 return redirect()->back()->withError("Wait while recaptcha is loading");
             } else {
                 $response = file_get_contents(
-                    "https://www.google.com/recaptcha/api/siteverify?secret=" . env("RECAPTCHA_SECRET") . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']
+                    "https://www.google.com/recaptcha/api/siteverify?secret=" . $settings["RECAPTCHA_SECRET"] . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']
                 );
                 $response = json_decode($response);
 

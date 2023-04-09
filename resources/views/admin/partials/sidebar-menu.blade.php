@@ -14,7 +14,8 @@
                 </a>
             </li>
             @role('admin')
-                <li class="nav-item has-treeview {{ request()->routeIs(['admin.users.*', 'admin.blocked-users.*']) ? 'menu-open' : '' }}">
+                <li
+                    class="nav-item has-treeview {{ request()->routeIs(['admin.users.*', 'admin.blocked-users.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
@@ -37,7 +38,7 @@
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>{{ __('admin.add') }} user</p>
                             </a>
-                        </li>   
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('admin.blocked-users.index') }}"
                                 class="nav-link {{ request()->routeIs(['admin.blocked-users.*']) ? 'active' : '' }}">
@@ -285,8 +286,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul
-                        class="nav nav-treeview {{ request()->routeIs(['admin.logs.*']) ? 'd-block' : 'display-none' }}">
+                    <ul class="nav nav-treeview {{ request()->routeIs(['admin.logs.*']) ? 'd-block' : 'display-none' }}">
 
                         <li class="nav-item">
                             <a href="{{ route('admin.logs.index') }}"
@@ -295,7 +295,7 @@
                                 <p>{{ __('admin.all') }} logs</p>
                             </a>
                         </li>
-                        
+
 
                     </ul>
                 </li>
@@ -342,6 +342,18 @@
                         </li>
 
                     </ul>
+                </li>
+            @endhasanyrole
+            @hasanyrole(['admin'])
+                <li class="nav-item has-treeview {{ request()->routeIs(['admin.settings.*']) ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.settings.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>
+                            Settings
+                           
+                        </p>
+                    </a>
+
                 </li>
             @endhasanyrole
             @hasanyrole(['admin', 'sale'])
@@ -397,7 +409,7 @@
                     </ul>
                 </li>
 
-             
+
 
                 <li class="mt-4  nav-item has-treeview {{ request()->routeIs(['admin.servers.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
