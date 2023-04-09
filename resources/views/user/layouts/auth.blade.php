@@ -1,37 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-100">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex" />
 
+    {{-- Base Meta Tags --}}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- Custom Meta Tags --}}
     @yield('meta_tags')
-    <title>@yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/main/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/main/app-dark.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/pages/auth.css') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.svg') }}" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}" type="image/png">
-    <link rel="stylesheet" href="{{ asset('admin-panel/libs/sweetalert2/sweetalert2.min.css') }}">
 
-</head>
-
-<body>
-    <script src="{{ asset('admin-panel/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/initTheme.js') }}"></script>
- 
-    <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
-
+    {{-- Title --}}
+    <title>
+        @yield('title', trans(config('admin.title')))
+    </title>
 
    
+    <link rel="stylesheet" href="{{ asset('admin-panel/libs/fontawesome-free/css/all.min.css') }}">
+    <link href="{{ asset('assets/css/auth/style.css') }}" rel="stylesheet" type="text/css">
 
-    <div id="auth">
-        @yield('content')
-    </div>
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.svg') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}" type="image/png">
 
-    
+    {{-- Custom Stylesheets --}}
+    @stack('admin_css')
+</head>
+
+
+<body id="kt_body" class="login-body">
+    @yield('content')
+
+   
+    @stack('admin_js')
 </body>
 
 </html>

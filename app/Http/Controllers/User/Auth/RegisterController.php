@@ -46,6 +46,33 @@ class RegisterController extends Controller
             "verification_code" => rand(99999, 999999),
         ]);
 
+
+
+        if (isset($request->g_recaptcha_response)) {
+            $captcha = $request->g_recaptcha_response;
+        } else {
+            $captcha = false;
+        }
+        if (!$captcha) {
+            return redirect()->back()->withError("Wait while recaptcha is loading");
+        } else {
+            $response = file_get_contents(
+                "https://www.google.com/recaptcha/api/siteverify?secret=" . env("RECAPTCHA_SECRET") . "&response=" . $captcha . "&remoteip=" . $_SERVER['REMOTE_ADDR']
+            );
+            $response = json_decode($response);
+
+            if ($response->success === false) {
+                return redirect()->back()->withError("Something went wrong with recaptcha");
+            }
+        }
+
+
+        if ($response->success == true && $response->score <= 0.5) {
+            return redirect()->back()->withError("Try again with recaptcha");
+        }
+
+
+
         $request->validate([
 
             "first_name" => "required",
@@ -54,7 +81,9 @@ class RegisterController extends Controller
             "password" => "required|min:6|same:password_confirm",
             "password_confirm" => "min:6",
         ]);
-      
+
+
+
 
         $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $code = "";
@@ -66,9 +95,9 @@ class RegisterController extends Controller
             "password" => Hash::make($request->password),
             "affiliate_code" => $code,
         ]);
-        if($request->affiliate){
+        if ($request->affiliate) {
             $parent = User::where("affiliate_code", $request->affiliate)->first();
-            if($parent){
+            if ($parent) {
                 $request->merge([
                     "parent_id" => $parent->id,
                 ]);
@@ -85,7 +114,7 @@ class RegisterController extends Controller
             $email = Email::where("type", EEmailType::Registration)->first();
             Mail::to($request->email)->send(new MailTemplate($email, (object)["user" => $create]));
             auth()->login($create);
-            if(!auth()->user()->wallet){
+            if (!auth()->user()->wallet) {
                 auth()->user()->wallet()->create();
             }
             return redirect()->route("panel.dashboard")->withSuccess(__("admin.congratulations"));

@@ -53,7 +53,7 @@
 
 
     @if ($errors->any())
-    echo 9;
+
         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
             <ul class="list-unstyled m-0">
                 @foreach ($errors->all() as $error)

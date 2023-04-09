@@ -3,86 +3,283 @@
 @section('title', __('admin.register'))
 
 @section('content')
-    <div class="row h-100">
-        <div class="col-lg-5 col-12">
-            <div id="auth-left">
-                <div class="auth-logo">
-                    <a href="/"><img src="{{ asset('assets/images/logo/wilivm-logo.png') }}" style="height: 100px;" alt="Wilivm" ></a>
-                </div>
-                <h1 class="auth-title">Sign Up</h1>
-                <p class="auth-subtitle mb-5">{{ __('admin.register_message') }}</p>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <h4 class="alert-heading">Error</h4>
-                        <p>
-                                <strong>{{ $errors->all()[0] }}</strong> <br>
-                        </p>
-                    </div>
-                @endif
+    
+<div id="alt-body">
+    <div id="login-container" class="container">
+        <div class="row">
+            <div class="login-right py-20 py-lg-40 d-flex flex-column align-items-center justify-content-center">
 
-                @if (session()->get('error'))
-                    <div class="alert alert-danger">
-                        <h4 class="alert-heading">Error</h4>
-                        <p>
-                            <strong>{{ session()->get('error') }}</strong> <br>
-                        </p>
+                <a href="/" target="_blank" id="logo" class="mb-0 mb-lg-30">
+                    <img draggable="false" class="img-responsive"
+                        src="{{ asset('assets/images/logo/wilivm-logo.png') }}" alt="Wilivm" width="150"
+                        height="auto">
+                </a>
+                
+                <div id="login-anime" class="d-none d-lg-block">
+                    <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/screen.svg" class="screen">
+                    <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/phone.svg" class="phone"
+                        style="transform: translateY(-3.82131%) translateX(-4.9229px);">
+                    <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/lock.svg" class="lock">
+                    <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/lock-unlocked.svg"
+                        class="lock-unlocked">
+                    <div class="pass">
+                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
+                            class="">
+                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
+                            class="">
+                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
+                            class="">
+                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
+                            class="invisible">
+                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
+                            class="invisible">
+                        <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
+                            class="invisible">
                     </div>
-                @endif
-
-                <form action="{{ route('panel.register') }}" method="post">
-                    @csrf
-                    <div class="form-group position-relative has-icon-left mb-4">
-                        <input name="email" type="text" value="{{old('email')}}" class="form-control form-control-xl" placeholder="Email" required>
-                        <div class="form-control-icon">
-                            <i class="bi bi-envelope"></i>
-                        </div>
-                    </div>
-                    <div class="form-group position-relative has-icon-left mb-4">
-                        <input name="first_name" type="text" value="{{old('first_name')}}" class="form-control form-control-xl" required
-                            placeholder="First name">
-                        <div class="form-control-icon">
-                            <i class="bi bi-person"></i>
-                        </div>
-                    </div>
-                    <div class="form-group position-relative has-icon-left mb-4">
-                        <input name="last_name" type="text" value="{{old('last_name')}}" class="form-control form-control-xl" placeholder="Last name" required>
-                        <div class="form-control-icon">
-                            <i class="bi bi-person"></i>
-                        </div>
-                    </div>
-                    <div class="form-group position-relative has-icon-left mb-4">
-                        <input name="affiliate" type="text" value="{{old('affiliate')}}" class="form-control form-control-xl" placeholder="Affiliate code (optional)">
-                        <div class="form-control-icon">
-                            <i class="bi bi-ticket-perforated"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group position-relative has-icon-left mb-4">
-                        <input name="password" type="password" class="form-control form-control-xl" placeholder="Password" required>
-                        <div class="form-control-icon">
-                            <i class="bi bi-shield-lock"></i>
-                        </div>
-                    </div>
-                    <div class="form-group position-relative has-icon-left mb-4">
-                        <input name="password_confirm" type="password" class="form-control form-control-xl"
-                            placeholder="Confirm Password" required>
-                        <div class="form-control-icon">
-                            <i class="bi bi-shield-lock"></i>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-4">Sign Up</button>
-                </form>
-                <div class="text-center mt-5 text-lg fs-6">
-                    <p class='text-gray-600'><a class="font-bold" href="{{ route('panel.login') }}"
-                            class="text-center">{{ __('admin.i_already_have_a_membership') }}</a>.</p>
                 </div>
+
+
+              
+
             </div>
-        </div>
-        <div class="col-lg-7 d-none d-lg-block">
-            <div id="auth-right" style="display: flex;justify-content: center">
-                <img src="{{asset("assets/illustration/login.svg")}}" style="max-height: 100vh;" alt="">
+            <div class="col bg-white login login-1 login-left login-signin-on" id="kt_login">
+
+                <div
+                    class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden px-7 py-7 py-lg-27 mx-auto">
+
+                    <div class="row justify-content-center mb-5">
+                        <div class="col-11 col-sm-7 col-md-5 col-lg-10 col-xl-9 px-xl-10">
+                            <div class="row">
+                                <div class="col-12">
+
+                                    @if (session('error'))
+                                        <div dir="ltr"
+                                            class="alert alert-custom flex-column align-items-center flex-sm-row alert-light-danger mb-5"
+                                            role="alert">
+
+                                            <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div class="alert-text pr-5 mb-5 mt-2 mb-sm-0 mt-sm-0 text-left">
+                                                <p class="m-0">{{ session('error') }}</p>
+                                            </div>
+                                            <div class="alert-close">
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+
+
+                                    @if ($errors->any())
+                                        <div dir="ltr"
+                                            class="alert alert-custom flex-column align-items-center flex-sm-row alert-light-danger mb-5"
+                                            role="alert">
+
+                                            <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div class="alert-text pr-5 mb-5 mt-2 mb-sm-0 mt-sm-0 text-left">
+                                                <p class="m-0">{{ $errors->first() }}</p>
+                                            </div>
+                                            <div class="alert-close">
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    {{-- Success Alert --}}
+                                    @if (session('success'))
+                                        <div dir="ltr"
+                                            class="alert alert-custom flex-column align-items-center flex-sm-row alert-light-success mb-5"
+                                            role="alert">
+
+                                            <div class="alert-icon"><i class="fas fa-check"></i>
+                                            </div>
+                                            <div class="alert-text pr-5 mb-5 mt-2 mb-sm-0 mt-sm-0 text-left">
+                                                <p class="m-0">{{ session('success') }}</p>
+                                            </div>
+                                            <div class="alert-close">
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column-fluid flex-center">
+
+                        <div class="login-form login-signin text-left">
+
+                            <div class="pb-10 pt-lg-0 pt-5">
+                                <h3 class="font-weight-bolder text-dark font-size-h4 mb-5">
+                                    Registeration
+                                </h3>
+                                <span class=" py-4">
+                                    <a href="{{ route('panel.login') }}" id="kt_login_signup"
+                                        class="text-warning font-weight-bolder mr-2">{{ __('admin.i_already_have_a_membership') }}</a></span>
+                            </div>
+
+                            <div id="email-login" class="">
+
+                                <form action="{{ route('panel.register') }}" method="post"
+                                    class="form fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate"
+                                    id="kt_login_signin_form">
+                                    @csrf
+
+                              
+                                        <div class="form-check form-check-lg d-flex align-items-end">
+                                            <input type="hidden" id="g_recaptcha_response"
+                                                name="g_recaptcha_response">
+                                            <input type="hidden" name="action" value="validate_captcha">
+                                        </div>
+                                    <div class="form-group fv-plugins-icon-container">
+                                        <div class="d-flex justify-content-between align-items-center mb-2"
+                                            style="float:left">
+                                            <label class="font-size-lg text-dark-50 mb-0  text-left"
+                                                for="signin-email">
+                                                Email</label>
+
+                                        </div>
+                                        <input
+                                            class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            type="text" id="signin-email" name="email" value="{{old('email')}}"
+                                            autocomplete="off">
+                                        <div class="fv-plugins-message-container"></div>
+                                    </div>
+
+
+                                    <div class="form-group fv-plugins-icon-container">
+                                        <div class="d-flex justify-content-between align-items-center mb-2"
+                                            style="float:left">
+                                            <label class="font-size-lg text-dark-50 mb-0  text-left"
+                                                for="signin-firstname">
+                                                First Name</label>
+
+                                        </div>
+                                        <input
+                                            class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            type="text" id="signin-firstname" name="first_name" value="{{old('first_name')}}"
+                                            autocomplete="off">
+                                        <div class="fv-plugins-message-container"></div>
+                                    </div>
+
+                                    <div class="form-group fv-plugins-icon-container">
+                                        <div class="d-flex justify-content-between align-items-center mb-2"
+                                            style="float:left">
+                                            <label class="font-size-lg text-dark-50 mb-0  text-left"
+                                                for="signin-lastname">
+                                                Last Name</label>
+
+                                        </div>
+                                        <input
+                                            class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            type="text" id="signin-lastname" name="last_name" value="{{old('last_name')}}"
+                                            autocomplete="off">
+                                        <div class="fv-plugins-message-container"></div>
+                                    </div>
+
+
+                                    <div class="form-group fv-plugins-icon-container">
+                                        <div class="d-flex justify-content-between align-items-center mb-2"
+                                            style="float:left">
+                                            <label class="font-size-lg text-dark-50 mb-0  text-left"
+                                                for="signin-affiliate">
+                                                Affiliate code (optional)</label>
+
+                                        </div>
+                                        <input
+                                            class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            type="text" id="signin-affiliate" name="affiliate" value="{{old('affiliate')}}"
+                                            autocomplete="off">
+                                        <div class="fv-plugins-message-container"></div>
+                                    </div>
+
+
+                                    <div class="form-group fv-plugins-icon-container">
+                                        <div class="d-flex justify-content-between align-items-center mb-2"
+                                            style="float:left">
+                                            <label class="font-size-lg text-dark-50 mb-0  text-left"
+                                                for="signin-password">
+                                               Password</label>
+
+                                        </div>
+                                        <input
+                                            class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            type="password" id="signin-password" name="password" value="{{old('password')}}"
+                                            autocomplete="off">
+                                        <div class="fv-plugins-message-container"></div>
+                                    </div>
+
+                                    <div class="form-group fv-plugins-icon-container">
+                                        <div class="d-flex justify-content-between align-items-center mb-2"
+                                            style="float:left">
+                                            <label class="font-size-lg text-dark-50 mb-0  text-left"
+                                                for="signin-password_confirm">
+                                               Confirm Password</label>
+
+                                        </div>
+                                        <input
+                                            class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            type="password" id="signin-password_confirm" name="password_confirm" value="{{old('password_confirm')}}"
+                                            autocomplete="off">
+                                        <div class="fv-plugins-message-container"></div>
+                                    </div>
+
+
+                                    <div class="pb-lg-0 pb-5">
+
+                                       
+                                        <button type="submit" id="kt_login_signin_submit"
+                                            class="btn btn-warning font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
+                                            Sign up
+                                        </button>
+                                    </div>
+
+                                    <input type="hidden">
+                                    <div></div>
+                                </form>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+                </div>
 
             </div>
         </div>
     </div>
+</div>
+
+               
+
+    <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE') }}"></script>
+    <script>
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ env('RECAPTCHA_SITE') }}', {
+                    action: 'validate_captcha'
+                })
+                .then(function(token) {
+                    document.getElementById('g_recaptcha_response').value = token;
+                });
+        });
+    </script>
 @endsection
