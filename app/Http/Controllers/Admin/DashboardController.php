@@ -34,10 +34,10 @@ class DashboardController extends Controller
                     break;
                 }
                 try{
-                    $data[$order->date] += $order->price - $order->discount; 
+                    $data[$order->date] += round($order->price - $order->discount, 2); 
     
                 }catch(\Exception $e){
-                    $data[$order->date] = 0; 
+                    $data[$order->date] =  round($order->price - $order->discount, 2); 
     
                 }
             }
