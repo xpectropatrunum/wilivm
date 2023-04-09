@@ -26,6 +26,10 @@
                     <h3 class="card-title">users</h3>
 
                 </div>
+
+                <div class="px-3 mt-2"> <a href="{{ route('admin.users.excel') }}"><button
+                            type="button" class="btn btn-primary">{{ __('Download Excel') }}</button></a>
+                </div>
                 <div class="card-body p-3">
                     <form class="frm-filter" action="{{ route('admin.users.index') }}" type="post" autocomplete="off">
                         @csrf
@@ -150,7 +154,7 @@
 @push('admin_js')
     <script>
         $(function() {
-         
+
             $('.changeStatus2').on('change', function() {
                 id = $(this).attr('data-id');
 

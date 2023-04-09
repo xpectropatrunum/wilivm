@@ -195,6 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -211,7 +212,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'MyHelper' => App\Helpers\MyHelper::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
 
     ])->toArray(),

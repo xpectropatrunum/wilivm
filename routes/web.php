@@ -87,6 +87,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::post('users/status/{user}', [UserController::class, "changeStatus"])->name("users.status");
         Route::get('users/login/{user}', [UserController::class, "loginAsUser"])->name("users.login");
         Route::post('users/verify/{user}', [UserController::class, "changeVerify"])->name("users.verify");
+        Route::get('users/excel/dl', [UserController::class, "excel"])->name("users.excel");
 
         Route::resource('roles', RolesController::class);
         Route::resource('permissions', PermissionsController::class);
@@ -105,6 +106,8 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
 
         Route::resource('orders', OrderController::class);
+        Route::get('orders/excel/dl', [OrderController::class, "excel"])->name("orders.excel");
+
         Route::resource('emails', EmailController::class);
         Route::post('emails/status/{email}', [EmailController::class, "changeStatus"])->name("emails.status");
         Route::post('emails/eval', [EmailController::class, "evalTemplate"])->name("emails.eval");

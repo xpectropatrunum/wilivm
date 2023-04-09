@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Str;
-
+use App\Http\Controllers\Admin\Excel\Orders as Orders;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Mail;
@@ -53,6 +54,33 @@ class OrderController extends Controller
 
         return view('admin.pages.orders.index', compact('items', 'search', 'limit'));
     }
+
+    public function excel(Request $request)
+    {
+        $search = "";
+        $limit = 10;
+        $query = Order::latest();
+
+
+        if ($request->search) {
+            $searching_for = $request->search;
+            $search = $request->search;
+            $query = $query->where("name", "like", "%$searching_for%")
+                ->orWhere("email", "like", "%$searching_for%");
+        }
+
+        if ($request->limit) {
+            $limit = $request->limit;
+        }
+
+
+        $items = $query;
+        $time = time();
+
+
+
+        return Excel::download(new Orders($items->get()), "orders_{$time}.xlsx");
+    }
     function destroy(Order $order)
     {
         if ($order->delete()) {
@@ -65,7 +93,7 @@ class OrderController extends Controller
         $request->merge([
             "label_ids" => json_encode($request->label_ids)
         ]);
-      
+
         $updated = $order->service->update($request->only("username", "password", "ip", "status", "label_ids"));
         $order->update($request->only("label_ids"));
         if ($updated) {

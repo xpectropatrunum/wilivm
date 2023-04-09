@@ -1,4 +1,3 @@
-
 @extends('user.layouts.auth')
 
 @section('title', __('admin.sign_in'))
@@ -12,9 +11,8 @@
                 <div class="login-right py-20 py-lg-40 d-flex flex-column align-items-center justify-content-center">
 
                     <a href="/" target="_blank" id="logo" class="mb-0 mb-lg-30">
-                        <img draggable="false" class="img-responsive"
-                            src="{{ asset('assets/images/logo/wilivm-logo.png') }}" alt="Wilivm" width="150"
-                            height="auto">
+                        <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wilivm-logo.png') }}"
+                            alt="Wilivm" width="150" height="auto">
                     </a>
 
 
@@ -26,12 +24,9 @@
                         <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/lock-unlocked.svg"
                             class="lock-unlocked">
                         <div class="pass">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
-                                class="">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
-                                class="">
-                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
-                                class="">
+                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg" class="">
+                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg" class="">
+                            <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg" class="">
                             <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
                                 class="invisible">
                             <img src="https://dashboard.azaronline.com/img/dashboard/login/anime/pass.svg"
@@ -126,9 +121,8 @@
                                     <h3 class="font-weight-bolder text-dark font-size-h4 mb-5">
                                         Log in
                                     </h3>
-                                    <span class=" py-4">
-                                        <a href="{{ route('panel.register') }}" id="kt_login_signup"
-                                            class="text-warning font-weight-bolder mr-2">{{ __('admin.register_a_new_membership') }}</a></span>
+                                    <p class="">{{ __('admin.login_message') }}</p>
+
                                 </div>
 
                                 <div id="email-login" class="">
@@ -180,9 +174,14 @@
                                                 <span class="mr-2"></span>
 
                                             </label>
-                                            <a href="{{ route('panel.forget') }}"
-                                                class="font-size-lg text-dark-50 text-hover-warning"
-                                                id="kt_login_forgot"> {{ __('admin.i_forgot_my_password') }}</a>
+
+                                            <div dir="ltr"> <a href=" {{ route('panel.register') }}"
+                                                    class="font-size-lg text-dark-50 text-hover-warning"
+                                                    id="kt_login_forgot"> Signup</a> / <a
+                                                    href="{{ route('panel.forget') }}"
+                                                    class="font-size-lg text-dark-50 text-hover-warning"
+                                                    id="kt_login_forgot"> Forget Password?</a></div>
+
                                         </div>
 
 
@@ -192,8 +191,8 @@
                                                 class="btn btn-light font-weight-bold px-6 py-3 my-3 font-size-lg">
                                                 <span class="svg-icon svg-icon-md">
 
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                                        height="20" viewBox="0 0 20 20" fill="none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                        viewBox="0 0 20 20" fill="none">
                                                         <path
                                                             d="M19.9895 10.1871C19.9895 9.36767 19.9214 8.76973 19.7742 8.14966H10.1992V11.848H15.8195C15.7062 12.7671 15.0943 14.1512 13.7346 15.0813L13.7155 15.2051L16.7429 17.4969L16.9527 17.5174C18.879 15.7789 19.9895 13.221 19.9895 10.1871Z"
                                                             fill="#4285F4"></path>

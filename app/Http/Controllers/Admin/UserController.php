@@ -16,6 +16,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
+use App\Http\Controllers\Admin\Excel\Users as Users;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -56,7 +58,39 @@ class UserController extends Controller
         return view('admin.pages.users.index', compact('items', 'search', 'limit'));
     }
 
-    
+    public function excel(Request $request)
+    {
+        $search = "";
+        $limit = 10;
+        $query = User::latest();
+
+
+        if ($request->search) {
+            $search = $request->search;
+            if(is_numeric($search)){
+                $query = $query
+                ->where("id", $search);
+            }else{
+                $query = $query
+                ->where("first_name", $search)
+                ->orWhere("last_name", $search)
+                ->orWhere("email", $search);
+            }
+          
+        }
+
+        if ($request->limit) {
+            $limit = $request->limit;
+        }
+
+        $items = $query;
+        $time = time();
+
+
+
+        return Excel::download(new Users($items->get()), "users_{$time}.xlsx");
+    }
+
     public function loginAsUser(User $user)
     {
         auth()->guard("web")->login($user);

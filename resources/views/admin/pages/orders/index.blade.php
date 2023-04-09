@@ -26,6 +26,10 @@
                     <h3 class="card-title">orders</h3>
 
                 </div>
+
+                <div class="px-3 mt-2"> <a href="{{ route('admin.orders.excel') }}"><button type="button"
+                            class="btn btn-primary">{{ __('Download Excel') }}</button></a>
+                </div>
                 <div class="card-body p-3">
                     <form class="frm-filter" action="{{ route('admin.orders.index') }}" type="post" autocomplete="off">
                         @csrf
@@ -85,7 +89,7 @@
                                         <td>{{ $item->service->location_->name }}</td>
                                         <td>{{ $item->cycle }} Months</td>
                                         <td>{{ $item->created_at }}</td>
-                                        <td>{{ date("Y-m-d H:i", $item->expires_at) }}</td>
+                                        <td>{{ date('Y-m-d H:i', $item->expires_at) }}</td>
                                         <td>
 
 
@@ -109,7 +113,6 @@
                                                 <span class="badge bg-danger">Canceled</span>
                                             @else
                                                 <span class="badge bg-warning">not set</span>
-
                                             @endif
 
                                         </td>
