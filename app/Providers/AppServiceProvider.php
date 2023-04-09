@@ -35,8 +35,9 @@ class AppServiceProvider extends ServiceProvider
 
 
             View::composer('*', function ($view) use ($request) {
+                $settings = Setting::pluck("value", "key");
                 if (auth()->check()) {
-                    $settings = Setting::pluck("value", "key");
+                   
 
 
 
@@ -70,9 +71,11 @@ class AppServiceProvider extends ServiceProvider
                         ],
 
                     ])->toJson());
-
-                    $view->with(compact('menus', 'settings'));
+                    $view->with(compact('menus'));
+                 
                 }
+                $view->with(compact('settings'));
+
             });
         } else {
             View::composer('*', function ($view) use ($request) {
