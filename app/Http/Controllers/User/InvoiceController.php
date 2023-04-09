@@ -68,6 +68,9 @@ class InvoiceController extends Controller
         $request->validate([
             "method" => "required"
         ]);
+        if($order->status){
+            abort(404);
+        }
         if ($request->method == 1) {
 
             return ["success" => 1, "next" => "pm"];
