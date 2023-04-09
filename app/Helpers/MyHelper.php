@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Enums\ESmsType;
 use App\Models\Admin;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Log;
 
 class MyHelper
@@ -104,10 +105,11 @@ class MyHelper
                     break;
             }
            
+            $settings = Setting::pluck("value", "key");
 
 
             try {
-                $url = "http://ippanel.com:8080/?apikey=" . env("FARAZ_SMS_API_KEY") . $append;
+                $url = "http://ippanel.com:8080/?apikey=" . $settings["FARAZ_SMS_API_KEY"] . $append;
                 $handler = curl_init($url);
                 curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                 $response2 = curl_exec($handler);
