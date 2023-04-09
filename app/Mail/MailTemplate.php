@@ -36,7 +36,7 @@ class MailTemplate extends Mailable
         } elseif ($email->type == EEmailType::New_invoice) {
             $this->template = view(['template' => $email->template], ['user' => $data->user, 'server' => $data->server]) . "";
         }
-        elseif ($email->type == EEmailType::Payed_invoice || $email->type == EEmailType::Deploying_server) {
+        elseif ($email->type == EEmailType::Paid_invoice || $email->type == EEmailType::Deploying_server) {
             $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
         }
         $this->title = $email->title;
