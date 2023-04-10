@@ -3447,23 +3447,23 @@ fieldset:disabled a.btn {
 
 .btn-success {
     color: #fff;
-    background-color: #1bc5bd;
-    border-color: #1bc5bd;
+    background-color: #23a455;
+    border-color: #23a455;
     -webkit-box-shadow: none;
     box-shadow: none
 }
 
 .btn-success:hover {
     color: #fff;
-    background-color: #16a39d;
-    border-color: #159892
+    background-color: #186e39;
+    border-color: #186e39
 }
 
 .btn-success.focus,
 .btn-success:focus {
     color: #fff;
-    background-color: #16a39d;
-    border-color: #159892;
+    background-color: #23a455;
+    border-color: #23a455;
     -webkit-box-shadow: 0 0 0 .2rem rgba(61, 206, 199, .5);
     box-shadow: 0 0 0 .2rem rgba(61, 206, 199, .5)
 }
@@ -91864,7 +91864,8 @@ html {
 }
 
 .btn.btn-wili.focus:not(.btn-text),
-.btn.btn-wili:focus:not(.btn-text) {
+.btn.btn-wili:focus:not(.btn-text),
+{
     color: #fff;
     background-color: #051367;
     border-color: #051367;
