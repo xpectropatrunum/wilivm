@@ -54732,8 +54732,8 @@ button {
 .btn.btn-success:focus:not(.btn-text),
 .btn.btn-success:hover:not(.btn-text):not(:disabled):not(.disabled) {
     color: #fff;
-    background-color: #0f552a;
-    border-color: #0f552a
+    background-color: #23a455;
+    border-color: #23a455
 }
 
 .btn.btn-success.focus:not(.btn-text) i,
