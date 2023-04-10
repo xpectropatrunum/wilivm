@@ -173,7 +173,7 @@
                                         <div class="pb-lg-0 pb-5">
 
                                             <a href="{{ route('redirect.google') }}"
-                                                class="btn btn-success font-weight-bold px-6 py-3 my-3 font-size-lg">
+                                                class="btn btn-light font-weight-bold px-6 py-3 my-3 font-size-lg">
                                                 <span class="svg-icon svg-icon-md">
 
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
