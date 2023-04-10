@@ -195,7 +195,7 @@
                                                 </span> {{ __('Google') }}
                                             </a>
                                             <button type="submit" id="kt_login_signin_submit"
-                                                class="btn btn-wili font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
+                                                class="btn btn-success font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
                                                 Login
                                             </button>
                                         </div>
