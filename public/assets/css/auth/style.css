@@ -54705,8 +54705,8 @@ button {
 
 .btn.btn-success {
     color: #fff;
-    background-color: #1bc5bd;
-    border-color: #1bc5bd
+    background-color: #23a455;
+    border-color: #23a455
 }
 
 .btn.btn-success i {
@@ -54732,8 +54732,8 @@ button {
 .btn.btn-success:focus:not(.btn-text),
 .btn.btn-success:hover:not(.btn-text):not(:disabled):not(.disabled) {
     color: #fff;
-    background-color: #0bb7af;
-    border-color: #0bb7af
+    background-color: #0f552a;
+    border-color: #0f552a
 }
 
 .btn.btn-success.focus:not(.btn-text) i,
