@@ -25,7 +25,7 @@ class LoginController extends Controller
             $fieldType => $request->username
         ]);
 
-        if (Auth::guard('admin')->attempt($request->only($fieldType, 'password'), $request->filled('remember'))) {
+        if (Auth::guard('admin')->attempt($request->only($fieldType, 'password'))) {
             return redirect()
                 ->intended(route('admin.dashboard'))
                 ->with('status', __('admin.login_success'));
