@@ -115,7 +115,7 @@
                                     <form action="{{ route('panel.login.attemp') }}" method="post"
                                         class="form fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate"
                                         id="kt_login_signin_form">
-                                        @csrf
+                                 
 
                                         @if (session('recaptcha'))
                                             <div class="form-check form-check-lg d-flex align-items-end">
