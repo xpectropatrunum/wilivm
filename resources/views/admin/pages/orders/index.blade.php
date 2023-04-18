@@ -80,11 +80,11 @@
                             <tbody>
                                 @foreach ($items as $item)
                                 @php
-                                if ($item->status == \App\Enums\EServiceType::Deploying) {
-                                    $minutes_past = $item->order ? round((time() - strtotime($item->order->updated_at)) / 60) : 24 * 60;
+                                if ($item->service->status == \App\Enums\EServiceType::Deploying) {
+                                    $minutes_past = $item->service->order ? round((time() - strtotime($item->service->order->updated_at)) / 60) : 24 * 60;
                                     if ($minutes_past >= 24 * 60) {
-                                        $item->status = \App\Enums\EServiceType::Cancelled;
-                                        $item->save();
+                                        $item->service->status = \App\Enums\EServiceType::Cancelled;
+                                        $item->service->save();
                                     }
                                 }
                                 @endphp
