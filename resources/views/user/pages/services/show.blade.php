@@ -95,7 +95,7 @@
                                     </tr>
                                     <tr>
                                         <th>Password</th>
-                                        <td>{{ $service->password }}</td>
+                                        <td>Emailed</td>
                                     </tr>
                                 </tbody>
 
