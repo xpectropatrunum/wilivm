@@ -119,7 +119,7 @@
                                     <div class="col-12 text-left">
                                         @foreach (config('admin.deploying_status') as $item)
                                             @php
-                                                $minutes_past = $service->order ? round((time() - strtotime($service->order->updated_at)) / 60) : 1000;
+                                                $minutes_past = $service->order ? round((time() - strtotime($service->order->updated_at)) / 60) : 24*60;
                                             @endphp
                                             @if ($minutes_past <= $item->time)
                                                 {{ $item->status }} ({{ $item->progress }}%)

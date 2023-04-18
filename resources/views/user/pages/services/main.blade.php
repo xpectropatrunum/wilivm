@@ -44,6 +44,16 @@
                         </thead>
                         <tbody>
                             @foreach (auth()->user()->services()->where('status', '!=', '1')->latest()->get() as $key => $item)
+                                @php
+                                    
+                                    if ($item->status == \App\Enums\EServiceType::Deploying) {
+                                        $minutes_past = $item->order ? round((time() - strtotime($item->order->updated_at)) / 60) : 24 * 60;
+                                        if ($minutes_past >= 24 * 60) {
+                                            $item->status = \App\Enums\EServiceType::Cancelled;
+                                            $item->save();
+                                        }
+                                    }
+                                @endphp
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->type }}</td>
@@ -52,21 +62,25 @@
                                     <td>{{ $item->os_->name }}</td>
                                     <td>
                                         @if ($item->status == 2)
-                                            <span class="badge bg-success">{{App\Enums\EServiceType::getKey($item->status)}}</span>
+                                            <span
+                                                class="badge bg-success">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                         @elseif ($item->status == 5)
-                                            <span class="badge bg-warning">{{App\Enums\EServiceType::getKey($item->status)}}</span>
+                                            <span
+                                                class="badge bg-warning">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                         @elseif ($item->status == 3)
-                                            <span class="badge bg-danger">{{App\Enums\EServiceType::getKey($item->status)}}</span>
+                                            <span
+                                                class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                         @elseif ($item->status == 4)
-                                            <span class="badge bg-danger">{{App\Enums\EServiceType::getKey($item->status)}}</span>
+                                            <span
+                                                class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                         @endif
                                     </td>
                                     <td>{{ MyHelper::due($item->order) }}</td>
                                     <td> <a href="{{ route('panel.services.show', $item->id) }}"
                                             class="btn btn-outline-primary">
-                                    {{--  <i class="bi bi-speedometer"></i>  --}}
-                                    
-                                    Manage Service</a>
+                                            {{--  <i class="bi bi-speedometer"></i>  --}}
+
+                                            Manage Service</a>
                                     </td>
                                 </tr>
                             @endforeach
