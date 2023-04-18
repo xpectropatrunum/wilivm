@@ -197,7 +197,7 @@
                     </div>
 
 
-                    @if ($service->status != App\Enums\EServiceType::Deploying)
+                    @if ($service->status != App\Enums\EServiceType::Deploying || $service->status != App\Enums\EServiceType::Cancelled)
 
                     <div class="card">
                         <div class="card-header">
