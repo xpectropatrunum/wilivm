@@ -42,13 +42,15 @@
                                     </tr>
                                     <tr>
                                         <th>Registration Link </th>
-                                        <td><i class="fas fa-copy"></i><span>https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span></td>
+                                        <td><i
+                                                class="fas fa-copy pr-1 copy-btn"></i><span>https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Registered Users </th>
                                         <td>{{ auth()->user()->childrens()->count() }}</td>
                                     </tr>
-                                  
+
                                 </tbody>
 
                             </table>
@@ -73,7 +75,22 @@
         table tbody td:nth-child(2) {
             text-align: right
         }
+
+        .copy-btn {
+            cursor: pointer;
+        }
     </style>
 @endpush
 @push('admin_js')
+    <script>
+        $(".copy-btn").click(() => {
+            var text = "https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}";
+            navigator.clipboard.writeText(text).then(function() {
+                alert("Copied")
+            }, function(err) {
+               // console.error('Async: Could not copy text: ', err);
+            });
+
+        })
+    </script>
 @endpush
