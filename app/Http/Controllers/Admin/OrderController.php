@@ -51,7 +51,7 @@ class OrderController extends Controller
         }
 
         foreach($query->get() as $item){
-            if(round((strtotime(MyHelper::due($item->order)) - time()) / 86400) < 0){
+            if( $item->service->status  == EServiceType::Active && round((strtotime(MyHelper::due($item)) - time()) / 86400) < 0){
                 $item->service->status = EServiceType::Expired;
                 $item->service->save();
             }
