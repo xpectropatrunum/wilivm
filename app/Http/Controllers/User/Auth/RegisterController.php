@@ -19,8 +19,11 @@ use Intervention\Image\Facades\Image;
 class RegisterController extends Controller
 {
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(Request $request)
     {
+        if ($request->ref) {
+            return view("user.auth.register")->with("ref", $request->ref);
+        }
         return view("user.auth.register");
     }
 

@@ -14,11 +14,12 @@ use Socialite;
 class LoginController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->guard('web')->check()) {
             return redirect()->route("panel.dashboard");
         }
+        
         return view("user.auth.login");
     }
     public function redirectToGoogle()
@@ -44,7 +45,7 @@ class LoginController extends Controller
                 return redirect()->back();
             } else {
 
-              
+
                 $newUser = User::create([
 
                     'first_name' => $user->user["given_name"],
@@ -58,7 +59,7 @@ class LoginController extends Controller
                 ]);
 
                 Auth::login($newUser);
-                if(!$newUser->wallet){
+                if (!$newUser->wallet) {
                     $newUser->wallet()->create();
                 }
                 return redirect()->back();
