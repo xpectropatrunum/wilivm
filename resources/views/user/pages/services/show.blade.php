@@ -53,6 +53,10 @@
                             border-spacing: 6px;">
                                 <tbody>
                                     <tr>
+                                        <th>Expire Date</th>
+                                        <td>{{MyHelper::due($service->order)}} ({{round((strtotime(MyHelper::due($service->order)) - time()) / 86400)}} Days left)</td>
+                                    </tr>
+                                    <tr>
                                         <th>Type</th>
                                         <td>{{ $service->type }}</td>
                                     </tr>
@@ -197,7 +201,7 @@
                     </div>
 
 
-                    @if ($service->status != App\Enums\EServiceType::Deploying || $service->status != App\Enums\EServiceType::Cancelled)
+                    @if ($service->status != App\Enums\EServiceType::Deploying && $service->status != App\Enums\EServiceType::Cancelled)
 
                     <div class="card">
                         <div class="card-header">
@@ -206,7 +210,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12 text-left">
-                                    Your service will expire at {{MyHelper::due($service->order)}}. You could renew it before expiration.
+                                    Your service will be expired at {{MyHelper::due($service->order)}}. You could renew it before expiration.
                                     <div class="dropdown mt-2 text-right" > 
                                         <button class="btn btn-outline-primary btn mb-2" style="float:right" type="button"
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" style="min-width: 150px"
