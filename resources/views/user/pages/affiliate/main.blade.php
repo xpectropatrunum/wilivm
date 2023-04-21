@@ -25,7 +25,7 @@
         <section class="section">
 
             <div class="row" style="justify-content: center">
-                <div class="col-md-6 col-12 p-3 ">
+                <div class="col-12 p-3 ">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <h4>Account Status</h4>
@@ -43,7 +43,7 @@
                                     <tr>
                                         <th>Registration Link </th>
                                         <td><i
-                                                class="fas fa-copy pr-1 copy-btn"></i><span>https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span>
+                                                class="fas fa-copy mr-1 copy-btn"></i><span>https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span>
                                         </td>
                                     </tr>
                                     <tr>
