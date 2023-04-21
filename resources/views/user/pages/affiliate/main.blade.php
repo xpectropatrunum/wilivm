@@ -43,7 +43,7 @@
                                     <tr>
                                         <th>Registration Link </th>
                                         <td><i
-                                                class="fas fa-copy mr-1 copy-btn"></i><span>https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span>
+                                                class="fas fa-copy copy-btn"></i><span style="margin-left: 5px">https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span>
                                         </td>
                                     </tr>
                                     <tr>
