@@ -50,13 +50,7 @@ class ServerController extends Controller
             $limit = $request->limit;
         }
 
-        foreach($query->get() as $item){
-            if(round((strtotime(MyHelper::due($item->order)) - time()) / 86400) < 0){
-                $item->status = EServiceType::Expired;
-                $item->save();
-            }
-        }
-
+      
         $items = $query->paginate($limit);
 
 

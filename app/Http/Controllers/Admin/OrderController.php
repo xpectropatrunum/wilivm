@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\ENotificationType;
+use App\Enums\EServiceType;
 use App\Helpers\ApiHelper;
+use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderDelivered;
 use App\Models\DoctorSpecialty;
@@ -46,6 +48,13 @@ class OrderController extends Controller
 
         if ($request->limit) {
             $limit = $request->limit;
+        }
+
+        foreach($query->get() as $item){
+            if(round((strtotime(MyHelper::due($item->order)) - time()) / 86400) < 0){
+                $item->status = EServiceType::Expired;
+                $item->save();
+            }
         }
 
         $items = $query->paginate($limit);
