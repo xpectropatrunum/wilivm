@@ -24,7 +24,7 @@
         </div>
         <section class="section">
 
-            <div class="row">
+            <div class="row" style="justify-content: center">
                 <div class="col-md-6 col-12 p-3 ">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
@@ -39,6 +39,10 @@
                                     <tr>
                                         <th>Your Affiliate Code </th>
                                         <td>{{ auth()->user()->affiliate_code }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Registration Link </th>
+                                        <td><i class="fas fa-copy"></i><span>https://my.wilivm.com/register?ref={{ auth()->user()->affiliate_code }}</span></td>
                                     </tr>
                                     <tr>
                                         <th>Registered Users </th>

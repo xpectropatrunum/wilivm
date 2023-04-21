@@ -103,7 +103,7 @@
 
                             <div class="pb-10 pt-lg-0 pt-5">
                                 <h3 class="font-weight-bolder text-dark font-size-h4 mb-5">
-                                    Registeration
+                                    Registration
                                 </h3>
                                 <span class=" py-4">
                                     <a href="{{ route('panel.login') }}" id="kt_login_signup"
