@@ -34,7 +34,11 @@
                         <div class="card-body">
 
 
-                            <span>Balance:</span>
+                            <span style="    margin-top: 0;
+                            margin-bottom: 0.5rem;
+                            font-weight: 700;
+                            line-height: 1.2;
+                            color: #25396f;">Balance:</span>
                             <span>${{ auth()->user()->wallet->balance }}</span>
 
                             <form class="deposit-form mt-3" action="{{ route('panel.wallet.deposit') }}" method="POST">

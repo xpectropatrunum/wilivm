@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Http;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Admin\Excel\Orders as Orders;
+use App\Models\Server;
+use App\Models\ServerPlan;
+use App\Models\ServerType;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -50,8 +53,8 @@ class OrderController extends Controller
             $limit = $request->limit;
         }
 
-        foreach($query->get() as $item){
-            if( $item->service->status  == EServiceType::Active && round((strtotime(MyHelper::due($item)) - time()) / 86400) < 0){
+        foreach ($query->get() as $item) {
+            if ($item->service->status  == EServiceType::Active && round((strtotime(MyHelper::due($item)) - time()) / 86400) < 0) {
                 $item->service->status = EServiceType::Expired;
                 $item->service->save();
             }
@@ -63,7 +66,35 @@ class OrderController extends Controller
 
         return view('admin.pages.orders.index', compact('items', 'search', 'limit'));
     }
+    public function props($type, $plan)
+    {
+        $type_id = ServerType::where("name", $type)->first()->id;
+        $plan_id = ServerPlan::where("name", $plan)->first()->id;
+        $server = Server::where(["server_type_id" => $type_id, "server_plan_id" =>  $plan_id])->first();
+        return ["os" => $server->os, "location" => $server->locations];
+    }
+    public function create_for_user(User $user)
+    {
+        $labels = OrderLabel::where("enable", 1)->get();
+        return view("admin.pages.orders.create", compact("user", "labels"));
+    }
+    function store(Request $request, User $user)
+    {
+        $request->merge([
+            "label_ids" => json_encode($request->label_ids)
+        ]);
 
+        $server = Server::create($request->only("username", "password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
+        if($server)
+        $order->update($request->only("label_ids"));
+        if ($order) {
+            if ($request->inform) {
+                Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
+            }
+            return redirect()->route("admin.orders.index")->withSuccess("Order is created successfully!");
+        }
+        return redirect()->back()->withError("Something went wrong");
+    }
     public function excel(Request $request)
     {
         $search = "";
@@ -103,7 +134,7 @@ class OrderController extends Controller
             "label_ids" => json_encode($request->label_ids)
         ]);
 
-        $updated = $order->service->update($request->only("username", "password", "ip", "status", "label_ids"));
+        $updated = $order->service->update($request->only("username", "password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
         $order->update($request->only("label_ids"));
         if ($updated) {
             if ($request->inform) {

@@ -66,6 +66,8 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
+        '2fa_user' => \App\Http\Middleware\User2FA::class,
 
     ];
 }

@@ -6,7 +6,7 @@
 @section('content')
 
 
- 
+
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
@@ -29,7 +29,7 @@
             <div class="row match-height">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header pb-0">
                             <h4 class="card-title">Personal information</h4>
                         </div>
                         <div class="card-content">
@@ -138,12 +138,52 @@
                 </div>
             </div>
         </section>
-
         <section>
             <div class="row match-height">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header pb-0">
+                            <h4 class="card-title">2-Factor Authentication</h4>
+                            <p class="text-subtitle text-muted">Improve your account security using google authenticator.</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form" method="POST" action="{{ route('panel.settings.2fa') }}">
+                                    @csrf
+                                  
+                                    <div class="row">
+                                        @if (auth()->user()->google2fa_secret)
+                                        {!! $QR_Image ?? session('QR_Image') !!}
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-danger me-1 mb-1">
+                                                    Disable
+                                                </button>
+
+                                            </div>
+                                        @else
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button type="submit" class="btn btn-primary me-1 mb-1">
+                                                    Enable
+                                                </button>
+
+                                            </div>
+                                        @endif
+
+
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="row match-height">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
                             <h4 class="card-title">Security</h4>
                         </div>
                         <div class="card-content">

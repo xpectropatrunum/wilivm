@@ -82,11 +82,12 @@ class InvoiceController extends Controller
 
             auth()->user()->wallet->balance -= ($order->price  - $order->discount);
             $s1 = auth()->user()->wallet->save();
-            $s2 = auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Minus, "amount" => $order->price, "tx_id" => 0]);
+            $s2 = auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Minus, "amount" => $order->price, "tx_id" => $order->transactions()->latest()->first()->id]);
 
             if ($s1 && $s2) {
                 $transaction =  $order->transactions()->latest()->first();
                 $transaction->status = 1;
+                $transaction->method = "wallet";
                 $transaction->save();
                 if ($order->service->status != EServiceType::Active) {
                     $order->service->status = EServiceType::Deploying;

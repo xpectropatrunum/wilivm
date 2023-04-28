@@ -74,9 +74,16 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
 
     Route::get('login', [LoginController::class, 'index'])->name("login");
+    Route::get('2fa', [LoginController::class, '_2fa'])->name("2fa");
+
     Route::post('logout', [LoginController::class, 'logout'])->name("logout");
     Route::post('login/attemp', [LoginController::class, 'loginAttemp'])->name("login.attemp");
-    Route::group(['middleware' => ['auth:admin', 'permission']], function () {
+    Route::group(['middleware' => ['auth:admin', '2fa']], function () {
+
+        Route::post('2fa', function () {
+            return redirect(route('admin.dashboard'));
+        })->name('2fa');
+
         Route::get('dashboard', [DashboardController::class, 'index'])->name("dashboard");
         Route::post('search', [DashboardController::class, 'search'])->name("dashboard.search");
 
@@ -107,6 +114,9 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
         Route::resource('orders', OrderController::class);
         Route::get('orders/excel/dl', [OrderController::class, "excel"])->name("orders.excel");
+        Route::get('orders/props/{type}/{plan}', [OrderController::class, "props"])->name("orders.props");
+        Route::get('orders/create/{user}', [OrderController::class, "create_for_user"])->name("orders.create_for_user");
+        Route::post('orders/store/{user}', [OrderController::class, "store"])->name("orders.new");
 
         Route::resource('emails', EmailController::class);
         Route::post('emails/status/{email}', [EmailController::class, "changeStatus"])->name("emails.status");
@@ -161,12 +171,16 @@ Route::name("panel.")->group(function () {
     Route::post('forget/attemp', [ForgotPasswordController::class, 'attemp'])->name("forget.attemp");
 
 
-    Route::middleware('auth:web')->group(function () {
+    Route::middleware(['auth:web', '2fa_user'])->group(function () {
+        Route::post('2fa', function () {
+            return redirect(route('panel.dashboard'));
+        })->name('2fa');
         Route::get('dashboard', [UserDashboardController::class, 'index'])->name("dashboard");
         Route::get('services', [ServiceController::class, 'index'])->name("services");
         Route::get('service-request/{service}/{request}', [ServiceController::class, 'request'])->name("services.request");
         Route::get('services/{service}', [ServiceController::class, 'show'])->name("services.show");
         Route::get('services/renew/{service}', [ServiceController::class, 'renew'])->name("services.renew");
+        Route::get('services/upgrade/{service}', [ServiceController::class, 'upgrade'])->name("services.upgrade");
 
         Route::get('notifications', [UserNotificationController::class, 'index'])->name("notifications");
         Route::get('new-service', [ServiceController::class, 'new_service'])->name("new-service");
@@ -201,5 +215,6 @@ Route::name("panel.")->group(function () {
         Route::get('settings', [SettingsController::class, 'index'])->name("settings");
         Route::post('settings/store', [SettingsController::class, 'store'])->name("settings.store");
         Route::post('settings/security', [SettingsController::class, 'security'])->name("settings.security");
+        Route::post('settings/2fa', [SettingsController::class, '_2fa'])->name("settings.2fa");
     });
 });

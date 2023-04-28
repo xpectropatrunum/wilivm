@@ -15,6 +15,13 @@ class LoginController extends Controller
     {
         return view("admin.auth.login");
     }
+    public function _2fa()
+    {
+        if(!Auth::guard('admin')->user()){
+            return redirect(route("admin.login"));
+        }
+        return view("admin.auth.2fa");
+    }
     public function loginAttemp(Request $request)
     {
         
@@ -26,9 +33,27 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt($request->only($fieldType, 'password'))) {
+
+            $QR_Image = null;
+            $user = Auth::guard('admin')->user();
+            if (!$user->google2fa_secret) {
+                $google2fa = app('pragmarx.google2fa');
+
+
+                $user->google2fa_secret = $google2fa->generateSecretKey();
+                $user->save();
+
+                $QR_Image = $google2fa->getQRCodeInline(
+                    "wilivm admin",
+                    $request->email,
+                    $user->google2fa_secret
+                );
+            }
+            
+
             return redirect()
-                ->intended(route('admin.dashboard'))
-                ->with('status', __('admin.login_success'));
+                ->intended(route('admin.2fa'))
+                ->with('status', __('admin.login_success'))->with("QR_Image", $QR_Image);
         }
 
         //Authentication failed...

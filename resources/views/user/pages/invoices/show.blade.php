@@ -72,6 +72,7 @@
                                         @endif
 
                                     </div>
+
                                 </div>
                             </div>
                             <div class="invoice-content">
@@ -142,7 +143,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 mt-2">
-                                       
+
 
                                         <h5> Payment Method:</h5>
 
@@ -168,8 +169,8 @@
                                             </div>
 
                                             @if (env('COINPAYMENTS'))
-                                            <div class="form-check  col-12">
-                                                <input class="form-check-input" type="radio" id="method_2"
+                                                <div class="form-check  col-12">
+                                                    <input class="form-check-input" type="radio" id="method_2"
                                                         name="method" value="3">
                                                     <label class="form-check-label" for="method_2">
                                                         CoinPayments (Bitcoin, ETH, USDT, more)
@@ -196,6 +197,13 @@
 
 
                                     </div>
+                                @else
+                                    <div class="col-12 d-flex mt-3">
+                                        <div class="col-12">
+                                            Paid with <strong>{{ucfirst($order->transactions()->latest()->first()->method)}}</strong> at {{date("M d, Y", strtotime($order->transactions()->latest()->first()->updated_at))}}<br>
+                                            Tx id: <strong>{{$order->transactions()->latest()->first()->tx_id}}</strong>
+                                        </div>
+                                    </div>
                                 @endif
 
                             </div>
@@ -218,7 +226,7 @@
     </div>
     <form class="pm-form" action="https://perfectmoney.com/api/step1.asp" method="POST">
 
-        <input type="hidden" name="PAYEE_ACCOUNT" value="{{$settings["PERFECTMONEY_ACC"]}}">
+        <input type="hidden" name="PAYEE_ACCOUNT" value="{{ $settings['PERFECTMONEY_ACC'] }}">
         <input type="hidden" name="PAYEE_NAME" value="Wilivm">
         <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount }}">
         <input type="hidden" name="PAYMENT_UNITS" value="USD">

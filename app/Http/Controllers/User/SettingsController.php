@@ -27,9 +27,15 @@ class SettingsController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $countries = json_decode(file_get_contents(public_path() . "/data/countries.json"));
-
-        return view("user.pages.settings.main", compact("countries"));
+        $google2fa = app('pragmarx.google2fa');
+        $QR_Image = $google2fa->getQRCodeInline(
+            "wilivm user",
+            $user->email,
+            $user->google2fa_secret
+        );
+        return view("user.pages.settings.main", compact("countries", "QR_Image"));
     }
     function validate_mobile($mobile)
     {
@@ -58,6 +64,30 @@ class SettingsController extends Controller
             return redirect()->back()->withSuccess("The password is updated successfully.");
         }
         return redirect()->back()->withError("The password does not match with our data.");
+    }
+    function _2fa(Request $request)
+    {
+        $user = auth()->user();
+        if (!$user->google2fa_secret) {
+            $google2fa = app('pragmarx.google2fa');
+            $user->google2fa_secret = $google2fa->generateSecretKey();
+            $user->save();
+
+            $QR_Image = $google2fa->getQRCodeInline(
+                "wilivm user",
+                $user->email,
+                $user->google2fa_secret
+            );
+            return redirect()->back()->withSuccess("The 2-Factor Authentication is enabled.")->with("QR_Image", $QR_Image ?? null);
+
+        } else {
+            $user->google2fa_secret = null;
+            $user->save();
+            return redirect()->back()->withSuccess("The 2-Factor Authentication is disabled.")->with("QR_Image", $QR_Image ?? null);
+
+        }
+
+
     }
     public function store(Request $request)
     {

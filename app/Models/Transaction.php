@@ -22,12 +22,16 @@ class Transaction extends Model
         'order_id',
         'tx_id',
         'status',
+        'method',
     ];
     function user(){
         return $this->belongsTo(User::class, Order::class);
     }
     function order(){
         return $this->belongsTo(Order::class);
+    }
+    function wallet_transaction(){
+        return $this->hasOne(WalletTransaction::class);
     }
   
 }

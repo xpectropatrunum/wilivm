@@ -6,6 +6,7 @@ use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Enums\EServiceType;
 use App\Enums\ESmsType;
+use App\Enums\ETicketDepartment;
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
@@ -60,11 +61,13 @@ class ServiceController extends Controller
         $plan = Server::with("type")->where(["enabled" => 1, "server_type_id" => $serverType,  "server_plan_id" => $serverPlan])->first();
         return view("user.pages.new-service.make", compact("plan"));
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function upgrade(UserService $service)
+    {
+        return redirect()->route("panel.tickets.create")->with("wd_data", [
+            "wd_title" => "Upgrade Service - #" . $service->id,
+            "wd_department" => ETicketDepartment::Sale,
+        ]);
+    }
     public function submit_order($type, $plan, Request $request)
     {
         $server = Server::where(["server_plan_id" => $plan, "server_type_id" => $type, "enabled" => 1])->firstOrFail();

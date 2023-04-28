@@ -57,7 +57,10 @@ class UserController extends Controller
 
         return view('admin.pages.users.index', compact('items', 'search', 'limit'));
     }
-
+    public function show(User $user)
+    {
+        return view('admin.pages.users.show', compact('user'));
+    }
     public function excel(Request $request)
     {
         $search = "";

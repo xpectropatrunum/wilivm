@@ -82,7 +82,8 @@ class WalletController extends Controller
         Log::debug("Order cp status: $id  :: " . $_POST["status"]);
         if ($_POST["status"] == 0) {
             $order = Order::find($id);
-            $transaction = $order->transactions()->latest()->first();
+            $transaction = $order->transactions()->latest()->first();+
+            $transaction->method = "coin payments";
             $transaction->tx_id = $tx_id;
             $transaction->save();
 
@@ -91,6 +92,7 @@ class WalletController extends Controller
         } elseif ($_POST["status"] == 100) {
             $transaction = Transaction::where("tx_id", $tx_id)->first();
             $transaction->status = 1;
+            $transaction->method = "coin payments";
             $transaction->save();
             Log::debug("Txn cp status: $tx_id  :: paid");
 
@@ -112,6 +114,7 @@ class WalletController extends Controller
         } elseif ($_POST["status"] == -1) {
             $order = Order::find($id);
             $transaction = $order->transactions()->latest()->first();
+            $transaction->method = "coin payments";
             $transaction->status = 0;
             $transaction->save();
         }
@@ -165,12 +168,13 @@ class WalletController extends Controller
     {
         $request->validate(
             [
-                'cash' => 'required|numeric|between:0.1,100000',
+                'cash' => 'required|numeric|gt:50|lt:1000',
             ],
             [
                 "cash.required" =>  "Amount is empty",
                 "numeric" => "Amount should be number and can have 2 decimals",
-                "between" => "Amount should be between 0.1 and 100000",
+                "gt" => "Withdrawal limit below $50 - use it in the next orders.",
+                "lt" => "Amount should be lesser than 1000",
             ]
 
         );

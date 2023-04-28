@@ -77,7 +77,7 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>
-                                            {{ $item->first_name }} {{ $item->last_name }}
+                                            <a href="{{route('admin.users.show', $item->id)}}">{{ $item->first_name }} {{ $item->last_name }}</a>
                                         </td>
                                         <td>{{ $item->email }}</td>
                                         <td>
