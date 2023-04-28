@@ -38,6 +38,17 @@
 
                 <div class="header-top-right d-flex align-items-center">
                     <a href="{{ route('panel.wallet') }}">
+                        <div class="my-wallet btn btn-outline-primary btn-md" style="margin-right: 5px">
+
+                            <i class="fa fa-plus"></i>
+                          Add Funds
+
+
+
+                        </div>
+
+                    </a>
+                    <a href="{{ route('panel.wallet') }}">
                         <div class="my-wallet btn btn-outline-primary btn-md">
 
                             <i class="fa fa-wallet"></i>
