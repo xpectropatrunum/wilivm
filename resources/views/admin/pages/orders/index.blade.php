@@ -34,26 +34,120 @@
                     <form class="frm-filter" action="{{ route('admin.orders.index') }}" type="post" autocomplete="off">
                         @csrf
 
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="input-group input-group-sm" style="width: 70px;">
-                                <select name="limit" class="custom-select">
-                                    <option value="10" @if ($limit == 10) selected @endif>10</option>
-                                    <option value="25" @if ($limit == 25) selected @endif>25</option>
-                                    <option value="50" @if ($limit == 50) selected @endif>50</option>
-                                    <option value="100" @if ($limit == 100) selected @endif>100</option>
-                                    <option value="200" @if ($limit == 200) selected @endif>200</option>
-                                </select>
-                            </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-12">
 
-                            <div class="input-group input-group-sm" style="width: 200px;">
-                                <input type="text" name="search" class="form-control"
-                                    placeholder="{{ __('admin.search') }}..." value="{{ $search }}">
+                                <div class="form-group">
+                                    <label>Type</label>
 
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
+                                    <select name="type" class="select2 form-select" >
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Models\ServerType::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->name }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Plan</label>
+
+                                    <select name="plan" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Models\ServerPlan::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->name }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Os</label>
+
+                                    <select name="os" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Models\Os::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Location</label>
+
+                                    <select name="location" class="select2 form-select">
+                                        <option value="0">Select</option>
+                                        @foreach (\App\Models\Location::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Cycle</label>
+
+                                    <select name="cycle" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Enums\ECycle::asSelectArray() as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Service status</label>
+
+                                    <select name="s_status" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Enums\EServiceType::asSelectArray() as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Transaction Status</label>
+
+                                    <select name="t_status" class="select2 form-select">
+
+                                      
+                                            <option value="0">Unpaid
+                                            </option>
+                                            <option value="1">Paid
+                                            </option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-5">
+                                <a href="javascript:{}"><button type="submit" class="btn btn-info">Filter</button></a>
                             </div>
                         </div>
                     </form>
@@ -79,15 +173,15 @@
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
-                                @php
-                                if ($item->service->status == \App\Enums\EServiceType::Deploying) {
-                                    $minutes_past = $item->service->order ? round((time() - strtotime($item->service->order->updated_at)) / 60) : 24 * 60;
-                                    if ($minutes_past >= 24 * 60) {
-                                        $item->service->status = \App\Enums\EServiceType::Cancelled;
-                                        $item->service->save();
-                                    }
-                                }
-                                @endphp
+                                    @php
+                                        if ($item->service->status == \App\Enums\EServiceType::Deploying) {
+                                            $minutes_past = $item->service->order ? round((time() - strtotime($item->service->order->updated_at)) / 60) : 24 * 60;
+                                            if ($minutes_past >= 24 * 60) {
+                                                $item->service->status = \App\Enums\EServiceType::Cancelled;
+                                                $item->service->save();
+                                            }
+                                        }
+                                    @endphp
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td><a href="/admin/users?search={{ $item->user?->email }}"
@@ -119,7 +213,7 @@
                                             @elseif ($item->service->status == 3)
                                                 <span class="badge bg-danger">Expired</span>
                                             @elseif ($item->service->status == 4)
-                                                <span class="badge bg-danger">Canceled</span>
+                                                <span class="badge bg-danger">Cancelled</span>
                                             @else
                                                 <span class="badge bg-warning">not set</span>
                                             @endif

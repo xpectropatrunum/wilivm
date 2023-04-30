@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\OffController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OsController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PermissionsController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RequestController;
@@ -117,6 +118,9 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::get('orders/props/{type}/{plan}', [OrderController::class, "props"])->name("orders.props");
         Route::get('orders/create/{user}', [OrderController::class, "create_for_user"])->name("orders.create_for_user");
         Route::post('orders/store/{user}', [OrderController::class, "store"])->name("orders.new");
+
+        Route::resource('payments', PaymentController::class);
+
 
         Route::resource('emails', EmailController::class);
         Route::post('emails/status/{email}', [EmailController::class, "changeStatus"])->name("emails.status");

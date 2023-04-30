@@ -42,17 +42,51 @@ class OrderController extends Controller
         auth()->user()->notifications()->where(["type" => ENotificationType::Deploying])->update(["new" => 0]);
 
 
-        if ($request->search) {
-            $searching_for = $request->search;
-            $search = $request->search;
-            $query = $query->where("name", "like", "%$searching_for%")
-                ->orWhere("email", "like", "%$searching_for%");
-        }
+      
 
         if ($request->limit) {
             $limit = $request->limit;
         }
 
+        if ($request->search) {
+            $query = $query->where("id", $request->search);
+        }
+
+        if ($request->plan) {
+            $query = $query->whereHas("service", function($query) use($request){
+                $query->where("plan", $request->plan);
+            });
+        }
+        if ($request->type) {
+            $query = $query->whereHas("service", function($query) use($request){
+                $query->where("type", $request->type);
+            });
+        }
+        if ($request->os) {
+            $query = $query->whereHas("service", function($query) use($request){
+                $query->where("os", $request->os);
+            });
+        }
+        if ($request->location) {
+            $query = $query->whereHas("service", function($query) use($request){
+                $query->where("location", $request->location);
+            });
+        }
+        if ($request->s_status) {
+            $query = $query->whereHas("service", function($query) use($request){
+                $query->where("status", $request->s_status);
+            });
+        }
+        if (isset($request->t_status)) {
+      
+                $query->whereHas("transactions", function($query) use($request){
+                    $query->where("status", $request->t_status);
+                });
+     
+        }
+        if ($request->cycle) {
+                $query->where("cycle", $request->cycle);
+        }
         foreach ($query->get() as $item) {
             if ($item->service->status  == EServiceType::Active && round((strtotime(MyHelper::due($item)) - time()) / 86400) < 0) {
                 $item->service->status = EServiceType::Expired;
