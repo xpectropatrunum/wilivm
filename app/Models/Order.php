@@ -76,6 +76,11 @@ class Order extends Model
                     "model" => self::class,
                     "related_id" => $item,
                 ]);
+                try{
+                    $item->transactions()->delete();
+                }catch(\Exception $e){
+
+                }
             }
         );
         static::updating(

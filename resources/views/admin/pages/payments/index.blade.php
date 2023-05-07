@@ -183,8 +183,8 @@
                                         <td><a href="/admin/orders?search={{ $item->order_id }}"
                                                 target="_blank">#{{ $item->order_id }}</a></td>
 
-                                        <td>{{$item->order->price}}</td>
-                                        <td>{{$item->order->discount}}</td>
+                                        <td>{{$item->order?->price}}</td>
+                                        <td>{{$item->order?->discount}}</td>
                                         <td>{{ucfirst($item->method)}}</td>
                                         <td>
                                             @if ($item->status == 1)
