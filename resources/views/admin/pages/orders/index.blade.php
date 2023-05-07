@@ -232,7 +232,7 @@
                                                 class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this, text='the related transaction could be deleted!')"
+                                                <button type="submit" onclick="swalConfirmDelete(this, title='Are you sure?', text='the related transaction could be deleted!')"
                                                     class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
