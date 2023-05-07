@@ -60,6 +60,17 @@ class User extends Authenticatable
                         "model" => self::class,
                         "related_id" => $item,
                     ]);
+                    try{
+                        $item->blockedUser()->delete();
+                        $item->services()->delete();
+                        $item->wallet()->delete();
+                        $item->orders()->delete();
+                        $item->tickets()->delete();
+                        $item->notifications()->delete();
+
+                    }catch(\Exception $e){
+
+                    }
                 }
             );
             static::updating(

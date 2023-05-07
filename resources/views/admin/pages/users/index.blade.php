@@ -116,7 +116,7 @@
                                                 class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this)"
+                                                <button type="submit" onclick="swalConfirmDelete(this, title='Are you sure?', text='All the tickets, orders, services and notifications that is related to user will be deleted')"
                                                     class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
