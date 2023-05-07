@@ -64,11 +64,15 @@ class User extends Authenticatable
                         $item->blockedUser()->delete();
                         $item->services()->delete();
                         $item->wallet()->delete();
-                        $item->orders()->delete();
+                        $item->orders()->each(function($query){
+                            $query->transactions()->delete();
+                            $query->delete();
+                        });
                         $item->tickets()->delete();
                         $item->notifications()->delete();
 
                     }catch(\Exception $e){
+                        Log::debug($e->getMessage());
 
                     }
                 }
