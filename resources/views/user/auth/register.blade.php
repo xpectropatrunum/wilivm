@@ -180,7 +180,7 @@
                                         </div>
                                         <input
                                             class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
-                                            type="text" id="signin-affiliate" name="affiliate" value="{{old('affiliate', $ref)}}"
+                                            type="text" id="signin-affiliate" name="affiliate" value="{{old('affiliate', $ref ?? "")}}"
                                             autocomplete="off">
                                         <div class="fv-plugins-message-container"></div>
                                     </div>
