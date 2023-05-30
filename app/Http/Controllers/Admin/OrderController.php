@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Excel\Orders as Orders;
 use App\Models\Server;
 use App\Models\ServerPlan;
 use App\Models\ServerType;
+use App\Models\UserService;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -105,6 +106,10 @@ class OrderController extends Controller
         $type_id = ServerType::where("name", $type)->first()->id;
         $plan_id = ServerPlan::where("name", $plan)->first()->id;
         $server = Server::where(["server_type_id" => $type_id, "server_plan_id" =>  $plan_id])->first();
+        if(!$server){
+            return ["success" => 0];
+        }
+      
         return ["os" => $server->os, "location" => $server->locations];
     }
     public function create_for_user(User $user)
@@ -114,18 +119,34 @@ class OrderController extends Controller
     }
     function store(Request $request, User $user)
     {
+        $request->validate([
+            "price" => "required",
+            "location" => "required",
+            "os" => "required",
+            "status" => "required",
+        ]);
         $request->merge([
             "label_ids" => json_encode($request->label_ids)
         ]);
 
-        $server = Server::create($request->only("username", "password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
-        if($server)
-        $order->update($request->only("label_ids"));
+        $server =  $user->services()->create($request->only("username", "password", "ip","ipv4","ipv6", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
+        if($server){
+
+            $order = Order::create(["server_id" => $server->id, 
+            "price" => round($request->price), 
+            "user_id" => $user->id, 
+            "label_ids" => $request->label_ids, 
+            "cycle" => $request->cycle,
+            "discount" => 0,
+            "expires_at" =>  time() + $request->cycle * 86400*30,
+        ]);
+        $order->transactions()->create(["tx_id" => md5(time())]);
+        }
         if ($order) {
             if ($request->inform) {
                 Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
             }
-            return redirect()->route("admin.orders.index")->withSuccess("Order is created successfully!");
+            return redirect()->back()->withSuccess("Order is created successfully!");
         }
         return redirect()->back()->withError("Something went wrong");
     }
@@ -168,7 +189,7 @@ class OrderController extends Controller
             "label_ids" => json_encode($request->label_ids)
         ]);
 
-        $updated = $order->service->update($request->only("username", "password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
+        $updated = $order->service->update($request->only("username", "ipv4","ipv6","password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
         $order->update($request->only("label_ids"));
         if ($updated) {
             if ($request->inform) {

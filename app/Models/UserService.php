@@ -29,6 +29,8 @@ class UserService extends Authenticatable
         'cpu',
         'bandwith',
         'ip',
+        'ipv4',
+        'ipv6',
         'os',
         'location',
         'username',

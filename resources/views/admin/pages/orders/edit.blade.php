@@ -165,6 +165,20 @@
                                     <input name="ip" class="form-control" value="{{ $order->service->ip }}">
                                 </div>
                             </div>
+
+                            <div class="col-lg-3 col-12">
+                                <div class="form-group">
+                                    <label> IPv4</label>
+                                    <input name="ipv4" class="form-control" value="{{ $order->service->ipv4 }}">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-12">
+                                <div class="form-group">
+                                    <label>IPv6</label>
+                                    <input name="ipv6" class="form-control" value="{{ $order->service->ipv6 }}">
+                                </div>
+                            </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Server Username</label>

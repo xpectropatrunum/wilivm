@@ -26,7 +26,6 @@
                 </div>
                 <form action="{{ route('admin.orders.new', $user->id) }}" method="POST">
                     @csrf
-                    @method('put')
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 mb-3">
@@ -109,6 +108,22 @@
                             </div>
 
                             <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Billing Cycle</label>
+
+                                    <select name="cycle"
+                                        class="form-select select2">
+                                        @foreach (config("admin.cycle") as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Ram</label>
                                     <input class="form-control" name="ram" value="{{ old("ram") }}">
@@ -141,6 +156,19 @@
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
+                                    <label> IPv4</label>
+                                    <input name="ipv4" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-12">
+                                <div class="form-group">
+                                    <label>IPv6</label>
+                                    <input name="ipv6" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+                                <div class="form-group">
                                     <label>Server Username</label>
                                     <input name="username" class="form-control" value="{{ old("username") }}">
                                 </div>
@@ -168,6 +196,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Status</label>
@@ -182,6 +211,12 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-3 col-12">
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input name="price" class="form-control" value="{{ old("price") }}">
+                                </div>
+                            </div>
                             <div class="form-group col-lg-3">
                                 <label>Inform user via email</label>
                                 <div class="form-check">
@@ -190,11 +225,13 @@
                                 </div>
                             </div>
 
+                    
+
                         </div>
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer text-center">
-                        <button type="submit" class="btn btn-primary">{{ __('admin.new') }}</button>
+                    <div class="card-footer text-left">
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </div>
 
                 </form>
@@ -224,10 +261,11 @@
             type = $("[name=type]").val()
             plan = $("[name=plan]").val()
             $.get(`/admin/orders/props/${type}/${plan}`, function(res) {
+               
                 $("[name=os]").html(``)
                 $("[name=location]").html(``)
-
-                res.os.map(item => {
+                if(res.success != 0){
+                    res.os.map(item => {
          
                         $("[name=os]").append(`<option  value="${item.id}">${item.name}</option>`)
 
@@ -238,6 +276,8 @@
                         $("[name=location]").append(`<option  value="${item.id}">${item.name}</option>`)
                     
                 })
+                }
+               
             })
         }
     </script>

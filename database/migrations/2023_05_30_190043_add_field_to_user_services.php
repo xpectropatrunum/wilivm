@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-           // $table->string("google2fa_secret")->nullable();
+        Schema::table('user_services', function (Blueprint $table) {
+             $table->string("ipv4")->nullable();
+            $table->string("ipv6")->nullable();
         });
     }
 
@@ -25,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('user_services', function (Blueprint $table) {
             //
         });
     }

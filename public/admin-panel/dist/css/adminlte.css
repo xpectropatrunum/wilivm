@@ -10644,7 +10644,7 @@ html.maximized-card {
 .select2-container--default .select2-selection--single {
     border: 1px solid #ced4da;
     padding: 0.46875rem 0.75rem;
-    height: calc(2.25rem + 2px);
+    height: 100%;
 }
 
 .select2-container--default.select2-container--open .select2-selection--single {
@@ -10728,7 +10728,7 @@ html.maximized-card {
 
 .select2-container--default .select2-selection--multiple {
     border: 1px solid #ced4da;
-    min-height: calc(2.25rem + 2px);
+    min-height: 100%;
 }
 
 .select2-container--default .select2-selection--multiple:focus {

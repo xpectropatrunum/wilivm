@@ -39,7 +39,7 @@
                                 <select name="user_id" class="form-control select2">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
-                                            @if ($user->id == old('user_id')) selected @endif>
+                                            @if ($user->id == old('user_id', request()->id))) selected @endif>
                                             {{ $user->first_name }} {{ $user->last_name }} - {{ $user->email }}</option>
                                     @endforeach
                                 </select>
