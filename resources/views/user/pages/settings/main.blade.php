@@ -262,7 +262,7 @@
 @push('admin_js')
     <script src="{{ asset('assets/extensions/choices/main.js') }}"></script>
     <script>
-        let countries = JSON.parse('{!! json_encode($countries) !!}')
+        let countries = {!! json_encode($countries) !!}
         let selected_states = countries.find(item => item.name == "{{ auth()->user()->country ?? 'Afghanistan' }}").states
             .map(item => {
                 return {
