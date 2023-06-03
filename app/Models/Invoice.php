@@ -37,7 +37,7 @@ class Invoice extends Model
     {
         return $this->hasOne(UserService::class, "id", "server_id");
     }
-    protected $appends = ['status', 'date'];
+    protected $appends = ['status', 'date', 'expire_date', 'create_date'];
     function getStatusAttribute()
     {
         return $this->transactions()?->latest()?->first()?->status ?? 0;
@@ -47,6 +47,14 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
+    function getExpireDateAttribute()
+    {
+        return date("Y-m-d", $this->attributes["expires_at"]);
+    }
+    function getCreateDateAttribute()
+    {
+        return date("Y-m-d", strtotime($this->attributes["created_at"]));
+    }
     function getDateAttribute()
     {
         return date("d M Y", strtotime($this->attributes["created_at"]));
