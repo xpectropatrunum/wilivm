@@ -346,11 +346,11 @@
             @endhasanyrole
             @hasanyrole(['admin'])
                 <li class="nav-item has-treeview {{ request()->routeIs(['admin.settings.*']) ? 'menu-open' : '' }}">
-                    <a target="_blank"  href="{{ route('admin.settings.index') }}" class="nav-link">
+                    <a target="_blank" href="{{ route('admin.settings.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
                         <p>
                             Settings
-                           
+
                         </p>
                     </a>
 
@@ -369,7 +369,7 @@
                         class="nav nav-treeview {{ request()->routeIs(['admin.orders.*', 'admin.invoices.*']) ? 'd-block' : 'display-none' }}">
 
                         <li class="nav-item">
-                            <a target="_blank"  href="{{ route('admin.orders.index') }}"
+                            <a target="_blank" href="{{ route('admin.orders.index') }}"
                                 class="nav-link {{ request()->routeIs(['admin.orders.index']) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>{{ __('admin.all') }} orders</p>
@@ -377,23 +377,24 @@
                         </li>
 
 
-                
-                    <li class="nav-item">
-                        <a target="_blank"  href="{{ route('admin.invoices.index') }}"
-                            class="nav-link {{ request()->routeIs(['admin.invoices.index']) ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>{{ __('admin.all') }} invoices</p>
-                        </a>
-                    </li>
 
-                    <li class="nav-item">
-                        <a target="_blank"  href="{{ route('admin.invoices.create') }}"
-                            class="nav-link {{ request()->routeIs(['admin.invoices.create']) ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Create invoice</p>
-                        </a>
-                    </li>
-                
+                        <li class="nav-item">
+                            <a target="_blank" href="{{ route('admin.invoices.index') }}"
+                                class="nav-link {{ request()->routeIs(['admin.invoices.index']) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ __('admin.all') }} invoices</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a target="_blank" href="{{ route('admin.invoices.create') }}"
+                                class="nav-link {{ request()->routeIs(['admin.invoices.create']) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Create invoice</p>
+                            </a>
+                        </li>
+                    </ul>
+
                 </li>
                 <li class="nav-item has-treeview {{ request()->routeIs(['admin.payments.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
@@ -407,7 +408,7 @@
                         class="nav nav-treeview {{ request()->routeIs(['admin.payments.*']) ? 'd-block' : 'display-none' }}">
 
                         <li class="nav-item">
-                            <a target="_blank"  href="{{ route('admin.payments.index') }}"
+                            <a target="_blank" href="{{ route('admin.payments.index') }}"
                                 class="nav-link {{ request()->routeIs(['admin.payments.index']) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>{{ __('admin.all') }} payments</p>
