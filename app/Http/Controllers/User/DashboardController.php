@@ -25,6 +25,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $countries = json_decode(file_get_contents(public_path() . "/data/countries.json"));
         $bulletins = Bulletin::latest()->take(5)->get();
         $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         $code = "";
@@ -35,7 +36,7 @@ class DashboardController extends Controller
             auth()->user()->update(["affiliate_code" => $code]);
         }
 
-        return view("user.dashboard", compact("bulletins"));
+        return view("user.dashboard", compact("bulletins", "countries"));
     }
     public function resend_email()
     {
