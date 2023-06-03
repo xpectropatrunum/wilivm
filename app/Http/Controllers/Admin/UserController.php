@@ -180,6 +180,11 @@ class UserController extends Controller
                 "password" => $user->password,
             ]);
         }
+
+        if($request->balance){
+            $user->wallet->balance = round($request->balance, 2);
+            $user->wallet->save();
+        }
     
         $created = $user->update($request->all());
         if ($created) {
