@@ -49,7 +49,19 @@
                                 <input type="phone" value="{{ old('phone', $user->phone) }}" name="phone" class="form-control @error('phone') is-invalid @enderror" required>
                             </div>
 
-                            
+                            <div class="form-group col-lg-3">
+                                <label>Country</label>
+                                <select name="country" class="form-control select2">
+                                    @foreach ($couuntries as $item)
+                                        <option value="{{ $item->name }}"
+                                            @if ($item->name == old('country', $user->country))) selected @endif>
+                                            {{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+
                             <div class="form-group col-lg-4">
                                 <label>password</label>
                                 <input type="text" value="{{ old('password') }}" name="password" class="form-control @error('password') is-invalid @enderror">
