@@ -205,8 +205,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $countries = json_decode(file_get_contents(public_path() . "/data/countries.json"));
 
-        return view('admin.pages.users.edit', compact('user'));
+        return view('admin.pages.users.edit', compact('user', 'countries'));
 
     }
     public function destroy(User $user)
