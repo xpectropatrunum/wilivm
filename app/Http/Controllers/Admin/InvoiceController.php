@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Enums\EServiceType;
 use App\Helpers\ApiHelper;
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
+use App\Mail\MailTemplate;
 use App\Mail\OrderDelivered;
 use App\Models\DoctorSpecialty;
+use App\Models\Email;
 use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderLabel;
@@ -114,7 +117,8 @@ class InvoiceController extends Controller
             $invoice->transactions()->create(["tx_id" => md5(time())]);
 
             if ($request->inform) {
-                //Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
+                $email = Email::where("type", EEmailType::New_invoice)->first();
+                Mail::to($invoice->user->email)->send(new MailTemplate($email, (object)["user" => $invoice->user, "invoice" => $invoice]));
             }
             return redirect()->route("admin.invoices.index")->withSuccess("Invoice is created successfully!");
         }
@@ -174,7 +178,8 @@ class InvoiceController extends Controller
         ]);
         if($invoice){
             if ($request->inform) {
-                //Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
+                $email = Email::where("type", EEmailType::New_invoice)->first();
+                Mail::to($invoice->user->email)->send(new MailTemplate($email, (object)["user" => $invoice->user, "invoice" => $invoice]));
             }
             return redirect()->back()->withSuccess("Invoice is created successfully!");
         }
