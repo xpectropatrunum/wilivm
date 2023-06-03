@@ -30,6 +30,10 @@
                     <input type="hidden" name="source" value="{{ config('global.user_source') }}">
                     <div class="card-body">
                         <div class="row">
+
+
+
+
                             <div class="form-group col-lg-3">
                                 <label>First name</label>
                                 <input type="text" value="{{ old('first_name', $user->first_name) }}" name="first_name" class="form-control @error('first_name') is-invalid @enderror" required>
@@ -39,17 +43,25 @@
                                 <input type="text" value="{{ old('last_name', $user->last_name) }}" name="last_name" class="form-control @error('last_name') is-invalid @enderror" required>
                             </div>
                     
+
+
+                            <div class="form-group col-lg-2">
+                                <label>Wallet Balance</label>
+                                <input type="text" value="{{ old('balance', $user->wallet->balance) }}" name="balance" class="form-control @error('balance') is-invalid @enderror" required>
+                            </div>
+
+
                         
                             <div class="form-group col-lg-3">
                                 <label>Email</label>
                                 <input type="email" value="{{ old('email', $user->email) }}" name="email" class="form-control @error('email') is-invalid @enderror" required>
                             </div>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-2">
                                 <label>Phone</label>
-                                <input type="phone" value="{{ old('phone', $user->phone) }}" name="phone" class="form-control @error('phone') is-invalid @enderror" required>
+                                <input type="phone" value="{{ old('phone', $user->phone) }}" name="phone" class="form-control @error('phone') is-invalid @enderror">
                             </div>
 
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-2">
                                 <label>Country</label>
                                 <select name="country" class="form-control select2">
                                     @foreach ($countries as $item)
