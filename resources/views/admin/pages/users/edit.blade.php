@@ -68,14 +68,15 @@
                                 <label>City</label>
                                 <input type="city" value="{{ old('city', $user->city) }}" name="city" class="form-control @error('city') is-invalid @enderror" required>
                             </div>
-                            <div class="form-group col-lg-9">
-                                <label>Address</label>
-                                <input type="address" value="{{ old('address', $user->address) }}" name="address" class="form-control @error('address') is-invalid @enderror" required>
-                            </div>
                             <div class="form-group col-lg-3">
                                 <label>Password</label>
                                 <input type="text" value="{{ old('password') }}" name="password" class="form-control @error('password') is-invalid @enderror">
                             </div>
+                            <div class="form-group col-lg-9">
+                                <label>Address</label>
+                                <input type="address" value="{{ old('address', $user->address) }}" name="address" class="form-control @error('address') is-invalid @enderror" required>
+                            </div>
+                          
                             <div class="form-group col-lg-3">
                                 <label>Repeat password</label>
                                 <input type="text" value="{{ old('password_confirm') }}" name="password_confirm" class="form-control @error('password_confirm') is-invalid @enderror">
