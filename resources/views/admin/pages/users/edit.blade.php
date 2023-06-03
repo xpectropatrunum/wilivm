@@ -52,7 +52,7 @@
                             <div class="form-group col-lg-3">
                                 <label>Country</label>
                                 <select name="country" class="form-control select2">
-                                    @foreach ($couuntries as $item)
+                                    @foreach ($countries as $item)
                                         <option value="{{ $item->name }}"
                                             @if ($item->name == old('country', $user->country))) selected @endif>
                                             {{$item->name}}</option>
