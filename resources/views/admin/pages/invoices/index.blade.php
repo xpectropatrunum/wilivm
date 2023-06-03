@@ -86,6 +86,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>User</th>
+                                    <th>Title</th>
+                                    <th>Price</th>
                                     <th>Cycle</th>
                                     <th>{{ __('admin.created_date') }}</th>
                                     <th>Expires At</th>
@@ -101,6 +103,8 @@
                                         <td>{{ $item->id }}</td>
                                         <td><a href="/admin/users?search={{ $item->user?->email }}"
                                                 target="_blank">{{ $item->user?->email }}</a></td>
+                                        <td>{{ $item->title }}</td>
+                                        <td>{{ $item->price }}</td>
                                         <td>{{ $item->cycle }} Months</td>
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ date('Y-m-d H:i', $item->expires_at) }}</td>
