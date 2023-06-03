@@ -111,6 +111,8 @@ class InvoiceController extends Controller
             "expires_at" =>  time() + $request->cycle * 86400*30
         ]);
         if($invoice){
+            $invoice->transactions()->create(["tx_id" => md5(time())]);
+
             if ($request->inform) {
                 //Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
             }
