@@ -31,21 +31,21 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col-lg-4">
-                                <label>first name</label>
+                                <label>First name</label>
                                 <input type="text" value="{{ old('first_name', $user->first_name) }}" name="first_name" class="form-control @error('first_name') is-invalid @enderror" required>
                             </div>
                             <div class="form-group col-lg-4">
-                                <label>last name</label>
+                                <label>Last name</label>
                                 <input type="text" value="{{ old('last_name', $user->last_name) }}" name="last_name" class="form-control @error('last_name') is-invalid @enderror" required>
                             </div>
                     
                         
                             <div class="form-group col-lg-4">
-                                <label>email</label>
+                                <label>Email</label>
                                 <input type="email" value="{{ old('email', $user->email) }}" name="email" class="form-control @error('email') is-invalid @enderror" required>
                             </div>
                             <div class="form-group col-lg-4">
-                                <label>phone</label>
+                                <label>Phone</label>
                                 <input type="phone" value="{{ old('phone', $user->phone) }}" name="phone" class="form-control @error('phone') is-invalid @enderror" required>
                             </div>
 
@@ -59,19 +59,29 @@
                                     @endforeach
                                 </select>
                             </div>
-
-
+                            <div class="form-group col-lg-4">
+                                <label>State</label>
+                                <input type="state" value="{{ old('state', $user->state) }}" name="state" class="form-control @error('state') is-invalid @enderror" required>
+                            </div>
 
                             <div class="form-group col-lg-4">
-                                <label>password</label>
+                                <label>City</label>
+                                <input type="city" value="{{ old('city', $user->city) }}" name="city" class="form-control @error('city') is-invalid @enderror" required>
+                            </div>
+                            <div class="form-group col-lg-8">
+                                <label>Address</label>
+                                <input type="address" value="{{ old('address', $user->address) }}" name="address" class="form-control @error('address') is-invalid @enderror" required>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label>Password</label>
                                 <input type="text" value="{{ old('password') }}" name="password" class="form-control @error('password') is-invalid @enderror">
                             </div>
                             <div class="form-group col-lg-4">
-                                <label>repeat password</label>
+                                <label>Repeat password</label>
                                 <input type="text" value="{{ old('password_confirm') }}" name="password_confirm" class="form-control @error('password_confirm') is-invalid @enderror">
                             </div>
                             <div class="form-group col-lg-12">
-                                <label>active</label>
+                                <label>Active</label>
                                 <div class="form-check">
                                     <input type="checkbox" name="verified" class="form-check-input" value="1" id="exampleCheck2" @if(old('enable', $user->verified)) checked @endif>
                                     <label class="form-check-label" for="exampleCheck2"> Yes</label>
