@@ -10,7 +10,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Invoice #{{ $order->id }}</h3>
+                    <h3>Invoice #{{ $invoice->id }}</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -56,19 +56,19 @@
                                         {{ auth()->user()->phone }}
                                     </address>
                                 </div>
-                                <div class="invoice-date"> <small>Invoice / #{{ $order->id }}</small>
-                                    <div class="date text-inverse m-t-5">{{ date('M d, Y', strtotime($order->created_at)) }}
+                                <div class="invoice-date"> <small>Invoice / #{{ $invoice->id }}</small>
+                                    <div class="date text-inverse m-t-5">{{ date('M d, Y', strtotime($invoice->created_at)) }}
                                     </div>
                                     <div class="invoice-detail">
-                                        @if ($order->transactions()->latest()->first()->status == 1)
+                                        @if ($invoice->transactions()->latest()->first()->status == 1)
                                             <span
-                                                class="badge bg-success">{{ App\Enums\EInvoiceStatus::getKey($order->transactions()->latest()->first()->status) }}</span>
-                                        @elseif($order->transactions()->latest()->first()->status == 0)
+                                                class="badge bg-success">{{ App\Enums\EInvoiceStatus::getKey($invoice->transactions()->latest()->first()->status) }}</span>
+                                        @elseif($invoice->transactions()->latest()->first()->status == 0)
                                             <span
-                                                class="badge bg-warning">{{ App\Enums\EInvoiceStatus::getKey($order->transactions()->latest()->first()->status) }}</span>
+                                                class="badge bg-warning">{{ App\Enums\EInvoiceStatus::getKey($invoice->transactions()->latest()->first()->status) }}</span>
                                         @else
                                             <span
-                                                class="badge bg-dark">{{ App\Enums\EInvoiceStatus::getKey($order->transactions()->latest()->first()->status) }}</span>
+                                                class="badge bg-dark">{{ App\Enums\EInvoiceStatus::getKey($invoice->transactions()->latest()->first()->status) }}</span>
                                         @endif
 
                                     </div>
@@ -88,17 +88,13 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td> <span class="text-inverse">{{ $order->service->type }}</span><br>
-                                                    <small>{{ $order->service->plan }} plan,
-                                                        location:{{ $order->service->location_->name }},
-                                                        ram:{{ $order->service->ram }},
-                                                        bandwith:{{ $order->service->bandwith }},
-                                                        cpu:{{ $order->service->cpu }}
+                                                <td> <span class="text-inverse">{{ $invoice->title }}</span><br>
+                                                    <small>{{ $invoice->description }} 
                                                     </small>
                                                 </td>
-                                                <td class="text-center">{{ App\Enums\ECycle::getKey($order->cycle) }}</td>
-                                                <td class="text-center">{{ MyHelper::due($order) }}</td>
-                                                <td class="text-right">${{ $order->price }}</td>
+                                                <td class="text-center">{{ App\Enums\ECycle::getKey((int)$invoice->cycle) }}</td>
+                                                <td class="text-center">{{ MyHelper::due($invoice) }}</td>
+                                                <td class="text-right">${{ $invoice->price }}</td>
                                             </tr>
 
                                         </tbody>
@@ -109,7 +105,7 @@
                                         <div class="invoice-price-row">
                                             <div class="sub-price">
                                                 <small>SUBTOTAL</small> <span
-                                                    class="text-inverse">${{ $order->price }}</span>
+                                                    class="text-inverse">${{ $invoice->price }}</span>
 
 
 
@@ -117,14 +113,14 @@
 
                                             <div class="sub-price">
                                                 <small>DISCOUNT</small> <span
-                                                    class="text-inverse">${{ $order->discount }}</span>
+                                                    class="text-inverse">${{ $invoice->discount }}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="invoice-price-right"> <small>TOTAL</small> <span
-                                            class="f-w-600">${{ $order->price - $order->discount }}</span></div>
+                                            class="f-w-600">${{ $invoice->price - $invoice->discount }}</span></div>
                                 </div>
-                                @if (!$order->transactions()->latest()->first()->status)
+                                @if (!$invoice->transactions()->latest()->first()->status)
                                     <div class="col-12 d-flex mt-3">
                                         <div class="col-lg-3 col-12">
                                             <div class="form-group">
@@ -200,8 +196,8 @@
                                 @else
                                     <div class="col-12 d-flex mt-3">
                                         <div class="col-12">
-                                            Paid with <strong>{{ucfirst($order->transactions()->latest()->first()->method)}}</strong> at {{date("M d, Y", strtotime($order->transactions()->latest()->first()->updated_at))}}<br>
-                                            Tx id: <strong>{{$order->transactions()->latest()->first()->tx_id}}</strong>
+                                            Paid with <strong>{{ucfirst($invoice->transactions()->latest()->first()->method)}}</strong> at {{date("M d, Y", strtotime($invoice->transactions()->latest()->first()->updated_at))}}<br>
+                                            Tx id: <strong>{{$invoice->transactions()->latest()->first()->tx_id}}</strong>
                                         </div>
                                     </div>
                                 @endif
@@ -228,28 +224,28 @@
 
         <input type="hidden" name="PAYEE_ACCOUNT" value="{{ $settings['PERFECTMONEY_ACC'] }}">
         <input type="hidden" name="PAYEE_NAME" value="Wilivm">
-        <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $order->price - $order->discount }}">
+        <input type="hidden" name="PAYMENT_AMOUNT" value="{{ $invoice->price - $invoice->discount }}">
         <input type="hidden" name="PAYMENT_UNITS" value="USD">
         <input type="hidden" name="STATUS_URL" value="{{ env('APP_URL') . 'api/order/perfectmoney' }}">
-        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/success">
-        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/fail">
+        <input type="hidden" name="PAYMENT_URL" value="{{ env('APP_URL') }}invoices/show/{{ $invoice->id }}/success">
+        <input type="hidden" name="NOPAYMENT_URL" value="{{ env('APP_URL') }}invoices/show/{{ $invoice->id }}/fail">
         <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
         <input type="hidden" name="BAGGAGE_FIELDS" value="ORDER_NUM">
-        <input type="hidden" name="ORDER_NUM" value="{{ $order->id }}">
+        <input type="hidden" name="ORDER_NUM" value="{{ $invoice->id }}">
     </form>
     <form class="cp-form" action="https://www.coinpayments.net/index.php" method="post" target="_top">
         <input type="hidden" name="cmd" value="_pay">
         <input type="hidden" name="reset" value="1">
         <input type="hidden" name="merchant" value="{{ $settings['COINPAYMENTS_MERCHANT'] }}">
-        <input type="hidden" name="success_url" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/success">
-        <input type="hidden" name="cancel_url" value="{{ env('APP_URL') }}invoices/show/{{ $order->id }}/fail' }}">
+        <input type="hidden" name="success_url" value="{{ env('APP_URL') }}invoices/show/{{ $invoice->id }}/success">
+        <input type="hidden" name="cancel_url" value="{{ env('APP_URL') }}invoices/show/{{ $invoice->id }}/fail' }}">
         <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/order/coinpayments' }}">
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
         <input type="hidden" name="currency" value="USD">
-        <input type="hidden" name="invoice" value="{{ $order->id }}">
+        <input type="hidden" name="invoice" value="{{ $invoice->id }}">
         <input type="hidden" name="want_shipping" value="0">
-        <input type="hidden" name="amountf" value="{{ $order->price - $order->discount }}">
-        <input type="hidden" name="item_name" value="{{ $order->service->type }}">
+        <input type="hidden" name="amountf" value="{{ $invoice->price - $invoice->discount }}">
+        <input type="hidden" name="item_name" value="{{ $invoice->title }}">
 
     </form>
 @endsection
@@ -278,7 +274,7 @@
         });
         $(".off-button").click(() => {
             $.ajax({
-                url: "{{ route('panel.invoices.off', $order->id) }}",
+                url: "{{ route('panel.extra-invoices.off', $invoice->id) }}",
                 type: 'post',
                 data: {
                     "code": $("[name=code]").val(),
@@ -321,7 +317,7 @@
 
         $(".pay-button").click(() => {
             $.ajax({
-                url: "{{ route('panel.invoices.pay', $order->id) }}",
+                url: "{{ route('panel.extra-invoices.pay', $invoice->id) }}",
                 type: 'post',
                 data: {
                     "method": method,

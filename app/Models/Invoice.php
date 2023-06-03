@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Order extends Model
+class Invoice extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,34 +21,26 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'server_id',
         'user_id',
-        'cycle',
+        'title',
+        'description',
         'expires_at',
+        'cycle',
         'price',
-        'label_ids',
         'discount',
     ];
     function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class, "order_id", "id");
     }
     function service()
     {
         return $this->hasOne(UserService::class, "id", "server_id");
     }
-    protected $appends = ['status', 'date','expire_date','create_date'];
+    protected $appends = ['status', 'date'];
     function getStatusAttribute()
     {
         return $this->transactions()?->latest()?->first()?->status ?? 0;
-    }
-    function getExpireDateAttribute()
-    {
-        return date("Y-m-d", $this->attributes["expires_at"]);
-    }
-    function getCreateDateAttribute()
-    {
-        return date("Y-m-d", strtotime($this->attributes["created_at"]));
     }
     function user()
     {
@@ -59,16 +51,7 @@ class Order extends Model
     {
         return date("d M Y", strtotime($this->attributes["created_at"]));
     }
-    function getLabelsAttribute()
-    {
-        $labels = [];
-        foreach (json_decode($this->attributes["label_ids"]) as $id) {
-            if ($label = OrderLabel::find($id)) {
-                $labels[] = (object)["id" => $id, "label" => $label];
-            }
-        }
-        return collect($labels);
-    }
+    
     protected static function boot()
     {
         parent::boot();

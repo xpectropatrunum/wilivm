@@ -378,6 +378,19 @@
 
 
                     </ul>
+                    <ul
+                    class="nav nav-treeview {{ request()->routeIs(['admin.invoices.*']) ? 'd-block' : 'display-none' }}">
+
+                    <li class="nav-item">
+                        <a target="_blank"  href="{{ route('admin.invoices.index') }}"
+                            class="nav-link {{ request()->routeIs(['admin.invoices.index']) ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ __('admin.all') }} invoices</p>
+                        </a>
+                    </li>
+
+
+                </ul>
                 </li>
                 <li class="nav-item has-treeview {{ request()->routeIs(['admin.payments.*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">

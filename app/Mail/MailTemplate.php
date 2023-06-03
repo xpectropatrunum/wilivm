@@ -4,6 +4,7 @@ namespace App\Mail;
 
 use App\Enums\EEmailType;
 use App\Models\Order;
+use App\Models\SentEmail;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,14 +34,24 @@ class MailTemplate extends Mailable
     {
         if ($email->type == EEmailType::Registration || $email->type == EEmailType::Forget_Password  || $email->type == EEmailType::Verify) {
             $this->template = view(['template' => $email->template], ['user' => $data->user]) . "";
-        } elseif ($email->type == EEmailType::New_invoice) {
-            $this->template = view(['template' => $email->template], ['user' => $data->user, 'server' => $data->server]) . "";
-        }
-        elseif ($email->type == EEmailType::Paid_invoice || $email->type == EEmailType::Deploying_server) {
+        } elseif ($email->type == EEmailType::New_order) {
             $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
+        }
+        elseif ($email->type == EEmailType::Paid_order || $email->type == EEmailType::Deploying_server || $email->type == EEmailType::WindowsNewServer
+        || $email->type == EEmailType::LinuxNewServer) {
+            $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
+        }
+        elseif ($email->type == EEmailType::Paid_invoice) {
+            $this->template = view(['template' => $email->template], ['user' => $data->user, 'invoice' => $data->invoice]) . "";
         }
         $this->title = $email->title;
         $this->head = $email->head;
+        SentEmail::create([
+            "user_id" =>  $data->user->id,
+            "title" =>  $this->title,
+            "email" =>  $data->user->email,
+            "content" =>  $this->template,
+        ]);
     }
     /**
      * Get the message envelope.

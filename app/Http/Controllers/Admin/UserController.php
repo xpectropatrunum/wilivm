@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Controllers\Admin\Excel\Users as Users;
+use App\Models\SentEmail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -216,4 +217,13 @@ class UserController extends Controller
 
 
     }
+    public function destroySentEmail(SentEmail $sentEmail)
+    {
+
+        $sentEmail->delete();
+        return redirect()->back()->withSuccess("Email is removed successfully!");
+
+
+    }
+    
 }

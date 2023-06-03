@@ -54,9 +54,16 @@ class AppServiceProvider extends ServiceProvider
                             "icon" => "pc-display",
                         ],
                         [
-                            "name" => "Invoices", "url" => "invoices",
-                            "icon" => "receipt",
+                            "name" => "Orders", "url" => "invoices",
+                            "icon" => "cart",
                             "badge" => auth()->user()->orders()->get()->filter(function ($q) {
+                                return $q->transactions()->latest()->first()->status == 0;
+                            })->count()
+                        ],
+                        [
+                            "name" => "Invoices", "url" => "extra-invoices",
+                            "icon" => "receipt",
+                            "badge" => auth()->user()->invoices()->get()->filter(function ($q) {
                                 return $q->transactions()->latest()->first()->status == 0;
                             })->count()
                         ],

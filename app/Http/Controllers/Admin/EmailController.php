@@ -6,6 +6,7 @@ use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
 use App\Models\DoctorSpecialty;
 use App\Models\Email;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\Server;
 use App\Models\User;
@@ -61,8 +62,9 @@ class EmailController extends Controller
             $user = User::first();
             $server = Server::first();
             $order = Order::first();
+            $invoice = Invoice::first();
             $template = $request->template;
-            $res = view(['template' => $template], ['user' => $user, "server" => $server, "order" => $order]) ."";
+            $res = view(['template' => $template], ['user' => $user, "server" => $server, "order" => $order, "invoice" => $invoice]) ."";
  
             return ["success" => 1, "msg" => $res];
         } catch (\Exception $e) {

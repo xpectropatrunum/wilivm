@@ -218,6 +218,13 @@
                                 </div>
                             </div>
                             <div class="form-group col-lg-3">
+                                <label>Is Linux?</label>
+                                <div class="form-check">
+                                    <input type="checkbox" name="linux" class="form-check-input" value="1">
+                                    <label class="form-check-label" for="exampleCheck2"> Yes</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-3">
                                 <label>Inform user via email</label>
                                 <div class="form-check">
                                     <input type="checkbox" name="inform" class="form-check-input" value="1">

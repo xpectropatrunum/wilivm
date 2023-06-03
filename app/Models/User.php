@@ -123,6 +123,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    function emails()
+    {
+        return $this->hasMany(SentEmail::class);
+    }
+    function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
     function notifications()
     {
         return $this->hasMany(Notification::class);

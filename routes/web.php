@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BlockUserController;
 use App\Http\Controllers\Admin\BulletinController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmailController;
+use App\Http\Controllers\Admin\InvoiceController as AdminInvoiceController;
 use App\Http\Controllers\Admin\LabelController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\LogController;
@@ -119,6 +120,12 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::get('orders/create/{user}', [OrderController::class, "create_for_user"])->name("orders.create_for_user");
         Route::post('orders/store/{user}', [OrderController::class, "store"])->name("orders.new");
 
+        Route::resource('invoices', AdminInvoiceController::class);
+        Route::get('invoices/excel/dl', [AdminInvoiceController::class, "excel"])->name("invoices.excel");
+
+        Route::delete('emails/{sentEmail}', [UserController::class, "destroySentEmail"])->name("sent-emails.destroy");
+
+
         Route::resource('payments', PaymentController::class);
 
 
@@ -194,6 +201,13 @@ Route::name("panel.")->group(function () {
 
 
         Route::get('new-service/{id}', [ServiceController::class, 'show_service'])->name("new-service.show");
+
+        Route::get('extra-invoices', [InvoiceController::class, 'e_index'])->name("extra-invoices");
+        Route::get('extra-invoices/show/{invoice}', [InvoiceController::class, 'e_show'])->name("extra-invoices.show");
+        Route::post('extra-invoices/pay/{invoice}', [InvoiceController::class, 'e_pay'])->name("extra-invoices.pay");
+        Route::post('extra-invoices/off/{invoice}', [InvoiceController::class, 'e_off'])->name("extra-invoices.off");
+
+
         Route::get('invoices', [InvoiceController::class, 'index'])->name("invoices");
         Route::get('invoices/show/{order}', [InvoiceController::class, 'show'])->name("invoices.show");
         Route::get('invoices/show/{order}/{status}', [InvoiceController::class, 'status'])->name("invoices.status");

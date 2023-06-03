@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Enums\EServiceType;
 use App\Helpers\ApiHelper;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Http;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Admin\Excel\Orders as Orders;
+use App\Mail\MailTemplate;
+use App\Models\Email;
 use App\Models\Server;
 use App\Models\ServerPlan;
 use App\Models\ServerType;
@@ -144,7 +147,9 @@ class OrderController extends Controller
         }
         if ($order) {
             if ($request->inform) {
-                Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
+                
+                $email = Email::where("type", $request->linux ? EEmailType::LinuxNewServer : EEmailType::WindowsNewServer)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
             }
             return redirect()->back()->withSuccess("Order is created successfully!");
         }
@@ -179,9 +184,9 @@ class OrderController extends Controller
     function destroy(Order $order)
     {
         if ($order->delete()) {
-            return redirect()->route("admin.orders.index")->with("success", "The order deleted successfully");
+            return redirect()->back()->with("success", "The order deleted successfully");
         }
-        return redirect()->route("admin.orders.index")->with("error", "Something went wrong");
+        return redirect()->back()->with("error", "Something went wrong");
     }
     function update(Request $request, Order $order)
     {
@@ -193,7 +198,10 @@ class OrderController extends Controller
         $order->update($request->only("label_ids"));
         if ($updated) {
             if ($request->inform) {
-                Mail::to($order->user->email)->send(new OrderDelivered($order, $request->message));
+               
+                    $email = Email::where("type", $request->linux ? EEmailType::LinuxNewServer : EEmailType::WindowsNewServer)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                
             }
             return redirect()->back()->withSuccess("Order is updated successfully!");
         }
