@@ -44,7 +44,12 @@
                                 <label>email</label>
                                 <input type="email" value="{{ old('email', $user->email) }}" name="email" class="form-control @error('email') is-invalid @enderror" required>
                             </div>
-                        
+                            <div class="form-group col-lg-4">
+                                <label>phone</label>
+                                <input type="phone" value="{{ old('phone', $user->phone) }}" name="phone" class="form-control @error('phone') is-invalid @enderror" required>
+                            </div>
+
+                            
                             <div class="form-group col-lg-4">
                                 <label>password</label>
                                 <input type="text" value="{{ old('password') }}" name="password" class="form-control @error('password') is-invalid @enderror">
