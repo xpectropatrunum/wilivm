@@ -163,7 +163,6 @@ class InvoiceController extends Controller
         $request->validate([
             "price" => "required",
             "title" => "required",
-            "user_id" => "required",
 
            
         ]);
