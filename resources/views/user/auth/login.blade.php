@@ -8,17 +8,17 @@
     <div id="alt-body">
         <div id="login-container" class="container">
             <div class="row">
-                <div class="login-right py-20 py-lg-40 d-flex flex-column align-items-center justify-content-center">
+                <div class="login-right py-20 py-lg-30 d-flex flex-column align-items-center justify-content-center">
 
                     <a href="/" target="_blank" class="mb-0">
                         <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wili-white.svg') }}"
-                            alt="Wilivm" width="250" height="auto" >
+                            alt="Wilivm" width="250" height="auto">
                     </a>
-    
+
 
                     <div id="login-anime" class="d-none d-lg-flex justify-content-center">
-                        <img src="{{asset('assets/images/logo/login.svg')}}" class="screen">
-                      
+                        <img src="{{ asset('assets/images/logo/login.svg') }}" class="screen">
+
                     </div>
 
                 </div>
@@ -106,7 +106,7 @@
                                     <h3 class="font-weight-bolder text-dark font-size-h4 mb-5">
                                         Login To Dashboard
                                     </h3>
-                                    
+
 
                                 </div>
 
@@ -115,20 +115,18 @@
                                     <form action="{{ route('panel.login.attemp') }}" method="post"
                                         class="form fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate"
                                         id="kt_login_signin_form">
-                                 
+
 
                                         @if (session('recaptcha'))
                                             <div class="form-check form-check-lg d-flex align-items-end">
-                                                <input type="hidden" id="g_recaptcha_response"
-                                                    name="g_recaptcha_response">
+                                                <input type="hidden" id="g_recaptcha_response" name="g_recaptcha_response">
                                                 <input type="hidden" name="action" value="validate_captcha">
                                             </div>
                                         @endif
                                         <div class="form-group fv-plugins-icon-container">
                                             <div class="d-flex justify-content-between align-items-center mb-2"
                                                 style="float:left">
-                                                <label class="font-size-lg text-dark-50 mb-0  text-left"
-                                                    for="signin-email">
+                                                <label class="font-size-lg text-dark-50 mb-0  text-left" for="signin-email">
                                                     Email</label>
 
                                             </div>
@@ -160,10 +158,7 @@
 
                                             </label>
 
-                                            <div dir="ltr"> <a href=" {{ route('panel.register') }}"
-                                                    class="font-size-lg text-dark-50 text-hover-warning"
-                                                    id="kt_login_forgot"> Signup</a> / <a
-                                                    href="{{ route('panel.forget') }}"
+                                            <div dir="ltr"> <a href="{{ route('panel.forget') }}"
                                                     class="font-size-lg text-dark-50 text-hover-warning"
                                                     id="kt_login_forgot"> Forget Password?</a></div>
 
@@ -194,6 +189,16 @@
 
                                                 </span> {{ __('Google') }}
                                             </a>
+
+
+
+
+                                            <button type="button"
+                                                class="btn btn-wili font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
+                                                <a href=" {{ route('panel.register') }}"
+                                                    class="font-size-lg text-white "
+                                                    id="kt_login_forgot"> Signup</a>
+                                            </button>
                                             <button type="submit" id="kt_login_signin_submit"
                                                 class="btn btn-success font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
                                                 Login

@@ -80,7 +80,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
     Route::post('logout', [LoginController::class, 'logout'])->name("logout");
     Route::post('login/attemp', [LoginController::class, 'loginAttemp'])->name("login.attemp");
-    Route::group(['middleware' => ['auth:admin', '2fa']], function () {
+    Route::group(['middleware' => ['auth:admin' ]], function () {
 
         Route::post('2fa', function () {
             return redirect(route('admin.dashboard'));
@@ -94,6 +94,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::post('blocked-users/{blockedUser}/status', [BlockedUserController::class, 'changeStatus'])->name('blocked-users.status');
         Route::resource('admins', AdminController::class);
         Route::post('users/status/{user}', [UserController::class, "changeStatus"])->name("users.status");
+        Route::post('users/send-email/{user}', [UserController::class, "sendEmail"])->name("users.send-email");
         Route::get('users/login/{user}', [UserController::class, "loginAsUser"])->name("users.login");
         Route::post('users/verify/{user}', [UserController::class, "changeVerify"])->name("users.verify");
         Route::get('users/excel/dl', [UserController::class, "excel"])->name("users.excel");

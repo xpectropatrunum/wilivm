@@ -458,6 +458,8 @@
                     </div>
                     <div class="tab-pane fade" id="custom-emails" role="tabpanel"
                         aria-labelledby="custom-tabs-emails-tab">
+                        <div class="mb-2"> <a class="btn btn-outline-danger btn-sm  mt-1" data-toggle="modal" href="#send-modal"
+                            >Send Email</a></div>
                         @php
                             $items = $user
                                 ->emails()
@@ -592,7 +594,49 @@
     </div>
     </div>
 
+    <div class="modal" id="send-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" action="{{route('admin.users.send-email', $user->id)}}" method="POST">
 
+                @csrf
+                <div class="modal-header">
+                    <h4 class="modal-title">Send Email</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row" >
+
+
+
+
+                        <div class="form-group col-12">
+                            <label>Subject</label>
+                            <input type="text"  name="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Title of box</label>
+                            <input type="text"  name="title" class="form-control" required>
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Content</label>
+                            <textarea rows="3"  name="content" class="form-control" required></textarea>
+                        </div>
+                    </div>
+                
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
     <div class="modal" id="myModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

@@ -30,26 +30,33 @@ class MailTemplate extends Mailable
      * @param  \App\Models\Order  $order
      * @return void
      */
-    public function __construct($email, $data)
+    public function __construct($email, $data, $custom = null)
     {
-        if ($email->type == EEmailType::Registration || $email->type == EEmailType::Forget_Password  || $email->type == EEmailType::Verify) {
-            $this->template = view(['template' => $email->template], ['user' => $data->user]) . "";
-        } elseif ($email->type == EEmailType::New_order) {
-            $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
+        if ($custom) {
+            $this->title = $custom->title;
+            $this->head = $custom->head;
+            $this->template = $custom->template;
+
+        } else {
+            if ($email->type == EEmailType::Registration || $email->type == EEmailType::Forget_Password  || $email->type == EEmailType::Verify) {
+                $this->template = view(['template' => $email->template], ['user' => $data->user]) . "";
+            } elseif ($email->type == EEmailType::New_order) {
+                $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
+            } elseif (
+                $email->type == EEmailType::Paid_order || $email->type == EEmailType::Deploying_server || $email->type == EEmailType::WindowsNewServer
+                || $email->type == EEmailType::LinuxNewServer
+            ) {
+                $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
+            } elseif ($email->type == EEmailType::Paid_invoice || $email->type == EEmailType::New_invoice) {
+                $this->template = view(['template' => $email->template], ['user' => $data->user, 'invoice' => $data->invoice]) . "";
+            }
+            $this->title = $email->title;
+            $this->head = $email->head;
         }
-        elseif ($email->type == EEmailType::Paid_order || $email->type == EEmailType::Deploying_server || $email->type == EEmailType::WindowsNewServer
-        || $email->type == EEmailType::LinuxNewServer) {
-            $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
-        }
-        elseif ($email->type == EEmailType::Paid_invoice || $email->type == EEmailType::New_invoice) {
-            $this->template = view(['template' => $email->template], ['user' => $data->user, 'invoice' => $data->invoice]) . "";
-        }
-        $this->title = $email->title;
-        $this->head = $email->head;
         SentEmail::create([
-            "user_id" =>  $data->user->id,
+            "user_id" =>  $data->user->id ?? $custom->user->id,
             "title" =>  $this->title,
-            "email" =>  $data->user->email,
+            "email" =>  $data->user->email ?? $email,
             "content" =>  $this->template,
         ]);
     }

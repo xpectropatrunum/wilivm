@@ -12,7 +12,7 @@
     <div id="alt-body">
         <div id="login-container" class="container">
             <div class="row">
-                <div class="login-right py-20 py-lg-40 d-flex flex-column align-items-center justify-content-center">
+                <div class="login-right py-20 py-lg-30 d-flex flex-column align-items-center justify-content-center">
 
                     <a href="/" target="_blank" class="mb-0">
                         <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wili-white.svg') }}"

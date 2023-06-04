@@ -7,7 +7,7 @@
 <div id="alt-body">
     <div id="login-container" class="container">
         <div class="row">
-            <div class="login-right py-20 py-lg-40 d-flex flex-column align-items-center justify-content-center">
+            <div class="login-right py-20 py-lg-30 d-flex flex-column align-items-center justify-content-center">
 
                 <a href="/" target="_blank" class="mb-0">
                     <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wili-white.svg') }}"
@@ -106,8 +106,7 @@
                                     Registration
                                 </h3>
                                 <span class=" py-4">
-                                    <a href="{{ route('panel.login') }}" id="kt_login_signup"
-                                        class="text-warning font-weight-bolder mr-2">{{ __('admin.i_already_have_a_membership') }}</a></span>
+                            
                             </div>
 
                             <div id="email-login" class="">
@@ -215,11 +214,16 @@
                                             autocomplete="off">
                                         <div class="fv-plugins-message-container"></div>
                                     </div>
+                                    <div class="pb-lg-0 pb-5">
 
+                                        <a href="{{ route('panel.login') }}" id="kt_login_signup"
+                                        class="text-primary font-weight-bolder mr-2">Back to Login</a>
+                                        
+                                    </div>
 
                                     <div class="pb-lg-0 pb-5">
 
-                                       
+                                     
                                         <button type="submit" id="kt_login_signin_submit"
                                             class="btn btn-wili font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
                                             Sign up

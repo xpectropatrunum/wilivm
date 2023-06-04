@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Controllers\Admin\Excel\Users as Users;
+use App\Mail\MailTemplate;
 use App\Models\SentEmail;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -221,6 +223,23 @@ class UserController extends Controller
         $user->delete();
         return redirect()->back()->withSuccess("User is removed successfully!");
 
+
+    }
+    public function sendEmail(Request $request, User $user){
+        $request->validate(
+            [
+                "title" => "required",
+                "content" => "required",
+                "subject" => "required",
+            ]
+        );
+
+        $mail = Mail::to($user->email)->send(new MailTemplate($user->email, null,(object)
+        ["head" => $request->title, "title" => $request->subject, "template" => $request->content, "user" => $user]));
+        if($mail){
+            return redirect()->back()->withSuccess("Email sent successfully");
+        }
+        return redirect()->back()->withError("Something went wrong!");
 
     }
     public function destroySentEmail(SentEmail $sentEmail)
