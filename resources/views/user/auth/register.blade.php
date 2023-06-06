@@ -11,12 +11,12 @@
 
                 <a href="/" target="_blank" class="mb-0">
                     <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wili-white.svg') }}"
-                        alt="Wilivm" width="250" height="auto" >
+                        alt="Wilivm" width="200" height="auto" >
                 </a>
 
 
                 <div id="login-anime" class="d-none d-lg-flex justify-content-center">
-                    <img src="{{asset('assets/images/logo/login.svg')}}" class="screen">
+                    <img src="{{asset('assets/images/logo/login.svg')}}" class="screen" style="height: 367px;width: 317px;">
                   
                 </div>
 
@@ -214,18 +214,19 @@
                                             autocomplete="off">
                                         <div class="fv-plugins-message-container"></div>
                                     </div>
-                                    <div class="pb-lg-0 pb-5">
-
-                                        <a href="{{ route('panel.login') }}" id="kt_login_signup"
-                                        class="text-primary font-weight-bolder mr-2">Back to Login</a>
-                                        
-                                    </div>
+                                
 
                                     <div class="pb-lg-0 pb-5">
 
+                                        <button type="button"
+                                        class="btn btn-wili font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
+                                        <a href=" {{ route('panel.login') }}"
+                                            class="font-size-lg text-white "
+                                            id="kt_login_forgot"> Back to Login</a>
+                                    </button>
                                      
-                                        <button type="submit" id="kt_login_signin_submit"
-                                            class="btn btn-wili font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
+                                    <button type="submit" id="kt_login_signin_submit"
+                                    class="btn btn-success font-weight-bold font-size-h6 px-6 py-3 my-3 mr-3">
                                             Sign up
                                         </button>
                                     </div>

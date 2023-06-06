@@ -12,12 +12,12 @@
 
                     <a href="/" target="_blank" class="mb-0">
                         <img draggable="false" class="img-responsive" src="{{ asset('assets/images/logo/wili-white.svg') }}"
-                            alt="Wilivm" width="250" height="auto">
+                        alt="Wilivm" width="200" height="auto" >
                     </a>
 
 
                     <div id="login-anime" class="d-none d-lg-flex justify-content-center">
-                        <img src="{{ asset('assets/images/logo/login.svg') }}" class="screen">
+                        <img src="{{asset('assets/images/logo/login.svg')}}" class="screen" style="height: 367px;width: 317px;">
 
                     </div>
 
