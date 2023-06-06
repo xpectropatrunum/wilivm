@@ -82,7 +82,7 @@ class WalletController extends Controller
         Log::debug("Order cp status: $id  :: " . $_POST["status"]);
         if ($_POST["status"] == 0) {
             $order = Order::find($id);
-            $transaction = $order->transactions()->latest()->first();+
+            $transaction = $order->transactions()->latest()->first();
             $transaction->method = "coin payments";
             $transaction->tx_id = $tx_id;
             $transaction->save();
