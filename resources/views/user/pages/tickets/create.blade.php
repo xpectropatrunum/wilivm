@@ -36,7 +36,7 @@
 
 
 
-                                <form method="POST" action="{{ route('panel.tickets.store') }}">
+                                <form method="POST" action="{{ route('panel.tickets.store') }}"  enctype="multipart/form-data">
                                     @csrf
                                     <div class="align-items-center row">
 
@@ -82,6 +82,23 @@
                                             </div>
                                         </div>
 
+                                        <div>
+
+                                            <div class="mt-3 mb-3">
+                                                <button type="button" class="btn btn-success add-input"
+                                                    style="color: white; font-size:18px"><i class="fas fa-plus"
+                                                        style="color: green;"></i> <span style="margin-left: 5px">add
+                                                        input</span></button>
+                                            </div>
+            
+                                            <div class="custom-file mt-3 mb-3">
+                                                <input type="file" class="custom-file-input" name="file[]"
+                                                    accept=".jpeg,.jpg,.png,.txt,.pdf">
+                                                <label class="custom-file-label" for="customFile">.jpeg,.jpg,.png,.txt,.pdf max
+                                                    5MB</label>
+                                            </div>
+        
+                                        </div>
 
                                         <div class="col-12 mt-2 float-right"
                                             style="
@@ -156,5 +173,40 @@
             bottom: -1px;
             font-size: 0.8em;
         }
+        
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #084cdf;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: #0d45a5;
+        }
     </style>
 @endpush
+@push('admin_js')
+    <script>
+        $(function() {
+            $(".add-input").click(() => {
+                $temp = `<div class="custom-file mt-3 mb-3">
+                <input type="file" name="file[]"  accept=".jpeg,.jpg,.png,.txt,.pdf">
+            </div>`;
+                if ($(".custom-file").length < 5) {
+                    $(".custom-file").parent().append($temp)
+                } else {
+                    $(".add-input").attr("disabled", "disabled")
+                }
+
+
+            });
+        })
+    </script>
+@endpush
+
+

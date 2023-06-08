@@ -24,7 +24,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Ticket #{{ $ticket->id }}</h3>
                 </div>
-                <form action="{{ route('admin.tickets.update', $ticket->id) }}" method="post">
+                <form action="{{ route('admin.tickets.update', $ticket->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -78,6 +78,13 @@
                                                                 <div class="received_withd_msg">
                                                                     {!! $item->message !!}
                                                                     <span class="time_date">{{ $item->created_at }}</span>
+                                                                    <div>
+                                                                        @foreach ($item->assets as $key => $item)
+                                                                            <div><a target="_blank"
+                                                                                    href="{{ $item->file }}">{{ $key + 1 }}.{{ $item->mime }}</a>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -87,6 +94,13 @@
                                                                 {!! $item->message !!}
 
                                                                 <span class="time_date">{{ $item->created_at }}</span>
+                                                                <div>
+                                                                    @foreach ($item->assets as $key => $item)
+                                                                        <div><a target="_blank"
+                                                                                href="{{ $item->file }}">{{ $key + 1 }}.{{ $item->mime }}</a>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     @endif
@@ -133,7 +147,23 @@
                                 <textarea name="message" class="form-control editor" rows="10"></textarea>
                                
                             </div>
-                            
+                            <div class="form-group col-lg-12">
+
+                                <div class="mt-3 mb-3">
+                                    <button type="button" class="btn btn-success add-input"
+                                        style="color: white; font-size:18px"><i class="fas fa-plus"
+                                            style="color: green;"></i> <span style="margin-left: 5px">add
+                                            input</span></button>
+                                </div>
+
+                                <div class="custom-file-m mt-3 mb-3">
+                                    <input type="file" class="custom-file-m-input" name="file[]"
+                                        accept=".jpeg,.jpg,.png,.txt,.pdf">
+                                    <label class="custom-file-m-label" for="customFile">.jpeg,.jpg,.png,.txt,.pdf max
+                                        5MB</label>
+                                </div>
+
+                            </div>
 
                         </div>
                     </div>
@@ -446,6 +476,20 @@
             background-color: #ddd;
             border-left: 5px solid #333;
         }
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #084cdf;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: #0d45a5;
+        }
     </style>
 @endpush
 
@@ -455,9 +499,20 @@
     <script>
         function pasteToMessage(data){
             CKEDITOR.instances.message.setData(data.text)
-
-          
-
         }
+        $(function() {
+            $(".add-input").click(() => {
+                $temp = `<div class="custom-file-m mt-3 mb-3">
+                <input type="file" name="file[]"  accept=".jpeg,.jpg,.png,.txt,.pdf">
+            </div>`;
+                if ($(".custom-file-m").length < 5) {
+                    $(".custom-file-m").parent().append($temp)
+                } else {
+                    $(".add-input").attr("disabled", "disabled")
+                }
+
+
+            });
+        })
     </script>
 @endpush

@@ -72,13 +72,31 @@ class TicketController extends Controller
             "status" => "required",
 
         ];
+
+
         $request->validate($rules);
+
+        if($request->file){
+            $request->validate([
+                'file.*' => 'max:5120|mimes:jpg,jpeg,pdf,txt,png'
+            ]); 
+        }
+
 
         $updated = $ticket->update($request->all());
         if ($updated) {
             if ($request->message) {
-                $ticket->conversations()->create($request->all());
+                $ticket_conversation = $ticket->conversations()->create($request->all());
                 $ticket->update(["new" => 1]);
+
+                if($request->file){
+                    foreach($request->file as $file){
+                        $fileName = time().'_'. $file->getClientOriginalName();
+                        $file->move(public_path('/uploades'), $fileName);
+                        $ticket_conversation->assets()->create(["file" => '/uploades/' . $fileName]);
+                    }
+                 
+                }
             }
             return redirect()->back()->withSuccess("Ticket is updated successfully!");
         }
@@ -96,12 +114,25 @@ class TicketController extends Controller
 
         ];
         $request->validate($rules);
+        if($request->file){
+            $request->validate([
+                'file.*' => 'max:5120|mimes:jpg,jpeg,pdf,txt,png'
+            ]); 
+        }
 
         $create = Ticket::create($request->all());
         if ($create) {
 
 
-            $create->conversations()->create($request->all());
+            $ticket_conversation = $create->conversations()->create($request->all());
+            if($request->file){
+                foreach($request->file as $file){
+                    $fileName = time().'_'. $file->getClientOriginalName();
+                    $file->move(public_path('/uploades'), $fileName);
+                    $ticket_conversation->assets()->create(["file" => '/uploades/' . $fileName]);
+                }
+             
+            }
             return redirect()->route("admin.tickets.index")->withSuccess("Ticket is created successfully!");
         }
         return redirect()->back()->withError("Something went wrong");

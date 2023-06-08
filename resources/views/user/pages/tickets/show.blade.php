@@ -34,8 +34,8 @@
                                     <h6 class="mb-2">Last update:
                                         {{ MyHelper::getNormaliazedTime($ticket->updated_at, 1) }}</h6>
 
-                                        <h6 class="mb-0">Department:
-                                            {{ App\Enums\ETicketDepartment::getKey($ticket->department) }}</h6>
+                                    <h6 class="mb-0">Department:
+                                        {{ App\Enums\ETicketDepartment::getKey($ticket->department) }}</h6>
 
                                 </div>
 
@@ -49,9 +49,16 @@
                                             <div class="chat-body">
                                                 <div class="chat-message">
                                                     {!! $item->message !!}
-                                                    <span> {{ MyHelper::getNormaliazedTime($item->created_at) }}</span> 
+                                                    <span> {{ MyHelper::getNormaliazedTime($item->created_at) }}</span>
+                                                    <div>
+                                                        @foreach ($item->assets as $key => $item)
+                                                            <div><a target="_blank"
+                                                                    href="{{ $item->file }}">{{ $key + 1 }}.{{ $item->mime }}</a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
-
+                                                
                                             </div>
                                         </div>
                                     @else
@@ -59,9 +66,15 @@
                                             <div class="chat-body">
                                                 <div class="chat-message">
                                                     {!! $item->message !!}
-                                                   <span> {{ MyHelper::getNormaliazedTime($item->created_at) }}</span> 
+                                                    <span> {{ MyHelper::getNormaliazedTime($item->created_at) }}</span>
+                                                    <div>
+                                                        @foreach ($item->assets as $key => $item)
+                                                            <div><a target="_blank"
+                                                                    href="{{ $item->file }}">{{ $key + 1 }}.{{ $item->mime }}</a>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
-                                                <div></div>
 
                                             </div>
                                         </div>
@@ -72,24 +85,43 @@
 
                             </div>
                         </div>
-                        <form class="card-footer" method="POST" action="{{route("panel.tickets.send", $ticket->id)}}">
+                        <form class="card-footer" method="POST" action="{{ route('panel.tickets.send', $ticket->id) }}"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="align-items-center">
-                               
+
                                 <div class="d-flex flex-grow-1 col-12">
                                     <textarea name="message" rows="4" type="text" class="form-control" placeholder="Type your message.."></textarea>
                                 </div>
-                                <div class="col-12 mt-2 float-right" style="
+
+                                <div>
+
+                                    <div class="mt-3 mb-3">
+                                        <button type="button" class="btn btn-success add-input"
+                                            style="color: white; font-size:18px"><i class="fas fa-plus"
+                                                style="color: green;"></i> <span style="margin-left: 5px">add
+                                                input</span></button>
+                                    </div>
+
+                                    <div class="custom-file mt-3 mb-3">
+                                        <input type="file" class="custom-file-input" name="file[]"
+                                            accept=".jpeg,.jpg,.png,.txt,.pdf">
+                                        <label class="custom-file-label" for="customFile">.jpeg,.jpg,.png,.txt,.pdf max
+                                            5MB</label>
+                                    </div>
+
+                                </div>
+                                <div class="col-12 mt-2 float-right"
+                                    style="
                                         text-align: right;
                                     ">
-                                    <button class="btn btn-primary btn"
-                                   >
-                                   
-                                    <i class="bi bi-send-fill"></i>
-                                    {{ __('Send') }}
-                                </button>
+                                    <button class="btn btn-primary btn">
+
+                                        <i class="bi bi-send-fill"></i>
+                                        {{ __('Send') }}
+                                    </button>
                                 </div>
-                               
+
                             </div>
                         </form>
                     </div>
@@ -134,14 +166,16 @@
             text-align: left !important;
             word-break: break-word !important
         }
-        .chat .chat-message span{
+
+        .chat .chat-message span {
             color: #7c7c7c;
             position: absolute;
             left: 5px;
             bottom: -1px;
             font-size: 0.8em;
         }
-        .chat-left .chat-message  span{
+
+        .chat-left .chat-message span {
             color: white;
             text-align: right;
             position: absolute;
@@ -149,6 +183,38 @@
             bottom: -1px;
             font-size: 0.8em;
         }
+
+        input[type=file]::file-selector-button {
+            margin-right: 20px;
+            border: none;
+            background: #084cdf;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background .2s ease-in-out;
+        }
+
+        input[type=file]::file-selector-button:hover {
+            background: #0d45a5;
+        }
     </style>
 @endpush
+@push('admin_js')
+    <script>
+        $(function() {
+            $(".add-input").click(() => {
+                $temp = `<div class="custom-file mt-3 mb-3">
+                <input type="file" name="file[]" class="custom-file-input" accept=".jpeg,.jpg,.png,.txt,.pdf">
+            </div>`;
+                if ($(".custom-file").length < 5) {
+                    $(".custom-file").parent().append($temp)
+                } else {
+                    $(".add-input").attr("disabled", "disabled")
+                }
 
+
+            });
+        })
+    </script>
+@endpush

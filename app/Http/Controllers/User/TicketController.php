@@ -46,8 +46,26 @@ class TicketController extends Controller
             "message" => "required"
         ]);
 
-        if($ticket->conversations()->create($request->only("message"))){
+
+        if($request->file){
+            $request->validate([
+                'file.*' => 'max:5120|mimes:jpg,jpeg,pdf,txt,png'
+            ]); 
+        }
+        if($ticket_conversation = $ticket->conversations()->create($request->only("message"))){
+            if($request->file){
+                foreach($request->file as $file){
+                    $fileName = time().'_'. $file->getClientOriginalName();
+                    $file->move(public_path('/uploades'), $fileName);
+                    $ticket_conversation->assets()->create(["file" => '/uploades/' . $fileName]);
+                }
+             
+            }
+
             Notification::create(["message" => "new ticket received", "type"=> ENotificationType::Ticket]);
+
+           
+            //$ticket_conversation->assets()
             $ticket->status = 0;
             $ticket->save();
             return redirect()->back()->withSuccess("Your message has been sent");
@@ -72,11 +90,25 @@ class TicketController extends Controller
             "department" => "required",
             
         ]);
+        if($request->file){
+            $request->validate([
+                'file.*' => 'max:5120|mimes:jpg,jpeg,pdf,txt,png'
+            ]); 
+        }
 
         $ticket = auth()->user()->tickets()->create(["title" => $request->title, "status" => 0, "new" => 0 ,"department" => $request->department]);
         if($ticket){
             MyHelper::sendSMS(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
-            $ticket->conversations()->create(["message" => $request->message,]);
+            $ticket_conversation = $ticket->conversations()->create(["message" => $request->message,]);
+            if($request->file){
+                foreach($request->file as $file){
+                    $fileName = time().'_'. $file->getClientOriginalName();
+                    $file->move(public_path('/uploades'), $fileName);
+                    $ticket_conversation->assets()->create(["file" => '/uploades/' . $fileName]);
+                }
+             
+            }
+
             return redirect()->route("panel.tickets")->withSuccess("The ticket is created successfully.");
         }
         return redirect()->back()->withError("Something went wrong.");

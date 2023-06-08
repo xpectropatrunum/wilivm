@@ -15,11 +15,11 @@ class TicketConversation extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-     protected static function boot()
+    protected static function boot()
     {
         parent::boot();
 
-          if(auth()->guard("web")->check()){
+        if (auth()->guard("web")->check()) {
             return 0;
         }
         static::deleting(
@@ -65,6 +65,8 @@ class TicketConversation extends Model
     ];
 
 
-  
-  
+    function assets()
+    {
+        return $this->hasMany(TicketConversationAsset::class);
+    }
 }

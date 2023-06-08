@@ -91,6 +91,9 @@ class WalletController extends Controller
             
         } elseif ($_POST["status"] == 100) {
             $transaction = Transaction::where("tx_id", $tx_id)->first();
+            if( $transaction->status == 1){
+                return 0;
+            }
             $transaction->status = 1;
             $transaction->method = "coin payments";
             $transaction->save();
