@@ -80,7 +80,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
     Route::post('logout', [LoginController::class, 'logout'])->name("logout");
     Route::post('login/attemp', [LoginController::class, 'loginAttemp'])->name("login.attemp");
-    Route::group(['middleware' => ['auth:admin' ]], function () {
+    Route::group(['middleware' => ['auth:admin' , '2fa']], function () {
 
         Route::post('2fa', function () {
             return redirect(route('admin.dashboard'));
