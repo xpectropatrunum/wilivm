@@ -91,7 +91,7 @@
                             <div class="align-items-center">
 
                                 <div class="d-flex flex-grow-1 col-12">
-                                    <textarea name="message" rows="4" type="text" class="form-control" placeholder="Type your message.."></textarea>
+                                    <textarea name="message" rows="4" type="text" class="form-control editor" placeholder="Type your message.."></textarea>
                                 </div>
 
                                 <div>

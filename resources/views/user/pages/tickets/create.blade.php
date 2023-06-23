@@ -77,14 +77,14 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label>Message</label>
-                                                <textarea name="message" rows="4" type="text" class="form-control" placeholder="Type your message.."></textarea>
+                                                <textarea name="message" rows="4" type="text" class="form-control editor" placeholder="Type your message.."></textarea>
 
                                             </div>
                                         </div>
 
                                         <div>
 
-                                            <div class="mt-3 mb-3">
+                                           <div class="mt-3 mb-3">
                                                 <button type="button" class="btn btn-success add-input"
                                                     style="color: white; font-size:18px"><i class="fas fa-plus"
                                                         style="color: green;"></i> <span style="margin-left: 5px">add
