@@ -147,10 +147,7 @@
     <script>
         function initCkeditor() {
             $('.editor').each(function() {
-                CKEDITOR.replace(this.id, {
-                    filebrowserUploadUrl: baseUrl() + "admin/upload-image?_token=" + $('meta[name="csrf-token"]').attr('content'),
-                    filebrowserUploadMethod: 'form'
-                });
+                CKEDITOR.replace(this.id);
             });
         }
         initCkeditor()
