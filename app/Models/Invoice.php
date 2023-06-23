@@ -28,6 +28,8 @@ class Invoice extends Model
         'cycle',
         'price',
         'discount',
+        'due_date',
+
     ];
     function transactions()
     {

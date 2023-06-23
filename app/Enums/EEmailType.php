@@ -20,6 +20,7 @@ final class EEmailType extends Enum
     const SuspendService =   9;
     const Paid_order =   10;
     const New_order =   11;
+    const Remind_week = 12;
 
 
 }

@@ -45,6 +45,7 @@ use App\Mail\OrderShipped;
 use App\Models\Admin;
 use App\Models\Order;
 use App\Models\ServerType;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -63,7 +64,40 @@ use Spatie\Permission\Models\Role;
 */
 
 
+Route::get("/3", function () {
+    $orders = Order::where("expires_at", ">", time());
+    $orders->whereHas("transactions", function ($query) {
+        $query->where("status", 1);
+    });
 
+    $now = Carbon::now();
+    foreach ($orders->get() as $item) {
+
+        echo "entering loop";
+        if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) <= 7) {
+            echo "entering if";
+
+            
+            Order::updateOrCreate([
+                "server_id" => $item->server_id,
+                "user_id" => $item->user_id,
+                "cycle" => $item->cycle,
+                "price" => $item->price,
+                "label_ids" => $item->label_ids,
+                "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
+                "discount" => $item->discount],[
+                "server_id" => $item->server_id,
+                "user_id" => $item->user_id,
+                "cycle" => $item->cycle,
+                "price" => $item->price,
+                "label_ids" => $item->label_ids,
+                "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
+                "discount" => $item->discount,
+                "due_date" => date("Y-m-d H:i", time() + 86400 * 7),
+            ]);
+        }
+    }
+});
 Route::get('auth/google', [AuthLoginController::class, "redirectToGoogle"])->name("redirect.google");
 
 Route::get('auth/google/callback', [AuthLoginController::class, "handleGoogleCallback"]);
@@ -80,7 +114,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
     Route::post('logout', [LoginController::class, 'logout'])->name("logout");
     Route::post('login/attemp', [LoginController::class, 'loginAttemp'])->name("login.attemp");
-    Route::group(['middleware' => ['auth:admin' , '2fa']], function () {
+    Route::group(['middleware' => ['auth:admin']], function () {
 
         Route::post('2fa', function () {
             return redirect(route('admin.dashboard'));
@@ -166,7 +200,6 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::post('sendmail/{order}', [OrderController::class, "sendMail"])->name("sendmail");
 
         Route::resource('settings', SettingController::class);
-
     });
 });
 

@@ -28,6 +28,8 @@ class Order extends Model
         'price',
         'label_ids',
         'discount',
+        'due_date',
+        
     ];
     function transactions()
     {
