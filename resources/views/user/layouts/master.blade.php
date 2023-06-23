@@ -144,6 +144,17 @@
     </script>
     <script src="{{ asset('admin-panel/libs/ckeditor/ckeditor.js') }}"></script>
 
+    <script>
+        function initCkeditor() {
+            $('.editor').each(function() {
+                CKEDITOR.replace(this.id, {
+                    filebrowserUploadUrl: baseUrl() + "admin/upload-image?_token=" + $('meta[name="csrf-token"]').attr('content'),
+                    filebrowserUploadMethod: 'form'
+                });
+            });
+        }
+        initCkeditor()
+    </script>
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {},
             Tawk_LoadStart = new Date();
