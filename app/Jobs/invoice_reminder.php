@@ -2,6 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Enums\EEmailType;
+use App\Mail\MailTemplate;
+use App\Models\Email;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -10,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class invoice_reminder implements ShouldQueue
 {
@@ -39,12 +43,8 @@ class invoice_reminder implements ShouldQueue
        
         $now = Carbon::now();
         foreach($orders->get() as $item){
-
-            echo "entering loop";
             if($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) <= 7 ){
-            echo "entering if";
-
-                Order::create([
+                $order = Order::create([
                     "server_id" => $item->server_id,
                     "user_id" => $item->user_id,
                     "cycle" => $item->cycle,
@@ -52,12 +52,12 @@ class invoice_reminder implements ShouldQueue
                     "label_ids" => $item->label_ids,
                     "expires_at" => $item->expires_at + 30*86400* $item->cycle,
                     "discount" => $item->discount,
-                    "due_date" => date("Y-m-d H:i", time() + 86400 * 7),
+                    "due_date" => date("Y-m-d H:i", $item->expires_at),
                 ]);
-                
-            }
-           
 
+                $email = Email::where("type", EEmailType::Remind_week)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            }
         }
         
     }

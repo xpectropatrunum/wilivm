@@ -40,7 +40,7 @@ class MailTemplate extends Mailable
         } else {
             if ($email->type == EEmailType::Registration || $email->type == EEmailType::Forget_Password  || $email->type == EEmailType::Verify) {
                 $this->template = view(['template' => $email->template], ['user' => $data->user]) . "";
-            } elseif ($email->type == EEmailType::New_order) {
+            } elseif ($email->type == EEmailType::New_order || $email->type == EEmailType::Remind_week) {
                 $this->template = view(['template' => $email->template], ['user' => $data->user, 'order' => $data->order]) . "";
             } elseif (
                 $email->type == EEmailType::Paid_order || $email->type == EEmailType::Deploying_server || $email->type == EEmailType::WindowsNewServer
