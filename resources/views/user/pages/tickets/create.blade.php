@@ -77,7 +77,7 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label>Message</label>
-                                                <textarea name="message" rows="4" type="text" class="form-control editor" placeholder="Type your message.."></textarea>
+                                                <textarea id="editor" name="message" rows="4" type="text" class="form-control editor" placeholder="Type your message.."></textarea>
 
                                             </div>
                                         </div>
