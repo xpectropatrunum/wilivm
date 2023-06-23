@@ -142,6 +142,8 @@
             var profileImage = $('#profileImage').text(intials);
         });
     </script>
+    <script src="{{ asset('admin-panel/libs/ckeditor/ckeditor.js') }}"></script>
+
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {},
             Tawk_LoadStart = new Date();
