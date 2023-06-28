@@ -49,7 +49,7 @@ class DashboardController extends Controller
         'due_date', "orders.created_at");
 
         $ordersTbl = DB::table('invoices')->where("user_id", auth()->user()->id)
-        ->join('transactions','transactions.order_id','=','user_id')->select('invoices.id',      'user_id',
+      ->select('invoices.id',      'user_id',
         'title',
         'description',
         'expires_at',
