@@ -61,9 +61,7 @@
                                     <td>{{ $item->location_->name }}</td>
                                     <td>{{ $item->os_->name }}</td>
                                     <td>
-                                        @php
-                                            dd(auth()->user()->services()->where('status', '!=', '1')->latest()->get());
-                                        @endphp
+                                    
                                         @if ($item->status == 2)
                                             <span
                                                 class="badge bg-success">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
