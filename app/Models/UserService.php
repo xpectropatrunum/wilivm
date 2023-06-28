@@ -87,18 +87,9 @@ class UserService extends Authenticatable
     }
     function order()
     {
-        $data = $this->hasOne(Order::class, "server_id", "id")->ofMany([
-            'id' => 'max',
-        ],function (Builder $query) {
-            $query->whereHas("transactions", function($q){
-                $q->where("status", 1);
-
-            });
-        });
-        if(!$data){
+        
             return $this->hasOne(Order::class, "server_id", "id");
-        }
-        return $data;
+      
     }
     function requests()
     {
