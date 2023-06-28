@@ -46,7 +46,7 @@ class DashboardController extends Controller
         'price',
         'label_ids',
         'discount',
-        'due_date', "orders.created_at")  ->join('transactions','transactions.order_id','=','user_id');
+        'due_date', "orders.created_at")  ->join('transactions','transactions.order_id','orders.id');
 
         $ordersTbl = DB::table('invoices')->where("user_id", auth()->user()->id)
        ->select('invoices.id',      'user_id',
@@ -56,7 +56,7 @@ class DashboardController extends Controller
         'cycle',
         'price',
         'discount',
-        'due_date', "invoices.created_at") ->join('transactions','transactions.order_id','=','user_id');
+        'due_date', "invoices.created_at") ->join('transactions','transactions.order_id','invoices.id');
 
         $mergeTbl = $usersTbl->unionAll($ordersTbl);
         $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl);
