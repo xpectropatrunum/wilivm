@@ -173,15 +173,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
-                                    @php
-                                        if ($item->service->status == \App\Enums\EServiceType::Deploying) {
-                                            $minutes_past = $item->service->order ? round((time() - strtotime($item->service->order->updated_at)) / 60) : 24 * 60;
-                                            if ($minutes_past >= 24 * 60) {
-                                                $item->service->status = \App\Enums\EServiceType::Cancelled;
-                                                $item->service->save();
-                                            }
-                                        }
-                                    @endphp
+                                 
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td><a href="/admin/users?search={{ $item->user?->email }}"
