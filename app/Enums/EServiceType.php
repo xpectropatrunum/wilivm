@@ -12,7 +12,8 @@ final class EServiceType extends Enum
     const Expired =   3;
     const Cancelled =   4;
     const Deploying =   5;
-    const Suspended =   6;
+    const Refund =   6;
+    const Suspended =   7;
 
 
 
