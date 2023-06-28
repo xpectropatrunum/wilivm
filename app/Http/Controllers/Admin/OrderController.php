@@ -184,7 +184,7 @@ class OrderController extends Controller
     }
     function destroy(Order $order)
     {
-        if ($order->delete()) {
+        if ($order->service->delete() && $order->delete()) {
             return redirect()->back()->with("success", "The order deleted successfully");
         }
         return redirect()->back()->with("error", "Something went wrong");
