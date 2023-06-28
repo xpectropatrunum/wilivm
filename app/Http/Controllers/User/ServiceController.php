@@ -80,7 +80,12 @@ class ServiceController extends Controller
         if($new_server){
             $new_order = auth()->user()->orders()->create([
                 "server_id" => $new_server->id, "price" =>  $request->cycle * ($server->price + $server->locations->pluck("price", "id")[$request->location]), 
-                "expires_at" => time() + $request->cycle * 86400*30,   "cycle" => $request->cycle
+                "expires_at" => time() + $request->cycle * 86400*30,  
+                
+            "due_date" => time() + $request->cycle * 86400*30,  
+            "cycle" => $request->cycle
+
+
             ]);
             $new_transaction = $new_order->transactions()->create(["tx_id" => md5("wil4li" . $new_order->id)]);
             $email = Email::where("type", EEmailType::New_order)->first();
@@ -115,6 +120,8 @@ class ServiceController extends Controller
                 "server_id" => $service->id,
                 "user_id" => auth()->user()->id,
                 "cycle" => $request->cycle,
+            "due_date" => $service->order->expires_at +  $request->cycle * 86400 * 30,
+
                 "expires_at" => $service->order->expires_at +  $request->cycle * 86400 * 30,
                 "price" => $price 
             ]

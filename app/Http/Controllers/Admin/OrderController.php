@@ -141,6 +141,7 @@ class OrderController extends Controller
             "label_ids" => $request->label_ids, 
             "cycle" => $request->cycle,
             "discount" => 0,
+            "due_date" => time() + $request->cycle * 86400*30,
             "expires_at" =>  time() + $request->cycle * 86400*30,
         ]);
         $order->transactions()->create(["tx_id" => md5(time())]);
@@ -200,7 +201,7 @@ class OrderController extends Controller
             Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
         }
 
-        
+
         $updated = $order->service->update($request->only("username", "ipv4","ipv6","password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
         $order->update($request->only("label_ids"));
         if ($updated) {
