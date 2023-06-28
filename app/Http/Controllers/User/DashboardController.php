@@ -59,8 +59,9 @@ class DashboardController extends Controller
         'due_date', "invoices.created_at") ;
 
         $mergeTbl = $usersTbl->unionAll($ordersTbl);
-        $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl)->join('transactions','transactions.order_id',"=",'id');
-        dd($invoices->get()[0]->transactions);
+        $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl)
+        ;
+        dd($invoices->get());
 
 
         return view("user.dashboard", compact("bulletins", "countries", "invoices"));
