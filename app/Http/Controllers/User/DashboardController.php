@@ -38,23 +38,9 @@ class DashboardController extends Controller
         }
 
 
-        $usersTbl = auth()->user()->orders->select('id','server_id',
-        'user_id',
-        'cycle',
-        'expires_at',
-        'price',
-        'label_ids',
-        'discount',
-        'due_date',)->groupBy('expires_at');
+        $usersTbl = auth()->user()->orders->groupBy('expires_at');
 
-        $ordersTbl = auth()->user()->invoices->select('id',      'user_id',
-        'title',
-        'description',
-        'expires_at',
-        'cycle',
-        'price',
-        'discount',
-        'due_date',)->groupBy('expires_at');
+        $ordersTbl = auth()->user()->invoices->groupBy('expires_at');
 
         $mergeTbl = $usersTbl->unionAll($ordersTbl);
         $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl);
