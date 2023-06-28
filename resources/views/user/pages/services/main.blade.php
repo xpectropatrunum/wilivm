@@ -62,7 +62,7 @@
                                     <td>{{ $item->os_->name }}</td>
                                     <td>
                                         @php
-                                            dd($item->status);
+                                            dd($item);
                                         @endphp
                                         @if ($item->status == 2)
                                             <span
