@@ -38,7 +38,7 @@ class DashboardController extends Controller
         }
 
 
-        $usersTbl = auth()->user()->orders()->select('id','server_id',
+        $usersTbl = auth()->user()->orders->select('id','server_id',
         'user_id',
         'cycle',
         'expires_at',
@@ -47,7 +47,7 @@ class DashboardController extends Controller
         'discount',
         'due_date',)->groupBy('expires_at');
 
-        $ordersTbl = auth()->user()->invoices()->select('id',      'user_id',
+        $ordersTbl = auth()->user()->invoices->select('id',      'user_id',
         'title',
         'description',
         'expires_at',
