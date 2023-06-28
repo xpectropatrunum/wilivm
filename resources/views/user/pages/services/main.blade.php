@@ -62,7 +62,7 @@
                                     <td>{{ $item->os_->name }}</td>
                                     <td>
                                         @php
-                                            dd($item);
+                                            dd(auth()->user()->services()->where('status', '!=', '1')->latest()->get());
                                         @endphp
                                         @if ($item->status == 2)
                                             <span
