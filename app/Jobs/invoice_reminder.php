@@ -115,6 +115,11 @@ class invoice_reminder implements ShouldQueue
                     $email = Email::where("type", EEmailType::SuspendService)->first();
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 }
+                elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
+                    $item->update(["status" => EServiceType::Cancelled]);
+
+                  
+                }
             }
         }
     }

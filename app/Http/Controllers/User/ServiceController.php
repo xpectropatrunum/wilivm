@@ -136,15 +136,8 @@ class ServiceController extends Controller
  
     public function show(UserService $service)
     {
-        if($service->status == \App\Enums\EServiceType::Deploying){
-            $minutes_past = $service->order ? round((time() - strtotime($service->order->updated_at)) / 60) : 24*60;
-            if($minutes_past >= 24* 60){
-                $service->status = \App\Enums\EServiceType::Cancelled;
-                $service->save();
-            }
-
-
-        }
+       
+        
         return view("user.pages.services.show", compact("service"));
     }
 

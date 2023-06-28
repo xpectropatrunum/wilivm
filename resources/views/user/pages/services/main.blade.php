@@ -44,16 +44,7 @@
                         </thead>
                         <tbody>
                             @foreach (auth()->user()->services()->where('status', '!=', '1')->latest()->get() as $key => $item)
-                                @php
-                                    
-                                    if ($item->status == \App\Enums\EServiceType::Deploying) {
-                                        $minutes_past = $item->order ? round((time() - strtotime($item->order->updated_at)) / 60) : 24 * 60;
-                                        if ($minutes_past >= 24 * 60) {
-                                            $item->status = \App\Enums\EServiceType::Cancelled;
-                                            $item->save();
-                                        }
-                                    }
-                                @endphp
+                            
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->type }}</td>
