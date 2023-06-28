@@ -13,7 +13,6 @@ use App\Models\DoctorSpecialty;
 use App\Models\Email;
 use App\Models\TvTemp;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -33,54 +32,27 @@ class DashboardController extends Controller
         for ($i = 0; $i < 10; $i++) {
             $code .= $chars[mt_rand(0, strlen($chars) - 1)];
         }
-        if (!auth()->user()->affiliate_code) {
+        if(!auth()->user()->affiliate_code){
             auth()->user()->update(["affiliate_code" => $code]);
         }
 
-
-        $usersTbl = DB::table('orders')->where("user_id", auth()->user()->id)
-      ->select('orders.id','server_id',
-        'user_id',
-        'cycle',
-        'expires_at',
-        'price',
-        'label_ids',
-        'discount',
-        'due_date', "orders.created_at") ;
-
-        $ordersTbl = DB::table('invoices')->where("user_id", auth()->user()->id)
-       ->select('invoices.id',      'user_id',
-        'title',
-        'description',
-        'expires_at',
-        'cycle',
-        'price',
-        'discount',
-        'due_date', "invoices.created_at") ;
-
-        $mergeTbl = $usersTbl->unionAll($ordersTbl);
-        $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl)->
-        join('transactions','transactions.order_id',"=",'mg.id');
-        dd($invoices->get()[0]->transactions);
-
-
-        return view("user.dashboard", compact("bulletins", "countries", "invoices"));
+        return view("user.dashboard", compact("bulletins", "countries"));
     }
     public function resend_email()
     {
-
+       
 
         $user = auth()->user();
         if ($user->verified) {
             return redirect()->back()->withErrors("Your are verified already");
         }
-        if (RateLimiter::tooManyAttempts('send-message:' . $user->id, $perMinute = 1)) {
-            $seconds = RateLimiter::availableIn('send-message:' . $user->id);
-
-            return redirect()->back()->withErrors('You may try again in ' . $seconds . ' seconds.');
+        if (RateLimiter::tooManyAttempts('send-message:'.$user->id, $perMinute = 1)) {
+            $seconds = RateLimiter::availableIn('send-message:'.$user->id);
+         
+            return redirect()->back()->withErrors('You may try again in '.$seconds.' seconds.');
         }
-        $email = Email::where("type", EEmailType::Verify)->first();
-        Mail::to($user->email)->send(new MailTemplate($email, (object)["user" => $user]));
+       $email = Email::where("type", EEmailType::Verify)->first();
+       Mail::to($user->email)->send(new MailTemplate($email, (object)["user" => $user]));
         return redirect()->back()->withSuccess("Verification email is sent successfully");
     }
     /**

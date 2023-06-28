@@ -193,7 +193,9 @@
                         <div class="recent-message d-flex px-4 py-3">
 
 
-                            @if ($invoices->latest()->take(5)->get()->count() == 0)
+                            @if (auth()->user()->orders()->latest()->take(5)->get()->count() == 0
+                            
+                            && auth()->user()->invoices()->latest()->take(5)->get()->count() == 0)
 
                                 <div class="name ms-4 w-100">
                                     <div class="mb-1 text-muted" style="text-align: center">You have no invoice</div>
@@ -202,7 +204,7 @@
                             @else
                                 <table class="w-100 custom">
                                     <tbody>
-                                        @foreach ($invoices->latest()->take(5)->get() as $item)
+                                        @foreach (auth()->user()->orders()->latest()->take(5)->get() as $item)
                                             <tr>
 
 
@@ -244,6 +246,48 @@
 
                                             </tr>
                                         @endforeach
+                                        @foreach (auth()->user()->invoices()->latest()->take(5)->get() as $item)
+                                        <tr>
+
+
+                                            <td>
+                                                <div style="width:40px;height:40px">
+                                                    <i class="bi bi-receipt"
+                                                        style="
+                                                        background: #f3f3f3;
+                                                        border-radius: 5px;
+                                                        font-size: 27px;
+                                                        padding: 2px 7px;
+                                            "></i>
+                                                </div>
+
+
+
+
+                                            </td>
+
+
+                                            <td>
+                                                <div>
+                                                    <strong>
+                                                        ${{ $item->price }}
+                                                    </strong>
+                                                    <div class="text-muted" style="font-size:0.9em">
+                                                        Invoice #{{ $item->id }} - Due was
+                                                        {{ MyHelper::due($item, 1) }}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="text-align:right">
+                                                @if ($item->transactions()->latest()->first()->status == 1)
+                                                    <span class="badge bg-success">Paid</span>
+                                                @else
+                                                    <span class="badge bg-warning">Unpaid</span>
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
 
