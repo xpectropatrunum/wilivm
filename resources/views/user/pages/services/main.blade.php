@@ -44,7 +44,6 @@
                         </thead>
                         <tbody>
                             @foreach (auth()->user()->services()->where('status', '!=', '1')->latest()->get() as $key => $item)
-                            
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->type }}</td>
@@ -52,7 +51,7 @@
                                     <td>{{ $item->location_->name }}</td>
                                     <td>{{ $item->os_->name }}</td>
                                     <td>
-                                    
+
                                         @if ($item->status == 2)
                                             <span
                                                 class="badge bg-success">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
@@ -65,14 +64,22 @@
                                         @elseif ($item->status == 4)
                                             <span
                                                 class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
+                                        @elseif ($item->status == 5)
+                                            <span
+                                                class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                         @endif
                                     </td>
                                     <td>{{ MyHelper::due($item->order) }}</td>
-                                    <td> <a href="{{ route('panel.services.show', $item->id) }}"
-                                            class="btn btn-outline-primary">
-                                            {{--  <i class="bi bi-speedometer"></i>  --}}
+                                    <td>
 
-                                            Manage Service</a>
+                                        @if ($item->status != 5 && $item->status != 4)
+                                            <span
+                                                class="badge bg-success">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
+
+                                            <a href="{{ route('panel.services.show', $item->id) }}"
+                                                class="btn btn-outline-primary">
+                                                Manage Service</a>  </span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
