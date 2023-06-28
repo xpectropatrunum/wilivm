@@ -39,24 +39,24 @@ class DashboardController extends Controller
 
 
         $usersTbl = DB::table('orders')->where("user_id", auth()->user()->id)
-        ->join('transactions','transactions.order_id','=','user_id')->select('orders.id','server_id',
+      ->select('orders.id','server_id',
         'user_id',
         'cycle',
         'expires_at',
         'price',
         'label_ids',
         'discount',
-        'due_date', "orders.created_at");
+        'due_date', "orders.created_at")  ->join('transactions','transactions.order_id','=','user_id');
 
         $ordersTbl = DB::table('invoices')->where("user_id", auth()->user()->id)
-      ->select('invoices.id',      'user_id',
+       ->select('invoices.id',      'user_id',
         'title',
         'description',
         'expires_at',
         'cycle',
         'price',
         'discount',
-        'due_date', "invoices.created_at");
+        'due_date', "invoices.created_at") ->join('transactions','transactions.order_id','=','user_id');
 
         $mergeTbl = $usersTbl->unionAll($ordersTbl);
         $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl);
