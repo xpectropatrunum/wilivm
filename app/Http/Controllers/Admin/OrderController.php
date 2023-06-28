@@ -91,12 +91,7 @@ class OrderController extends Controller
         if ($request->cycle) {
                 $query->where("cycle", $request->cycle);
         }
-        foreach ($query->get() as $item) {
-            if ($item->service->status  == EServiceType::Active && round((strtotime(MyHelper::due($item)) - time()) / 86400) < 0) {
-                $item->service->status = EServiceType::Expired;
-                $item->service->save();
-            }
-        }
+     
 
         $items = $query->paginate($limit);
 
