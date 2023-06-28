@@ -45,7 +45,7 @@ class DashboardController extends Controller
         'price',
         'label_ids',
         'discount',
-        'due_date',)->groupBy('expires_at,id');
+        'due_date',)->groupBy(['expires_at','id']);
 
         $ordersTbl = DB::table('invoices')->select('id',      'user_id',
         'title',
@@ -54,7 +54,7 @@ class DashboardController extends Controller
         'cycle',
         'price',
         'discount',
-        'due_date',)->groupBy('expires_at,id');
+        'due_date',)->groupBy(['expires_at','id']);
 
         $mergeTbl = $usersTbl->unionAll($ordersTbl);
         $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl);
