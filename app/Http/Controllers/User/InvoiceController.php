@@ -108,6 +108,11 @@ class InvoiceController extends Controller
                 $transaction->status = 1;
                 $transaction->method = "wallet";
                 $transaction->save();
+
+                if ($order->service->status == EServiceType::Suspended) {
+                    $email = Email::where("type", EEmailType::UnsuspendService)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                }
                 if ($order->service->status != EServiceType::Active) {
                     $order->service->status = EServiceType::Deploying;
                 }
