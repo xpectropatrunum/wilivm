@@ -184,11 +184,13 @@ class OrderController extends Controller
     }
     function destroy(Order $order)
     {
-        dd($order);
-        $order->service->delete();
-        if ($order->delete()) {
-            return redirect()->back()->with("success", "The order deleted successfully");
+     
+        if($order->service->delete()){
+            if ($order->delete()) {
+                return redirect()->back()->with("success", "The order deleted successfully");
+            }
         }
+      
         return redirect()->back()->with("error", "Something went wrong");
     }
     function update(Request $request, Order $order)
