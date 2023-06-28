@@ -84,6 +84,18 @@ class invoice_reminder implements ShouldQueue
 
                 $email = Email::where("type", EEmailType::Remind_2)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            }elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 0) {
+                $order = Order::where([
+                    "server_id" => $item->server_id,
+                    "user_id" => $item->user_id,
+                    "cycle" => $item->cycle,
+                    "price" => $item->price,
+                    "discount" => $item->discount
+                ])->firstOrFail();
+
+
+                $email = Email::where("type", EEmailType::Overdue)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
             }
         }
     }
