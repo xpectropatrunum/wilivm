@@ -38,7 +38,8 @@ class DashboardController extends Controller
         }
 
 
-        $usersTbl = DB::table('orders')->where("user_id", auth()->user()->id)->select('id','server_id',
+        $usersTbl = DB::table('orders')->where("user_id", auth()->user()->id)
+        ->join('transactions','transactions.order_id','=','users.id')->select('id','server_id',
         'user_id',
         'cycle',
         'expires_at',
@@ -47,7 +48,8 @@ class DashboardController extends Controller
         'discount',
         'due_date', "created_at");
 
-        $ordersTbl = DB::table('invoices')->where("user_id", auth()->user()->id)->select('id',      'user_id',
+        $ordersTbl = DB::table('invoices')->where("user_id", auth()->user()->id)
+        ->join('transactions','transactions.order_id','=','users.id')->select('id',      'user_id',
         'title',
         'description',
         'expires_at',
