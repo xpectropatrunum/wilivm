@@ -274,7 +274,7 @@
         });
         $(".off-button").click(() => {
             $.ajax({
-                url: "{{ route('panel.extra-invoices.off', $invoice->id) }}",
+                url: "{{ route('panel.e-invoices.off', $invoice->id) }}",
                 type: 'post',
                 data: {
                     "code": $("[name=code]").val(),
@@ -317,7 +317,7 @@
 
         $(".pay-button").click(() => {
             $.ajax({
-                url: "{{ route('panel.extra-invoices.pay', $invoice->id) }}",
+                url: "{{ route('panel.e-invoices.pay', $invoice->id) }}",
                 type: 'post',
                 data: {
                     "method": method,
