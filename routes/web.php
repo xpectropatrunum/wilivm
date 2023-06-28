@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EEmailType;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BlockedUserController;
@@ -41,8 +42,10 @@ use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\User\TicketController as UserTicketController;
 use App\Http\Controllers\User\UserController as UserUserController;
 use App\Http\Controllers\User\WalletController;
+use App\Mail\MailTemplate;
 use App\Mail\OrderShipped;
 use App\Models\Admin;
+use App\Models\Email;
 use App\Models\Order;
 use App\Models\ServerType;
 use Carbon\Carbon;
@@ -78,7 +81,7 @@ Route::get("/3", function () {
             echo "entering if";
 
             
-            Order::updateOrCreate([
+            $order = Order::updateOrCreate([
                 "server_id" => $item->server_id,
                 "user_id" => $item->user_id,
                 "cycle" => $item->cycle,
@@ -95,6 +98,17 @@ Route::get("/3", function () {
                 "discount" => $item->discount,
                 "due_date" => date("Y-m-d H:i", time() + 86400 * 7),
             ]);
+            if($order->wasRecentlyCreated){
+                $order->transactions()->create([
+                    "order_id" => $order->id,
+                    "status" =>0,
+                    "tx_id" => md5($order->id. time()),
+                ]);
+                $email = Email::where("type", EEmailType::Remind_week)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+             }
+
+           
         }
     }
 });

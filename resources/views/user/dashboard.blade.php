@@ -193,7 +193,7 @@
                         <div class="recent-message d-flex px-4 py-3">
 
 
-                            @if (auth()->user()->orders()->latest()->take(5)->get()->count() == 0)
+                            @if ($invoices->latest()->take(5)->get()->count() == 0)
 
                                 <div class="name ms-4 w-100">
                                     <div class="mb-1 text-muted" style="text-align: center">You have no invoice</div>
@@ -202,7 +202,7 @@
                             @else
                                 <table class="w-100 custom">
                                     <tbody>
-                                        @foreach (auth()->user()->orders()->latest()->take(5)->get() as $item)
+                                        @foreach ($invoices->latest()->take(5)->get() as $item)
                                             <tr>
 
 

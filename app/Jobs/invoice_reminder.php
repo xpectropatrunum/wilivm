@@ -62,9 +62,17 @@ class invoice_reminder implements ShouldQueue
                     "due_date" => date("Y-m-d H:i", time() + 86400 * 7),
                 ]);
                
+                if($order->wasRecentlyCreated){
+                    $order->transactions()->create([
+                        "order_id" => $order->id,
+                        "status" =>0,
+                        "tx_id" => md5($order->id. time()),
+                    ]);
+                    $email = Email::where("type", EEmailType::Remind_week)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                 }
 
-                $email = Email::where("type", EEmailType::Remind_week)->first();
-                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+               
             }
         }
         
