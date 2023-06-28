@@ -60,7 +60,7 @@ class DashboardController extends Controller
 
         $mergeTbl = $usersTbl->unionAll($ordersTbl);
         $invoices = DB::table(DB::raw("({$mergeTbl->toSql()}) AS mg"))->mergeBindings($mergeTbl)->
-        join('transactions','transactions.order_id',"=",'orders.id');
+        join('transactions','transactions.order_id',"=",'mg.id');
         dd($invoices->get());
 
 
