@@ -72,7 +72,7 @@ class InvoiceController extends Controller
             $limit = $request->limit;
         }
 
-        $items = $query1->merge( $query2)->paginate($limit);
+        $items = $query1->merge( $query2);
 
 
 
