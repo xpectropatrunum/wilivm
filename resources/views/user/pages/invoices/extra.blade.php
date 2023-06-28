@@ -62,7 +62,8 @@
                                     </td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
-                                        <a href="{{ route('panel.extra-invoices.show', $item->id) }}"
+                                        
+                                        <a href="{{ route('panel.'.(isset($item->due_date) ? "e-":"").'invoices.show', $item->id) }}"
                                             class="btn btn-success">Show</a>
 
 

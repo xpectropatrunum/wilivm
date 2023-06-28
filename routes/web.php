@@ -251,11 +251,16 @@ Route::name("panel.")->group(function () {
         Route::get('new-service/{id}', [ServiceController::class, 'show_service'])->name("new-service.show");
 
         Route::get('invoices', [InvoiceController::class, 'e_index'])->name("invoices");
-        Route::get('invoices/show/{invoice}', [InvoiceController::class, 'e_show'])->name("invoices.show");
-        Route::post('invoices/pay/{invoice}', [InvoiceController::class, 'e_pay'])->name("invoices.pay");
-        Route::post('invoices/off/{invoice}', [InvoiceController::class, 'e_off'])->name("invoices.off");
+        Route::get('e-invoices/show/{invoice}', [InvoiceController::class, 'e_show'])->name("e-invoices.show");
+        Route::post('e-invoices/pay/{invoice}', [InvoiceController::class, 'e_pay'])->name("e-invoices.pay");
+        Route::post('e-invoices/off/{invoice}', [InvoiceController::class, 'e_off'])->name("e-invoices.off");
 
 
+        Route::get('invoices/show/{order}', [InvoiceController::class, 'show'])->name("invoices.show");
+        Route::get('invoices/show/{order}/{status}', [InvoiceController::class, 'status'])->name("invoices.status");
+
+        Route::post('invoices/pay/{order}', [InvoiceController::class, 'pay'])->name("invoices.pay");
+        Route::post('invoices/off/{order}', [InvoiceController::class, 'off'])->name("invoices.off");
 
         Route::get('bulletin', [UserBulletinController::class, 'index'])->name("bulletins");
         Route::get('wallet', [WalletController::class, 'index'])->name("wallet");
