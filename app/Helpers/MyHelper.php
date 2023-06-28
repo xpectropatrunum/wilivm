@@ -58,6 +58,7 @@ class MyHelper
             return round($diff_hour) . " hours ago";
         }
 
+        dd($order->due_date);
 
         return date("Y-m-d H:i", $order->due_date ?? 0);
     }
