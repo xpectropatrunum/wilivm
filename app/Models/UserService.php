@@ -87,7 +87,7 @@ class UserService extends Authenticatable
     }
     function order()
     {
-        return $this->hasOne(Order::class, "server_id", "id")->ofMany([
+        $data = $this->hasOne(Order::class, "server_id", "id")->ofMany([
             'id' => 'max',
         ],function (Builder $query) {
             $query->whereHas("transactions", function($q){
@@ -95,6 +95,10 @@ class UserService extends Authenticatable
 
             });
         });
+        if(!$data){
+            return $this->hasOne(Order::class, "server_id", "id");
+        }
+        return $data;
     }
     function requests()
     {
