@@ -141,6 +141,7 @@ class OrderController extends Controller
             "label_ids" => $request->label_ids, 
             "cycle" => $request->cycle,
             "discount" => 0,
+            "status" => 0,
             "expires_at" =>  time() + $request->cycle * 86400*30,
         ]);
         $order->transactions()->create(["tx_id" => md5(time())]);
