@@ -64,14 +64,15 @@ class InvoiceController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query = auth()->user()->invoices()->latest();
+        $query1 = auth()->user()->invoices()->get();
+        $query2 = auth()->user()->orders()->get();
 
 
         if ($request->limit) {
             $limit = $request->limit;
         }
 
-        $items = $query->paginate($limit);
+        $items = $query1->merge( $query2)->paginate($limit);
 
 
 
