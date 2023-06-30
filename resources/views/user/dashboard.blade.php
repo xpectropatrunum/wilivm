@@ -232,7 +232,7 @@
                                                         </strong>
                                                         <div class="text-muted" style="font-size:0.9em">
                                                             Invoice #{{ $item->id }} - Due was
-                                                            {{ MyHelper::due($item, 1) }}
+                                                            {{ MyHelper::due($item) }}
                                                         </div>
                                                     </div>
                                                 </td>
