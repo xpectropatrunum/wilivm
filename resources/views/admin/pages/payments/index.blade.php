@@ -47,7 +47,7 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()->status == 1 and time() - strtotime($q
+                                            ->first()?->status == 1 and time() - strtotime($q
                                             ->transactions()
                                             ->latest()
                                             ->first()->created_at) < 30 * 86400;
@@ -74,7 +74,7 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()->status == 1 and time() - strtotime($q
+                                            ->first()?->status == 1 and time() - strtotime($q
                                             ->transactions()
                                             ->latest()
                                             ->first()->created_at) < 3 * 30 * 86400;
@@ -101,7 +101,7 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()->status == 1 and time() - strtotime($q
+                                            ->first()?->status == 1 and time() - strtotime($q
                                             ->transactions()
                                             ->latest()
                                             ->first()->created_at) < 6 *30 * 86400;
