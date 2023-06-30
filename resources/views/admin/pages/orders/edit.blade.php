@@ -50,11 +50,11 @@
                             <div class="w-100"></div>
                             <div class="col-12 mb-3">
                                 <h4>Transaction</h4>
-                                @if ($order->transactions()->first()->status == 1)
+                                @if ($order->transactions()->first()?->status == 1)
                                     Paid with
-                                    <strong>{{ ucfirst($order->transactions()->latest()->first()->method) }}</strong> at
-                                    {{ $order->transactions()->latest()->first()->updated_at }}<br>
-                                    Tx id: <strong>{{ $order->transactions()->latest()->first()->tx_id }}</strong>
+                                    <strong>{{ ucfirst($order->transactions()->latest()->first()?->method) }}</strong> at
+                                    {{ $order->transactions()->latest()->first()?->updated_at }}<br>
+                                    Tx id: <strong>{{ $order->transactions()->latest()->first()?->tx_id }}</strong>
                                 @else
                                     Not paid
                                 @endif
