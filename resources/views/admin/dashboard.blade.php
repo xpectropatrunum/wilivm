@@ -52,7 +52,7 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()->status == 1;
+                                            ->first()?->status == 1;
                                     });
                             @endphp
                             <h3>${{ $paid_orders->sum('price') - $paid_orders->sum('discount') }}
