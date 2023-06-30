@@ -67,7 +67,6 @@ class invoice_reminder implements ShouldQueue
 
                     if ($order->wasRecentlyCreated) {
                         $order->transactions()->create([
-                            "order_id" => $order->id,
                             "status" => 0,
                             "tx_id" => md5($order->id . time()),
                         ]);

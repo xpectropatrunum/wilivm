@@ -81,7 +81,7 @@ class Order extends Model
         static::deleting(
             function ($item) {
                 Log::create([
-                    "admin_id" => auth()->user()->id,
+                    "admin_id" => auth()->user()?->id ?? 0,
                     "type" => ELogType::Delete,
                     "model" => self::class,
                     "related_id" => $item,
@@ -96,7 +96,7 @@ class Order extends Model
         static::updating(
             function ($item) {
                 Log::create([
-                    "admin_id" => auth()->user()->id,
+                    "admin_id" => auth()->user()?->id ?? 0,
                     "type" => ELogType::Update,
                     "model" => self::class,
                     "related_id" => $item,
@@ -106,7 +106,7 @@ class Order extends Model
         static::created(
             function ($item) {
                 Log::create([
-                    "admin_id" => auth()->user()->id,
+                    "admin_id" => auth()->user()?->id ?? 0,
                     "type" => ELogType::Create,
                     "model" => self::class,
                     "related_id" => $item,
