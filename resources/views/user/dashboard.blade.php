@@ -237,7 +237,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="text-align:right">
-                                                    @if ($item->transactions()->latest()->first()->status == 1)
+                                                    @if ($item->transactions()->latest()->first()?->status == 1)
                                                         <span class="badge bg-success">Paid</span>
                                                     @else
                                                         <span class="badge bg-warning">Unpaid</span>
@@ -279,7 +279,7 @@
                                                 </div>
                                             </td>
                                             <td style="text-align:right">
-                                                @if ($item->transactions()->latest()->first()->status == 1)
+                                                @if ($item->transactions()->latest()->first()?->status == 1)
                                                     <span class="badge bg-success">Paid</span>
                                                 @else
                                                     <span class="badge bg-warning">Unpaid</span>
