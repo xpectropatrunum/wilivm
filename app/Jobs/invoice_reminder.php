@@ -62,7 +62,7 @@ class invoice_reminder implements ShouldQueue
                         "label_ids" => $item->label_ids,
                         "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
                         "discount" => $item->discount,
-                        "due_date" => date("Y-m-d H:i", time() + 86400 * 7),
+                        "due_date" =>  time() + 86400 * 7,
                     ]);
 
                     if ($order->wasRecentlyCreated) {
