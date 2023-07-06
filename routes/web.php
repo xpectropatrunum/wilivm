@@ -69,7 +69,7 @@ use Spatie\Permission\Models\Role;
 
 
 Route::get("/3", function () {
-    $orders = Order::where("expires_at", ">", time());
+    $orders = Order::where("expires_at", ">", time())->where("id", "784547");
     $orders->whereHas("transactions", function ($query) {
         $query->where("status", 1);
     });
@@ -77,6 +77,7 @@ Route::get("/3", function () {
     $now = Carbon::now();
     foreach ($orders->get() as $item) {
         if ($item->expires_at > time()) {
+            echo $now->diffInDays(date("Y-m-d H:i", $item->expires_at));
             if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 7) {
                 $order = Order::updateOrCreate([
                     "server_id" => $item->server_id,
