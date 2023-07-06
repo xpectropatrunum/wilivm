@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\EEmailType;
+use App\Enums\EServiceType;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BlockedUserController;
@@ -68,38 +69,90 @@ use Spatie\Permission\Models\Role;
 
 
 Route::get("/3", function () {
-    // $item = Order::find(784547);
-  
+    $orders = Order::where("expires_at", ">", time());
+    $orders->whereHas("transactions", function ($query) {
+        $query->where("status", 1);
+    });
 
-  
+    $now = Carbon::now();
+    foreach ($orders->get() as $item) {
+        if ($item->expires_at > time()) {
+            if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 7) {
+                $order = Order::updateOrCreate([
+                    "server_id" => $item->server_id,
+                    "user_id" => $item->user_id,
+                    "cycle" => $item->cycle,
+                    "price" => $item->price,
+                    "label_ids" => $item->label_ids,
+                    "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
+                    "discount" => $item->discount
+                ], [
+                    "server_id" => $item->server_id,
+                    "user_id" => $item->user_id,
+                    "cycle" => $item->cycle,
+                    "price" => $item->price,
+                    "label_ids" => $item->label_ids,
+                    "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
+                    "discount" => $item->discount,
+                    "due_date" =>  time() + 86400 * 7,
+                ]);
 
-    // $order = Order::updateOrCreate([
-    //     "server_id" => $item->server_id,
-    //     "user_id" => $item->user_id,
-    //     "cycle" => $item->cycle,
-    //     "price" => $item->price,
-    //     "label_ids" => $item->label_ids,
-    //     "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
-    //     "discount" => $item->discount
-    // ], [
-    //     "server_id" => $item->server_id,
-    //     "user_id" => $item->user_id,
-    //     "cycle" => $item->cycle,
-    //     "price" => $item->price,
-    //     "label_ids" => $item->label_ids,
-    //     "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
-    //     "discount" => $item->discount,
-    //     "due_date" =>  time() + 86400 * 7,
-    // ]);
+                if ($order->wasRecentlyCreated) {
+                    $order->transactions()->create([
+                        "status" => 0,
+                        "tx_id" => md5($order->id . time()),
+                    ]);
+                    $email = Email::where("type", EEmailType::Remind_week)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                }
+            } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 1) {
+                $order = Order::where([
+                    "server_id" => $item->server_id,
+                    "user_id" => $item->user_id,
+                    "cycle" => $item->cycle,
+                    "price" => $item->price,
+                    "discount" => $item->discount
+                ])->firstOrFail();
 
-    // if ($order->wasRecentlyCreated) {
-    //     $order->transactions()->create([
-    //         "status" => 0,
-    //         "tx_id" => md5($order->id . time()),
-    //     ]);
-    //     $email = Email::where("type", EEmailType::Remind_week)->first();
-    //     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
-    // }
+
+                $email = Email::where("type", EEmailType::Remind_2)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 0) {
+                $order = Order::where([
+                    "server_id" => $item->server_id,
+                    "user_id" => $item->user_id,
+                    "cycle" => $item->cycle,
+                    "price" => $item->price,
+                    "discount" => $item->discount
+                ])->firstOrFail();
+
+
+                $email = Email::where("type", EEmailType::Overdue)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            }
+        }else{
+            if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 5) {
+                $item->update(["status" => EServiceType::Suspended]);
+
+                $order = Order::where([
+                    "server_id" => $item->server_id,
+                    "user_id" => $item->user_id,
+                    "cycle" => $item->cycle,
+                    "price" => $item->price,
+                    "discount" => $item->discount
+                ])->firstOrFail();
+
+
+                $email = Email::where("type", EEmailType::SuspendService)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            }
+            elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
+                $item->update(["status" => EServiceType::Cancelled]);
+
+              
+            }
+        }
+    }
 });
 Route::get('auth/google', [AuthLoginController::class, "redirectToGoogle"])->name("redirect.google");
 
