@@ -30,7 +30,14 @@
 
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{ App\Models\Order::count() }}</h3>
+                            <h3>{{ App\Models\Order::with('transactions')
+                                ->get()
+                                ->filter(function ($q) {
+                                    return $q
+                                        ->transactions()
+                                        ->latest()
+                                        ->first()?->status == 1;
+                                })->count() }}</h3>
                             <p>Orders</p>
                         </div>
                         <div class="icon">
