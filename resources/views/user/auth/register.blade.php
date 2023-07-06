@@ -112,7 +112,7 @@
 
                                 <div id="email-login" class="">
 
-                                    <form action="{{ route('panel.register') }}" method="post"
+                                    <form action="{{ route('panel.register') }}" method="post" autocomplete="off"
                                         class="form fv-plugins-bootstrap fv-plugins-framework row" novalidate="novalidate"
                                         id="kt_login_signin_form">
                                         @csrf
