@@ -77,7 +77,6 @@ Route::get("/3", function () {
     $now = Carbon::now();
     foreach ($orders->get() as $item) {
         if ($item->expires_at > time()) {
-            dd($now->diffInDays(date("Y-m-d H:i", $item->expires_at)));
             if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 7) {
                 $order = Order::updateOrCreate([
                     "server_id" => $item->server_id,
@@ -126,6 +125,7 @@ Route::get("/3", function () {
                     "price" => $item->price,
                     "discount" => $item->discount
                 ])->firstOrFail();
+                dd($order );
 
 
                 $email = Email::where("type", EEmailType::Overdue)->first();
