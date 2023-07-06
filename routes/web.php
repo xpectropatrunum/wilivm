@@ -125,8 +125,7 @@ Route::get("/3", function () {
                     "price" => $item->price,
                     "discount" => $item->discount
                 ])->firstOrFail();
-                dd($order );
-
+             
 
                 $email = Email::where("type", EEmailType::Overdue)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
