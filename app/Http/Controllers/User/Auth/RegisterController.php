@@ -83,9 +83,12 @@ class RegisterController extends Controller
 
             "first_name" => "required",
             "last_name" => "required",
+            "terms" => "required",
             "email" => "required|email|unique:users,email",
-            "password" => "required|min:6|same:password_confirm",
-            "password_confirm" => "min:6",
+            "password" => "required|min:6",
+        ], [
+            "terms.required" => "Term checkbox is unchecked"
+
         ]);
 
 

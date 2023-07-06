@@ -24,6 +24,7 @@
 
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.svg') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.png') }}" type="image/png">
+    <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
 
     {{-- Custom Stylesheets --}}
     @stack('admin_css')
