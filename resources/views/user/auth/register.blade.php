@@ -272,8 +272,13 @@
         colorScore3: '#aaa',
         colorScore4: 'limegreen'
       });
+      if(myPassMeter.getScore() == 3){
+        $("#kt_login_signin_submit").removeAttr("disabled")
+    }else{
+        $("#kt_login_signin_submit").attr("disabled", "disabled")
+    }
       $("[name=password]").on("input", function(){
-        if(myPassMeter.getScore() == 4){
+        if(myPassMeter.getScore() == 3){
             $("#kt_login_signin_submit").removeAttr("disabled")
         }else{
             $("#kt_login_signin_submit").attr("disabled", "disabled")
