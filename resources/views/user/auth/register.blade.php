@@ -273,7 +273,7 @@
         colorScore3: '#aaa',
         colorScore4: 'limegreen'
       });
-      setTimeout(()=>{
+      setInterval(()=>{
         if(myPassMeter.getScore() == 4){
             $("#kt_login_signin_submit").removeAttr("disabled")
         }else{
