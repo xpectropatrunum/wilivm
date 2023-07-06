@@ -69,7 +69,7 @@ use Spatie\Permission\Models\Role;
 
 
 Route::get("/3", function () {
-    $orders = Order::where("expires_at", ">", time())->where("id", "784547");
+    $orders = Order::where("expires_at", ">", time());
     $orders->whereHas("transactions", function ($query) {
         $query->where("status", 1);
     });
