@@ -279,22 +279,9 @@
         }else{
             $("#kt_login_signin_submit").attr("disabled", "disabled")
         }
-      }, 2000)
+      }, 1000)
    
-      $("[name=password]").on("input", function(){
-        if(myPassMeter.getScore() >= 4){
-            $("#kt_login_signin_submit").removeAttr("disabled")
-        }else{
-            $("#kt_login_signin_submit").attr("disabled", "disabled")
-        }
-      })
-      $("[name=password]").on("change", function(){
-        if(myPassMeter.getScore() >= 4){
-            $("#kt_login_signin_submit").removeAttr("disabled")
-        }else{
-            $("#kt_login_signin_submit").attr("disabled", "disabled")
-        }
-      })
+
     </script>
 
     <script src="https://www.google.com/recaptcha/api.js?render={{ $settings['RECAPTCHA_SITE'] }}"></script>
