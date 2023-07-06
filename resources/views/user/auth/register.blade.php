@@ -177,7 +177,7 @@
 
 
                                             <label>Password</label>
-                                            <input id="psw-input" type="password" name="password" class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
+                                            <input id="psw-input" value="" type="password" name="password" class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
                                             autocomplete="off">
                                             <div id="pswmeter" class="mt-3"></div>
                                             <div id="pswmeter-message" class="mt-3"></div>
