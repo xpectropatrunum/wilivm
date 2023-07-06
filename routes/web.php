@@ -74,6 +74,7 @@ Route::get("/3", function () {
         $query->where("status", 1);
     });
 
+    dd($orders->get());
     $now = Carbon::now();
     foreach ($orders->get() as $item) {
         if ($item->expires_at > time()) {
