@@ -68,10 +68,16 @@ class MailTemplate extends Mailable
      */
     public function envelope()
     {
-        return new Envelope(
-            from: new Address('info@wilivm.com', 'Wilivm'),
-            subject: $this->title,
-        );
+        try{
+            return new Envelope(
+                from: new Address('info@wilivm.com', 'Wilivm'),
+                subject: $this->title,
+            );
+        }catch(\Exception $e){
+            return null;
+
+        }
+      
     }
 
     /**
