@@ -121,7 +121,12 @@ class RegisterController extends Controller
 
         if ($create) {
             $email = Email::where("type", EEmailType::Registration)->first();
-            Mail::to($request->email)->send(new MailTemplate($email, (object)["user" => $create]));
+            try{
+                Mail::to($request->email)->send(new MailTemplate($email, (object)["user" => $create]));
+            }catch(\Exception $e){
+    
+            }
+            
             auth()->login($create);
             if (!auth()->user()->wallet) {
                 auth()->user()->wallet()->create();
