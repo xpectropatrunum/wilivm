@@ -267,14 +267,17 @@
         ],
         height: 6,
         borderRadius: 0,
-        pswMinLength: 8,
+        pswMinLength: 6,
         colorScore1: '#aaa',
-        colorScore2: '#aaa',
-        colorScore3: '#aaa',
+        colorScore2: 'limegreen',
+        colorScore3: 'limegreen',
         colorScore4: 'limegreen'
       });
+
+    
+
       setInterval(()=>{
-        if(myPassMeter.getScore() == 4){
+        if(myPassMeter.getScore() == 2){
             $("#kt_login_signin_submit").removeAttr("disabled")
         }else{
             $("#kt_login_signin_submit").attr("disabled", "disabled")
