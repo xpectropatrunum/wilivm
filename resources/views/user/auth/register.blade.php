@@ -277,7 +277,7 @@
     
 
       setInterval(()=>{
-        if(myPassMeter.getScore() == 2){
+        if(myPassMeter.getScore() >= 2){
             $("#kt_login_signin_submit").removeAttr("disabled")
         }else{
             $("#kt_login_signin_submit").attr("disabled", "disabled")
