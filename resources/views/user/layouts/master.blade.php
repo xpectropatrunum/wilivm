@@ -134,6 +134,9 @@
             .add-fund{
                 display: none;
             }
+            .header-top-right{
+                justify-content: space-between
+            }
           }
     </style>
     <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
