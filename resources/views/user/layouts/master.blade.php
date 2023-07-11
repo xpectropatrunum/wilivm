@@ -37,7 +37,7 @@
             <div>
 
                 <div class="header-top-right d-flex align-items-center">
-                    <a href="{{ route('panel.wallet') }}" class="d-xs-none">
+                    <a href="{{ route('panel.wallet') }}" class="add-fund">
                         <div class="my-wallet btn btn-outline-primary btn-md" style="margin-right: 5px">
 
                             <i class="fa fa-plus"></i>
@@ -129,6 +129,13 @@
 
         </div>
     </div>
+    <style>
+        @media screen and (max-width: 600px) {
+            .add-fund{
+                display: none;
+            }
+          }
+    </style>
     <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
 
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
