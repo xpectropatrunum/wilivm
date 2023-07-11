@@ -135,7 +135,8 @@
                 display: none;
             }
             .header-top-right{
-                justify-content: space-between
+                justify-content: space-between;
+                width: 100%
             }
           }
     </style>
