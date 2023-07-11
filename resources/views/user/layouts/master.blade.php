@@ -37,7 +37,7 @@
             <div>
 
                 <div class="header-top-right d-flex align-items-center">
-                    <a href="{{ route('panel.wallet') }}" class="d-none d-xl-block">
+                    <a href="{{ route('panel.wallet') }}" class="d-xs-none">
                         <div class="my-wallet btn btn-outline-primary btn-md" style="margin-right: 5px">
 
                             <i class="fa fa-plus"></i>
