@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label>Type</label>
 
-                                    <select name="type" class="select2 form-select" >
+                                    <select name="type" class="select2 form-select">
                                         <option value="0">Select</option>
 
                                         @foreach (\App\Models\ServerType::where('enabled', 1)->get() as $item)
@@ -137,11 +137,11 @@
 
                                     <select name="t_status" class="select2 form-select">
 
-                                      
-                                            <option value="0">Unpaid
-                                            </option>
-                                            <option value="1">Paid
-                                            </option>
+
+                                        <option value="0">Unpaid
+                                        </option>
+                                        <option value="1">Paid
+                                        </option>
 
                                     </select>
                                 </div>
@@ -173,7 +173,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($items as $item)
-                                 
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td><a href="/admin/users?search={{ $item->user?->email }}"
@@ -206,6 +205,8 @@
                                                 <span class="badge bg-danger">Expired</span>
                                             @elseif ($item->service->status == 4)
                                                 <span class="badge bg-danger">Cancelled</span>
+                                            @elseif ($item->service->status == 7)
+                                                <span class="badge bg-danger">Suspended</span>
                                             @else
                                                 <span class="badge bg-warning">not set</span>
                                             @endif
@@ -224,7 +225,8 @@
                                                 class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this, title='Are you sure?', text='the related transaction could be deleted!')"
+                                                <button type="submit"
+                                                    onclick="swalConfirmDelete(this, title='Are you sure?', text='the related transaction could be deleted!')"
                                                     class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
