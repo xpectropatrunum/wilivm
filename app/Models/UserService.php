@@ -87,9 +87,7 @@ class UserService extends Authenticatable
     }
     function order()
     {
-        
-            return $this->hasOne(Order::class, "server_id", "id");
-      
+        return $this->hasOne(Order::class, "server_id", "id");
     }
     function requests()
     {

@@ -284,7 +284,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>User</th>
+                                        <th>Service</th>
                                         <th>Type</th>
                                         <th>Plan</th>
                                         <th>Os</th>
@@ -312,8 +312,10 @@
                                         @endphp
                                         <tr>
                                             <td>{{ $item->id }}</td>
-                                            <td><a href="/admin/users?search={{ $item->user?->email }}"
-                                                    target="_blank">{{ $item->user?->email }}</a></td>
+                                            <td><a href="{{ route('admin.orders.edit', $item->id) }}">
+                                                {{$item->service->plan}}
+
+                                            </a></td>
                                             <td>{{ $item->service->type }}</td>
                                             <td>{{ $item->service->plan }}</td>
                                             <td>{{ $item->service->os_->name }}</td>
@@ -342,6 +344,8 @@
                                                     <span class="badge bg-danger">Expired</span>
                                                 @elseif ($item->service->status == 4)
                                                     <span class="badge bg-danger">Canceled</span>
+                                                @elseif ($item->service->status == 7)
+                                                    <span class="badge bg-danger">Suspended</span>
                                                 @else
                                                     <span class="badge bg-warning">not set</span>
                                                 @endif
@@ -393,7 +397,6 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>User</th>
                                         <th>Title</th>
                                         <th>Description</th>
                                         <th>Cycle</th>
@@ -409,8 +412,7 @@
                                     @foreach ($items as $item)
                                         <tr>
                                             <td>{{ $item->id }}</td>
-                                            <td><a href="/admin/users?search={{ $item->user?->email }}"
-                                                    target="_blank">{{ $item->user?->email }}</a></td>
+                            
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->description }}</td>
                                             <td>{{ $item->cycle }} Months</td>
