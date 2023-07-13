@@ -37,8 +37,7 @@ class invoice_reminder implements ShouldQueue
      */
     public function handle()
     {
-        $orders = Order::where("expires_at", ">", time());
-        $orders->whereHas("transactions", function ($query) {
+        $orders = Order::whereHas("transactions", function ($query) {
             $query->where("status", 1);
         });
 
@@ -93,6 +92,7 @@ class invoice_reminder implements ShouldQueue
                         "price" => $item->price,
                         "discount" => $item->discount
                     ])->firstOrFail();
+                  
 
 
                     $email = Email::where("type", EEmailType::Overdue)->first();
@@ -100,8 +100,7 @@ class invoice_reminder implements ShouldQueue
                 }
             }else{
                 if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 5) {
-                    $item->update(["status" => EServiceType::Suspended]);
-
+                    $item->service->update(["status" => EServiceType::Suspended]);
                     $order = Order::where([
                         "server_id" => $item->server_id,
                         "user_id" => $item->user_id,
@@ -115,7 +114,7 @@ class invoice_reminder implements ShouldQueue
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 }
                 elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
-                    $item->update(["status" => EServiceType::Cancelled]);
+                    $item->service->update(["status" => EServiceType::Cancelled]);
 
                   
                 }
