@@ -119,7 +119,7 @@ class InvoiceController extends Controller
                
 
                 $order->service->save();
-                //MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
+                MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
                 MyHelper::sendTg(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
                 $email = Email::where("type", EEmailType::Paid_order)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
