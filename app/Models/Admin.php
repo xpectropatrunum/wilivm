@@ -28,6 +28,7 @@ class Admin extends Authenticatable
         'name',
         'sms',
         'email',
+        'tg_id',
     ];
     function notifications()
     {
