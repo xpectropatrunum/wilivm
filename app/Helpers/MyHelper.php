@@ -79,11 +79,12 @@ class MyHelper
                 }
                 $append = "";
 
+                dd($type);
 
                 switch ($type) {
                     case ESmsType::Order:
                         $order = $data["order"];
-                        $message = urlencode(str_replace(
+                        $message = (str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
                             config("admin.order_tg")
@@ -92,7 +93,7 @@ class MyHelper
 
                     case ESmsType::Ticket:
                         $ticket = $data["ticket"];
-                        $message = urlencode(str_replace(
+                        $message = (str_replace(
                             ["%name%", "%email%", "%title%"],
                             [$user_fullname, $user->email, $ticket->title],
                             config("admin.ticket_tg")
@@ -105,7 +106,7 @@ class MyHelper
                         $request = $data["request"];
                         $request_name = urlencode($request->name);
                         $service = urlencode($data["service"]->type);
-                        $message = urlencode(str_replace(
+                        $message = (str_replace(
                             ["%name%", "%email%", "%request%", "%service%"],
                             [$user_fullname, $user->email, $request_name, $service],
                             config("admin.service_tg")
