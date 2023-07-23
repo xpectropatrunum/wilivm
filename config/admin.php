@@ -24,14 +24,7 @@ return [
 
     'service_tg' => "کاربر %name% به ایمیل %email%
 درخواست %request% برای سرویس %service% ثبت کرد",
-    /*
-    |--------------------------------------------------------------------------
-    | Logo
-    |--------------------------------------------------------------------------
-    |
-    | Here you can change the logo of your admin panel.
-    |
-    */
+
     'cycle' => [
         1 => "Monthly", 3 => "Quarterly", 6 => "Semi-annually", 12 =>  "Annually"
     ],

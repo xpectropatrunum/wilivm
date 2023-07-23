@@ -66,7 +66,7 @@ class MyHelper
         if (env("ENABLE_SMS") == 1) {
             $admins = Admin::role('admin')->get();
             $user = $data["user"];
-            $user_fullname = urlencode($user->first_name . " " . $user->last_name);
+            $user_fullname = ($user->first_name . " " . $user->last_name);
 
             foreach ($admins as $admin) {
                 $phone = $admin->phone;
@@ -83,7 +83,7 @@ class MyHelper
                 switch ($type) {
                     case ESmsType::Order:
                         $order = $data["order"];
-                        $message = (str_replace(
+                        $message = urlencode(str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
                             config("admin.order_tg")
@@ -92,7 +92,7 @@ class MyHelper
 
                     case ESmsType::Ticket:
                         $ticket = $data["ticket"];
-                        $message = (str_replace(
+                        $message = urlencode(str_replace(
                             ["%name%", "%email%", "%title%"],
                             [$user_fullname, $user->email, $ticket->title],
                             config("admin.ticket_tg")
@@ -103,9 +103,9 @@ class MyHelper
 
                     case ESmsType::Request:
                         $request = $data["request"];
-                        $request_name = urlencode($request->name);
-                        $service = urlencode($data["service"]->type);
-                        $message = (str_replace(
+                        $request_name = ($request->name);
+                        $service = ($data["service"]->type);
+                        $message = urlencode(str_replace(
                             ["%name%", "%email%", "%request%", "%service%"],
                             [$user_fullname, $user->email, $request_name, $service],
                             config("admin.service_tg")
