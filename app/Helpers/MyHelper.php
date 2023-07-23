@@ -86,12 +86,11 @@ class MyHelper
                         $message = urlencode(str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
-                            config("admin.ticket_tg")
+                            config("admin.order_tg")
                         ));
                         break;
 
                     case ESmsType::Ticket:
-                        $pattern = "6okn0v670keil05";
                         $ticket = $data["ticket"];
                         $message = urlencode(str_replace(
                             ["%name%", "%email%", "%title%"],
@@ -114,8 +113,9 @@ class MyHelper
                         break;
                 }
 
+                
                 try {
-                    $url = "https://api.telegram.org/bot6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k/sendMessage?text=$message&chat_id={$admin->tg_id}";
+                    $url = "https://api.telegram.org/bot6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k/sendMessage?text=$message&parse_mode=html&chat_id={$admin->tg_id}";
                     $handler = curl_init($url);
                     curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                     $response2 = curl_exec($handler);
