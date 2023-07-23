@@ -183,7 +183,7 @@ class UserController extends Controller
             ]);
         }
 
-        if($request->balance){
+        if(isset($request->balance)){
             $user->wallet->balance = round($request->balance, 2);
             $user->wallet->save();
         }
