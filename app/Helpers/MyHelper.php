@@ -79,7 +79,6 @@ class MyHelper
                 }
                 $append = "";
 
-                dd($type);
 
                 switch ($type) {
                     case ESmsType::Order:
