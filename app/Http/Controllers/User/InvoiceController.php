@@ -119,7 +119,8 @@ class InvoiceController extends Controller
                
 
                 $order->service->save();
-                MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
+                //MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
+                MyHelper::sendTg(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
                 $email = Email::where("type", EEmailType::Paid_order)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 $email = Email::where("type", EEmailType::Deploying_server)->first();
@@ -159,6 +160,7 @@ class InvoiceController extends Controller
                 $transaction->method = "wallet";
                 $transaction->save();
                 // MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
+                MyHelper::sendTg(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
                 $email = Email::where("type", EEmailType::Paid_invoice)->first();
                 Mail::to($invoice->user->email)->send(new MailTemplate($email, (object)["user" => $invoice->user, "invoice" => $invoice]));
                

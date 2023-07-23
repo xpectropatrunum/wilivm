@@ -14,6 +14,16 @@ return [
     'title' => 'admin.admin_title', // use in trans
     'footer' => 'admin.footer', //use in trans
 
+    'order_tg' => "کاربر %name% به ایمیل %email%
+    تیکت با موضوع %title% ثبت کرد",
+
+    'ticket_tg' => "کاربر %name% به ایمیل %email%
+    سفارش شماره %number% را پرداخت کرد",
+
+
+
+    'service_tg' => "کاربر %name% به ایمیل %email%
+    درخواست %request% برای سرویس %service% ثبت کرد",
     /*
     |--------------------------------------------------------------------------
     | Logo

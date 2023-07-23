@@ -113,7 +113,9 @@ class WalletController extends Controller
            
 
             $order->service->save();
-            MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
+            //MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
+            MyHelper::sendTg(ESmsType::Order, ["user" => $order->user, "order" => $order]);
+
             $email = Email::where("type", EEmailType::Paid_invoice)->first();
             Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
             $email = Email::where("type", EEmailType::Deploying_server)->first();

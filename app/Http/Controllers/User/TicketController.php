@@ -98,7 +98,9 @@ class TicketController extends Controller
 
         $ticket = auth()->user()->tickets()->create(["title" => $request->title, "status" => 0, "new" => 0 ,"department" => $request->department]);
         if($ticket){
-            MyHelper::sendSMS(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
+            //MyHelper::sendSMS(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
+            MyHelper::sendTg(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
+
             $ticket_conversation = $ticket->conversations()->create(["message" => $request->message,]);
             if($request->file){
                 foreach($request->file as $file){

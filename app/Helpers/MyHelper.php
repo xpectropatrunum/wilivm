@@ -59,19 +59,14 @@ class MyHelper
         }
 
 
-        return date("Y-m-d H:i", $order->due_date ?? $order->expires_at );
+        return date("Y-m-d H:i", $order->due_date ?? $order->expires_at);
     }
-    static function sendTg($type, $data){
+    static function sendTg($type, $data)
+    {
         if (env("ENABLE_SMS") == 1) {
-
-
             $admins = Admin::role('admin')->get();
-
             $user = $data["user"];
             $user_fullname = urlencode($user->first_name . " " . $user->last_name);
-
-
-
 
             foreach ($admins as $admin) {
                 $phone = $admin->phone;
@@ -87,38 +82,47 @@ class MyHelper
 
                 switch ($type) {
                     case ESmsType::Order:
-                        $pattern = "6ikckh3xul3v5l6";
                         $order = $data["order"];
-                        $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=number&v3={$order->id}";
+                        $message = urlencode(str_replace(
+                            ["%name%", "%email%", "%number%"],
+                            [$user_fullname, $user->email, $order->id],
+                            config("admin.ticket_tg")
+                        ));
                         break;
 
                     case ESmsType::Ticket:
                         $pattern = "6okn0v670keil05";
                         $ticket = $data["ticket"];
-                        $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=title&v3={$ticket->title}";
+                        $message = urlencode(str_replace(
+                            ["%name%", "%email%", "%title%"],
+                            [$user_fullname, $user->email, $ticket->title],
+                            config("admin.ticket_tg")
+                        ));
+
+
                         break;
 
                     case ESmsType::Request:
-                        $pattern = "1tkf5tsf0az008f";
                         $request = $data["request"];
                         $request_name = urlencode($request->name);
                         $service = urlencode($data["service"]->type);
-                        $append = "&pid={$pattern}&fnum=5000125475&tnum={$phone}&p1=name&v1={$user_fullname}&p2=email&v2={$user->email}&p3=request&v3={$request_name}&p4=service&v4={$service}";
+                        $message = urlencode(str_replace(
+                            ["%name%", "%email%", "%request%", "%service%"],
+                            [$user_fullname, $user->email, $request_name, $service],
+                            config("admin.service_tg")
+                        ));
                         break;
                 }
 
-                $settings = Setting::pluck("value", "key");
                 try {
-                    $url = "http://ippanel.com:8080/?apikey=" . $settings["FARAZ_SMS_API_KEY"] . $append;
+                    $url = "https://api.telegram.org/bot6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k/sendMessage?text=$message&chat_id={$admin->tg_id}";
                     $handler = curl_init($url);
                     curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                     $response2 = curl_exec($handler);
-
                     Log::debug($url);
-
                     $response2;
                 } catch (\Exception $e) {
-                    Log::warning("send sms " . $e->getMessage());
+                    Log::warning("send tg bot: " . $e->getMessage());
                 }
             }
         }
