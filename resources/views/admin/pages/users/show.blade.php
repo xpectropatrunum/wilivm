@@ -120,10 +120,7 @@
                                 <div class="small-box bg-danger">
                                     <div class="inner">
     
-                                        <h3>$ {{ $user->orders()->whereHas('transactions', function ($q) {
-                                            //refund = 3
-                                                $q->where('status', 3);
-                                            })->sum('price') }}
+                                        <h3>$ {{ $user->orders()->where('status', 3)->sum('price') }}
                                         </h3>
                                         <p>Refund</p>
                                     </div>
