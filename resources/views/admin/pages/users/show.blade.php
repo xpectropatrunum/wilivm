@@ -65,6 +65,8 @@
     
                                         <h3>$ {{ $user->orders()->whereHas('transactions', function ($q) {
                                                 $q->where('status', 1);
+                                            })->sum('price') + $user->invoices()->whereHas('transactions', function ($q) {
+                                                $q->where('status', 1);
                                             })->sum('price') }}
                                         </h3>
                                         <p>Paid</p>
@@ -81,6 +83,8 @@
                                     <div class="inner">
     
                                         <h3>$ {{ $user->orders()->whereHas('transactions', function ($q) {
+                                                $q->where('status', 0);
+                                            })->sum('price') + $user->invoices()->whereHas('transactions', function ($q) {
                                                 $q->where('status', 0);
                                             })->sum('price') }}
                                         </h3>
