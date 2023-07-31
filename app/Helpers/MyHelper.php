@@ -79,6 +79,7 @@ class MyHelper
                 }
                 $append = "";
 
+                return 45; 
 
                 switch ($type) {
                     case ESmsType::Order:
@@ -116,7 +117,7 @@ class MyHelper
 
                     case ESmsType::Draft:
                         $order = $data["order"];
-                        return 45; $message = urlencode(str_replace(
+                        $message = urlencode(str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
                             config("admin.new_service")
