@@ -117,7 +117,7 @@ class MyHelper
                     case ESmsType::Draft:
                         $order = $data["order"];
                         $message = urlencode(str_replace(
-                            ["%name%", "%email%", "%number%", "type", "plan"],
+                            ["%name%", "%email%", "%number%", "%type%", "%plan%"],
                             [$user_fullname, $user->email, $order->id, $order->service->type, $order->service->plan],
                             config("admin.new_service")
                         ));
