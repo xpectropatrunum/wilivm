@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Enums\EServiceType;
+use App\Enums\EWalletTransactionType;
 use App\Helpers\ApiHelper;
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
@@ -204,6 +205,12 @@ class OrderController extends Controller
             $wallet = $order->user->wallet;
             $wallet->balance += $order->price;
             $wallet->save();
+            $wallet->transactions()->create([
+                "type" => EWalletTransactionType::Refund,
+                "tx_id" => md5(time(). "wili"),
+                "status" => 1,
+                "amount" => $order->price,
+            ]);
         }
 
         $updated = $order->service->update($request->only("username", "ipv4","ipv6","password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
