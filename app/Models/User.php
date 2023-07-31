@@ -141,7 +141,7 @@ class User extends Authenticatable
     }
     function transactions()
     {
-        return $this->belongsToMany(Transaction::class, Order::class);
+        return $this->belongsTo(Transaction::class, Order::class);
     }
     function wallet()
     {
