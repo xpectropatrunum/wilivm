@@ -266,7 +266,16 @@
             fetchProp()
         });
         fetchProp()
+        var confirm__ = 0;
+        $("form").submit(function(e){
+            if($("[name=status]").val() == 6 && confirm__ == 0){
+                confirm__ = 1;
+                Swal.fire({text: "to confirm this action, click on `update` button again",title: "Warning!"})
+                return false;
 
+            }
+            
+        });
         function fetchProp() {
             type = $("[name=type]").val()
             plan = $("[name=plan]").val()
