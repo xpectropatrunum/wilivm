@@ -188,10 +188,14 @@
 
 
                                             @if ($item->transactions()->latest()->first()?->status == 1)
-                                                <div class="badge badge-success">Paid</div>
+                                                <div class="badge badge-success">Paid</div> /
+                                                <strong>{{ ucfirst($item->transactions()->latest()->first()?->method) }}</strong> 
                                             @else
                                                 <div class="badge badge-warning">Unpaid</div>
                                             @endif
+
+                                            
+                                         
 
                                         </td>
                                         <td>
@@ -212,6 +216,7 @@
                                             @else
                                                 <span class="badge bg-warning">not set</span>
                                             @endif
+
 
                                         </td>
                                         <td class="project-actions">
