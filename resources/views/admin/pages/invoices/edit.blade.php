@@ -29,11 +29,11 @@
                     @method('PUT')
                     <div class="card-body">
                         <div class="row">
-                            @if ($order->transactions()->first()?->status == 1)
+                            @if ($invoice->transactions()->first()?->status == 1)
                                 Paid with
-                                <strong>{{ ucfirst($order->transactions()->latest()->first()?->method) }}</strong> at
-                                {{ $order->transactions()->latest()->first()?->updated_at }}<br>
-                                Tx id: <strong>{{ $order->transactions()->latest()->first()?->tx_id }}</strong>
+                                <strong>{{ ucfirst($invoice->transactions()->latest()->first()?->method) }}</strong> at
+                                {{ $invoice->transactions()->latest()->first()?->updated_at }}<br>
+                                Tx id: <strong>{{ $invoice->transactions()->latest()->first()?->tx_id }}</strong>
                             @else
                                 Not paid
                             @endif
