@@ -29,7 +29,8 @@
                     @method('PUT')
                     <div class="card-body">
                         <div class="row">
-                            @if ($invoice->transactions()->first()?->status == 1)
+                            <div class="col-12">
+                                @if ($invoice->transactions()->first()?->status == 1)
                                 Paid with
                                 <strong>{{ ucfirst($invoice->transactions()->latest()->first()?->method) }}</strong> at
                                 {{ $invoice->transactions()->latest()->first()?->updated_at }}<br>
@@ -37,6 +38,8 @@
                             @else
                                 Not paid
                             @endif
+                            </div>
+                           
 
                             <div class="form-group col-lg-3">
                                 <label>User</label>
