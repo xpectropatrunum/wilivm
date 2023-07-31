@@ -205,7 +205,7 @@ class OrderController extends Controller
             $wallet = $order->user->wallet;
             $wallet->balance += $order->price;
             $wallet->save();
-            $wallet->transactions()->create([
+            $wallet->transaction()->create([
                 "type" => EWalletTransactionType::Refund,
                 "tx_id" => md5(time(). "wili"),
                 "status" => 1,
