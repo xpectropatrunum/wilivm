@@ -5,7 +5,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Order for {{$user->first_name}} {{$user->last_name}}</h1>
+            <h1 class="m-0 text-dark">Order for {{ $user->first_name }} {{ $user->last_name }}</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb @if (app()->getLocale() == 'fa') float-sm-left @else float-sm-right @endif">
@@ -46,9 +46,9 @@
                                 <input type="text" value="{{ $user->created_at }}" class="form-control" disabled>
                             </div>
 
-                       
 
-                         
+
+
 
 
                             <div class="col-lg-3 col-12">
@@ -58,8 +58,7 @@
 
                                     <select name="type" class="select2 form-select">
                                         @foreach (\App\Models\ServerType::where('enabled', 1)->get() as $item)
-                                            <option
-                                                value="{{ $item->name }}">{{ $item->name }}
+                                            <option value="{{ $item->name }}">{{ $item->name }}
                                             </option>
                                         @endforeach
 
@@ -75,8 +74,7 @@
 
                                     <select name="plan" class="select2 form-select">
                                         @foreach (\App\Models\ServerPlan::where('enabled', 1)->get() as $item)
-                                            <option 
-                                                value="{{ $item->name }}">{{ $item->name }}
+                                            <option value="{{ $item->name }}">{{ $item->name }}
                                             </option>
                                         @endforeach
 
@@ -91,7 +89,7 @@
                                     <label>Location</label>
 
                                     <select name="location" class="select2 form-select">
-                                     
+
                                     </select>
                                 </div>
                             </div>
@@ -102,7 +100,7 @@
                                     <label>Os</label>
 
                                     <select name="os" class="select2 form-select">
-                                       
+
                                     </select>
                                 </div>
                             </div>
@@ -112,9 +110,8 @@
                                 <div class="form-group">
                                     <label>Billing Cycle</label>
 
-                                    <select name="cycle"
-                                        class="form-select select2">
-                                        @foreach (config("admin.cycle") as $key => $item)
+                                    <select name="cycle" class="form-select select2">
+                                        @foreach (config('admin.cycle') as $key => $item)
                                             <option value="{{ $key }}">{{ $item }}
                                             </option>
                                         @endforeach
@@ -126,32 +123,32 @@
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Ram</label>
-                                    <input class="form-control" name="ram" value="{{ old("ram") }}">
+                                    <input class="form-control" name="ram" value="{{ old('ram') }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Cpu</label>
-                                    <input class="form-control" name="cpu" value="{{old("cpu")}}">
+                                    <input class="form-control" name="cpu" value="{{ old('cpu') }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Storage</label>
-                                    <input class="form-control" name="storage" value="{{old("storage")}}">
+                                    <input class="form-control" name="storage" value="{{ old('storage') }}">
                                 </div>
                             </div>
 
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Bandwith</label>
-                                    <input class="form-control" name="bandwith" value="{{ old("bandwith") }}">
+                                    <input class="form-control" name="bandwith" value="{{ old('bandwith') }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Server IP</label>
-                                    <input name="ip" class="form-control" value="{{ old("ip") }}">
+                                    <input name="ip" class="form-control" value="{{ old('ip') }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
@@ -170,13 +167,13 @@
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Server Username</label>
-                                    <input name="username" class="form-control" value="{{ old("username") }}">
+                                    <input name="username" class="form-control" value="{{ old('username') }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Server Password</label>
-                                    <input name="password" class="form-control" value="{{ old("password") }}">
+                                    <input name="password" class="form-control" value="{{ old('password') }}">
                                 </div>
                             </div>
 
@@ -187,8 +184,7 @@
 
                                     <select name="label_ids[]" multiple class="select2 form-select">
                                         @foreach ($labels as $item)
-                                            <option value="{{ $item->id }}"
-                                           >{{ $item->name }}
+                                            <option value="{{ $item->id }}">{{ $item->name }}
                                             </option>
                                         @endforeach
 
@@ -202,8 +198,7 @@
                                     <label>Status</label>
                                     <select name="status" class="form-control form-select">
                                         @foreach (config('admin.user_service_status') as $key => $item)
-                                            <option 
-                                                value="{{ $key }}">{{ $item }}
+                                            <option value="{{ $key }}">{{ $item }}
                                             </option>
                                         @endforeach
 
@@ -214,7 +209,7 @@
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input name="price" class="form-control" value="{{ old("price") }}">
+                                    <input name="price" class="form-control" value="{{ old('price') }}">
                                 </div>
                             </div>
                             <div class="form-group col-lg-3">
@@ -232,7 +227,7 @@
                                 </div>
                             </div>
 
-                    
+
 
                         </div>
                     </div>
@@ -268,23 +263,30 @@
             type = $("[name=type]").val()
             plan = $("[name=plan]").val()
             $.get(`/admin/orders/props/${type}/${plan}`, function(res) {
-               
+
                 $("[name=os]").html(``)
                 $("[name=location]").html(``)
-                if(res.success != 0){
+
+
+                if (res.success != 0) {
+                    $("[name=cpu]").vale(res.cpu)
+                    $("[name=ram]").vale(res.ram)
+                    $("[name=bandwith]").vale(res.bandwith)
+                    $("[name=storage]").vale(res.storage)
+
                     res.os.map(item => {
-         
+
                         $("[name=os]").append(`<option  value="${item.id}">${item.name}</option>`)
 
-                    
-                })
-                res.location.map(item => {
-            
+
+                    })
+                    res.location.map(item => {
+
                         $("[name=location]").append(`<option  value="${item.id}">${item.name}</option>`)
-                    
-                })
+
+                    })
                 }
-               
+
             })
         }
     </script>

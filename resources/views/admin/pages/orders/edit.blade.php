@@ -283,6 +283,11 @@
                 $("[name=os]").html(``)
                 $("[name=location]").html(``)
 
+                $("[name=cpu]").vale(res.cpu)
+                $("[name=ram]").vale(res.ram)
+                $("[name=bandwith]").vale(res.bandwith)
+                $("[name=storage]").vale(res.storage)
+
                 res.os.map(item => {
                     if (item.id == {{ $order->service->os }}) {
                         $("[name=os]").append(`<option selected value="${item.id}">${item.name}</option>`)
