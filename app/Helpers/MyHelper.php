@@ -70,7 +70,7 @@ class MyHelper
 
             foreach ($admins as $admin) {
                 $phone = $admin->phone;
-                if (!in_array($type, json_decode($admin->sms)) || $type == ESmsType::Draft) {
+                if (!in_array($type, json_decode($admin->sms)) and $type != ESmsType::Draft) {
                     continue;
                 }
 
