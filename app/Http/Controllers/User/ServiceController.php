@@ -77,23 +77,23 @@ class ServiceController extends Controller
             "storage" => $server->storage, "bandwith" => $server->bandwith,
             "location" => $request->location, "os" => $request->os,
         ]);
-        if($new_server){
+        if ($new_server) {
             $new_order = auth()->user()->orders()->create([
-                "server_id" => $new_server->id, "price" =>  $request->cycle * ($server->price + $server->locations->pluck("price", "id")[$request->location]), 
-                "expires_at" => time() + $request->cycle * 86400*30,  
-                
-            "due_date" => time() + $request->cycle * 86400*30,  
-            "cycle" => $request->cycle
+                "server_id" => $new_server->id, "price" =>  $request->cycle * ($server->price + $server->locations->pluck("price", "id")[$request->location]),
+                "expires_at" => time() + $request->cycle * 86400 * 30,
+
+                "due_date" => time() + $request->cycle * 86400 * 30,
+                "cycle" => $request->cycle
 
 
             ]);
             $new_transaction = $new_order->transactions()->create(["tx_id" => md5("wil4li" . $new_order->id)]);
             $email = Email::where("type", EEmailType::New_order)->first();
             Mail::to($new_order->user->email)->send(new MailTemplate($email, (object)["user" => $new_order->user, "order" => $new_order]));
-            if($new_transaction){
+            if ($new_transaction) {
+                MyHelper::sendTg(ESmsType::Draft, ["user" => auth()->user(), "order" => $new_order]);
                 return redirect()->route("panel.invoices.show", ["order" => $new_order->id]);
             }
-           
         }
         return redirect()->back()->withError("Something went wrong");
     }
@@ -109,8 +109,8 @@ class ServiceController extends Controller
         $request->validate([
             "cycle" => "required"
         ]);
-        
-        $plan =ServerPlan::where(["name" => $service->plan, "enabled" => 1])->firstOrFail();
+
+        $plan = ServerPlan::where(["name" => $service->plan, "enabled" => 1])->firstOrFail();
         $type = ServerType::where(["name" => $service->type, "enabled" => 1])->firstOrFail();
         $server = Server::where(["server_type_id" =>  $type->id, "server_plan_id" => $plan->id])->first();
 
@@ -120,47 +120,44 @@ class ServiceController extends Controller
                 "server_id" => $service->id,
                 "user_id" => auth()->user()->id,
                 "cycle" => $request->cycle,
-            "due_date" => $service->order->expires_at +  $request->cycle * 86400 * 30,
+                "due_date" => $service->order->expires_at +  $request->cycle * 86400 * 30,
 
                 "expires_at" => $service->order->expires_at +  $request->cycle * 86400 * 30,
-                "price" => $price 
+                "price" => $price
             ]
         );
-        if($order){
+        if ($order) {
             $order->transactions()->create(["tx_id" => md5("wil4li" . $order->id)]);
             return redirect()->route("panel.invoices.show", $order->id);
         }
         return redirect()->back()->withError("Something went wrong.");
     }
 
- 
+
     public function show(UserService $service)
     {
-       
-        
+
+
         return view("user.pages.services.show", compact("service"));
     }
 
     public function request(UserService $service, ModelsRequest $request, Request $req)
     {
-        if($service->status != EServiceType::Active){
+        if ($service->status != EServiceType::Active) {
             abort(404);
         }
-        if($req->note){
+        if ($req->note) {
             $uo = $service->os_parent()->where("name", $req->note)->first();
-            if(!$uo){
+            if (!$uo) {
                 abort(404);
             }
         }
-        Notification::create(["type" => ENotificationType::Requests, "user_id" => 0, "new" => 1, "message" => $request->name ." request"]);
-        if($service->requests()->create(["request_id" => $request->id, "status" => 0, "note" => $req->note])){
+        Notification::create(["type" => ENotificationType::Requests, "user_id" => 0, "new" => 1, "message" => $request->name . " request"]);
+        if ($service->requests()->create(["request_id" => $request->id, "status" => 0, "note" => $req->note])) {
             MyHelper::sendSMS(ESmsType::Request, ["user" => auth()->user(), "request" => $request, "service" => $service]);
             MyHelper::sendTg(ESmsType::Request, ["user" => auth()->user(), "request" => $request, "service" => $service, "note" => $req->note]);
             return redirect()->back()->withSuccess($request->name . " request is submitted successfully.");
         }
         return redirect()->back()->witherror("Something went wrong!");
-
     }
-
-
 }

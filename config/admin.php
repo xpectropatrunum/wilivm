@@ -20,6 +20,12 @@ return [
     'ticket_tg' => "کاربر %name% به ایمیل %email%
 تیکت با موضوع %title% ثبت کرد",
 
+    'new_service' => "کاربر %name% به ایمیل %email%
+سفارش شماره %number% را ایجاد کرد
+Type: %type%
+Plan: %plan%
+",
+
 
 
     'service_tg' => "کاربر %name% به ایمیل %email%
