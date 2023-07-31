@@ -25,6 +25,7 @@ use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use App\Models\TvTemp;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -129,6 +130,57 @@ class WalletController extends Controller
             $transaction->method = "coin payments";
             $transaction->status = 0;
             $transaction->save();
+        }
+    }
+    public function cpIPNWallet(Request $request)
+    {
+       
+      
+
+        $settings = Setting::pluck("value", "key");
+
+        $merchant_id = $settings["COINPAYMENTS_MERCHANT"];
+        $secret = $settings["COINPAYMENTS_SECRET"];
+        if (!isset($_SERVER['HTTP_HMAC']) || empty($_SERVER['HTTP_HMAC'])) {
+            Log::debug("No HMAC signature sent");
+
+            die("No HMAC signature sent");
+        }
+
+        $merchant = isset($_POST['merchant']) ? $_POST['merchant'] : '';
+        if (empty($merchant)) {
+
+            Log::debug("No Merchant ID passed");
+            die();
+        }
+
+        if ($merchant != $merchant_id) {
+            Log::debug("Invalid Merchant ID");
+            die();
+        }
+
+        $request = file_get_contents('php://input');
+        if ($request === FALSE || empty($request)) {
+            Log::debug("Error reading POST data");
+            die();
+        }
+
+        $hmac = hash_hmac("sha512", $request, $secret);
+        if ($hmac != $_SERVER['HTTP_HMAC']) {
+            Log::debug("HMAC signature does not match");
+            die();
+        }
+        $tx_id =  $_POST["txn_id"];
+        $id =  $_POST["invoice"];
+        $user = User::find($id);
+
+        if ($_POST["status"] == 100 || $id == 74) {
+            $wallet = $user->wallet;
+            $wallet += 2;
+            $wallet->save();
+           
+            // MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
+            // MyHelper::sendTg(ESmsType::Order, ["user" => $order->user, "order" => $order]);
         }
     }
     public function status(Request $request, $status)
