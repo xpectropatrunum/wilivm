@@ -107,7 +107,7 @@ class MyHelper
                         $service = ($data["service"]->type);
                         $message = urlencode(str_replace(
                             ["%name%", "%email%", "%request%", "%service%"],
-                            [$user_fullname, $user->email, $request_name, $service],
+                            [$user_fullname, $user->email, $request_name, $service . "({$service->id})"],
                             config("admin.service_tg")
                         ));
                         break;
