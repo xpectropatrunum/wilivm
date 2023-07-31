@@ -155,7 +155,7 @@ class ServiceController extends Controller
         Notification::create(["type" => ENotificationType::Requests, "user_id" => 0, "new" => 1, "message" => $request->name ." request"]);
         if($service->requests()->create(["request_id" => $request->id, "status" => 0, "note" => $req->note])){
             MyHelper::sendSMS(ESmsType::Request, ["user" => auth()->user(), "request" => $request, "service" => $service]);
-            MyHelper::sendTg(ESmsType::Request, ["user" => auth()->user(), "request" => $request, "service" => $service, "note" => $request->note]);
+            MyHelper::sendTg(ESmsType::Request, ["user" => auth()->user(), "request" => $request, "service" => $service, "note" => $req->note]);
             return redirect()->back()->withSuccess($request->name . " request is submitted successfully.");
         }
         return redirect()->back()->witherror("Something went wrong!");
