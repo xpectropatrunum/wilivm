@@ -1,10 +1,15 @@
 @extends('user.layouts.master')
 
-@section('title', "New Service")
+@section('title', 'New Service')
 
 
 @section('content')
 
+    <style>
+        .card-title {
+            font-size: 46px
+        }
+    </style>
 
     <div class="page-heading">
         <div class="page-title">
@@ -39,13 +44,13 @@
                                 <div class="col-lg-6 col-xl-3 p-1">
                                     <div class="card">
                                         <div class="card-header text-center">
-                                            <h4 class="card-title">{{  $item[0]->type->name }}</h4>
-                                            
+                                            <h4 class="card-title">{{ $item[0]->type->name }}</h4>
+
                                         </div>
-                                        <h1 class="price" style="margin-bottom:0">${{ min(array_column($item, 'price')) }}</h1>
-                                        <p class="text-center" style="margin-bottom:3rem">
+                                        {{--  <h1 class="price" style="margin-bottom:0">${{ min(array_column($item, 'price')) }}</h1>  --}}
+                                        {{--  <p class="text-center" style="margin-bottom:3rem">
                                             Monthly
-                                        </p>
+                                        </p>  --}}
                                         <ul>
                                             <li>
                                                 <i class="bi bi-check-circle"></i> Instant Delivery​
@@ -60,7 +65,7 @@
 
                                         </ul>
                                         <div class="card-footer">
-                                            <a href="{{route('panel.new-service.show',$item[0]->server_type_id)}}">
+                                            <a href="{{ route('panel.new-service.show', $item[0]->server_type_id) }}">
                                                 <button class="btn btn-primary btn-block">
                                                     Show Plans
                                                 </button>
@@ -71,7 +76,7 @@
                             @endforeach
 
 
-                          
+
 
                         </div>
                     </div>

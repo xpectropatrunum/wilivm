@@ -81,14 +81,14 @@
                                         <div class="">
                                             <strong>Wallet Balance: </strong> ${{ $user->wallet->balance }}
                                         </div>
-                                 
+
                                         <div>
                                             <strong>Phone: </strong> {{ $user->phone }}
                                         </div>
                                         <a target="_blank" class="btn btn-outline-info btn-sm mt-1"
-                                        href="{{ route('admin.users.edit', $user->id) }}">
-                                       <i class="fas  fa-pen"></i> {{ __('Edit') }}
-                                    </a>
+                                            href="{{ route('admin.users.edit', $user->id) }}">
+                                            <i class="fas  fa-pen"></i> {{ __('Edit') }}
+                                        </a>
                                     </div>
                                 </div>
 
@@ -100,7 +100,7 @@
 
 
 
-                                        
+
                                         <div class="">
                                             <strong>Country: </strong> {{ $user->country }}
                                         </div>
@@ -114,9 +114,9 @@
                                             <strong>Address: </strong> {{ $user->address }}
                                         </div>
                                         <a target="_blank" class="btn btn-outline-info btn-sm mt-1"
-                                        href="{{ route('admin.users.edit', $user->id) }}">
-                                       <i class="fas  fa-pen"></i> {{ __('Edit') }}
-                                    </a>
+                                            href="{{ route('admin.users.edit', $user->id) }}">
+                                            <i class="fas  fa-pen"></i> {{ __('Edit') }}
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -135,48 +135,49 @@
                                     </div>
 
                                 </div>
-                                 <div class="card  bg-silk mt-2">
+                                <div class="card  bg-silk mt-2">
                                     <div class="pt-3 pl-3">
                                         <h6>Recent Emails</h6>
                                     </div>
                                     <div class="card-body">
-                                        
+
                                         @php
-                                        $items = $user
-                                            ->emails()
-                                            ->latest()
-                                            ->take(5)->get();
-                                    @endphp
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered mb-0 text-nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Subject</th>
-            
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-            
-                                                @foreach ($items as $item)
+                                            $items = $user
+                                                ->emails()
+                                                ->latest()
+                                                ->take(5)
+                                                ->get();
+                                        @endphp
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered mb-0 text-nowrap">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{ $item->created_at }}</td>
-            
-            
-                                                        <td><a data-toggle="modal" href="#myModal"
-                                                                onclick="openModal(`{!! $item->content !!}`)">{{ $item->title }}</a>
-                                                        </td>
-            
-            
-            
-                                                       
-            
+                                                        <th>Date</th>
+                                                        <th>Subject</th>
+
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                   
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach ($items as $item)
+                                                        <tr>
+                                                            <td>{{ $item->created_at }}</td>
+
+
+                                                            <td><a data-toggle="modal" href="#myModal"
+                                                                    onclick="openModal(`{!! $item->content !!}`)">{{ $item->title }}</a>
+                                                            </td>
+
+
+
+
+
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -187,22 +188,22 @@
                                         <h6>Tools</h6>
                                     </div>
                                     <div class="card-body">
-                                        
+
                                         <a target="_blank" class="mt-1"
-                                            href="{{ route('admin.invoices.create', ["id" => $user->id]) }}">
-                                           <i class="fas fa-coins"></i> {{ __('Create Invoice') }}
+                                            href="{{ route('admin.invoices.create', ['id' => $user->id]) }}">
+                                            <i class="fas fa-coins"></i> {{ __('Create Invoice') }}
                                         </a>
                                         <br>
 
                                         <a target="_blank" class="mt-1"
-                                        href="{{ route('admin.orders.create_for_user', $user->id) }}">
-                                       <i class="fas fa-shopping-cart"></i> {{ __('Create Order') }}
-                                       <br>
+                                            href="{{ route('admin.orders.create_for_user', $user->id) }}">
+                                            <i class="fas fa-shopping-cart"></i> {{ __('Create Order') }}
+                                            <br>
 
-                                        <a target="_blank" class="mt-1"
-                                        href="{{ route('admin.tickets.create', ["id" => $user->id]) }}">
-                                       <i class="fas fa-ticket-alt"></i> {{ __('Create Ticket') }}
-                                    </a>
+                                            <a target="_blank" class="mt-1"
+                                                href="{{ route('admin.tickets.create', ['id' => $user->id]) }}">
+                                                <i class="fas fa-ticket-alt"></i> {{ __('Create Ticket') }}
+                                            </a>
                                     </div>
 
                                 </div>
@@ -211,64 +212,69 @@
                                         <h6>Tickets (waiting for action)</h6>
                                     </div>
                                     <div class="card-body">
-                                        
+
                                         @php
-                                        $items = $user
-                                            ->tickets()->where("status", 0)
-                                            ->latest()
-                                            ->take(5)->get();
-                                    @endphp
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered mb-0 text-nowrap">
-                                            <thead>
-                                                <tr>
-                                                    <th>Subject</th>
-                                                    <th>Status</th>
-                                                    <th>Date</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-            
-                                                @foreach ($items as $item)
+                                            $items = $user
+                                                ->tickets()
+                                                ->where('status', 0)
+                                                ->latest()
+                                                ->take(5)
+                                                ->get();
+                                        @endphp
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered mb-0 text-nowrap">
+                                                <thead>
                                                     <tr>
-                                                        <td><a target="_blank" href="{{route('admin.tickets.show', $item->id)}}">{{$item->title}}</a></td>
-                                                        <td>
+                                                        <th>Subject</th>
+                                                        <th>Status</th>
+                                                        <th>Date</th>
 
-
-                                                            @if ($item->status == 0)
-                                                                <div class="badge badge-warning">Customer reply</div>
-                                                            @elseif ($item->status == 1)
-                                                                <div class="badge badge-success">Answered</div>
-                                                            @elseif ($item->status == 2)
-                                                                <div class="badge badge-dark">Closed</div>
-                                                            @elseif ($item->status == 3)
-                                                                <div class="badge badge-info">In proccess</div>
-                                                            @endif
-            
-                                                        </td>
-                                                        <td>{{ $item->updated_at }}</td>
-            
-            
-            
-                                                       
-            
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                   
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach ($items as $item)
+                                                        <tr>
+                                                            <td><a target="_blank"
+                                                                    href="{{ route('admin.tickets.show', $item->id) }}">{{ $item->title }}</a>
+                                                            </td>
+                                                            <td>
+
+
+                                                                @if ($item->status == 0)
+                                                                    <div class="badge badge-warning">Customer reply</div>
+                                                                @elseif ($item->status == 1)
+                                                                    <div class="badge badge-success">Answered</div>
+                                                                @elseif ($item->status == 2)
+                                                                    <div class="badge badge-dark">Closed</div>
+                                                                @elseif ($item->status == 3)
+                                                                    <div class="badge badge-info">In proccess</div>
+                                                                @endif
+
+                                                            </td>
+                                                            <td>{{ $item->updated_at }}</td>
+
+
+
+
+
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
 
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
 
 
-                    <div class="tab-pane fade" id="custom-gallery" role="tabpanel" aria-labelledby="custom-tabs-basic-tab">
+                    <div class="tab-pane fade" id="custom-gallery" role="tabpanel"
+                        aria-labelledby="custom-tabs-basic-tab">
                         <div class="mb-2"> <a target="_blank" class="btn btn-outline-danger btn-sm  mt-1"
                                 href="{{ route('admin.orders.create_for_user', $user->id) }}">
                                 {{ __('New Order') }}
@@ -301,13 +307,12 @@
                                 <tbody>
 
                                     @foreach ($items as $item)
-                                      
                                         <tr>
                                             <td>{{ $item->id }}</td>
                                             <td><a href="{{ route('admin.orders.edit', $item->id) }}">
-                                                {{$item->service->plan}}
+                                                    {{ $item->service->plan }}
 
-                                            </a></td>
+                                                </a></td>
                                             <td>{{ $item->service->type }}</td>
                                             <td>{{ $item->service->plan }}</td>
                                             <td>{{ $item->service->os_->name }}</td>
@@ -337,6 +342,8 @@
                                                 @elseif ($item->service->status == 4)
                                                     <span class="badge bg-danger">Canceled</span>
                                                 @elseif ($item->service->status == 7)
+                                                    <span class="badge bg-danger">Suspended</span>
+                                                @elseif ($item->service->status == 6)
                                                     <span class="badge bg-danger">Suspended</span>
                                                 @else
                                                     <span class="badge bg-warning">not set</span>
@@ -404,7 +411,7 @@
                                     @foreach ($items as $item)
                                         <tr>
                                             <td>{{ $item->id }}</td>
-                            
+
                                             <td>{{ $item->title }}</td>
                                             <td>{{ $item->description }}</td>
                                             <td>{{ $item->cycle }} Months</td>
@@ -452,8 +459,8 @@
                     </div>
                     <div class="tab-pane fade" id="custom-emails" role="tabpanel"
                         aria-labelledby="custom-tabs-emails-tab">
-                        <div class="mb-2"> <a class="btn btn-outline-danger btn-sm  mt-1" data-toggle="modal" href="#send-modal"
-                            >Send Email</a></div>
+                        <div class="mb-2"> <a class="btn btn-outline-danger btn-sm  mt-1" data-toggle="modal"
+                                href="#send-modal">Send Email</a></div>
                         @php
                             $items = $user
                                 ->emails()
@@ -590,7 +597,7 @@
 
     <div class="modal" id="send-modal">
         <div class="modal-dialog modal-dialog-centered">
-            <form class="modal-content" action="{{route('admin.users.send-email', $user->id)}}" method="POST">
+            <form class="modal-content" action="{{ route('admin.users.send-email', $user->id) }}" method="POST">
 
                 @csrf
                 <div class="modal-header">
@@ -600,25 +607,25 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="row" >
+                    <div class="row">
 
 
 
 
                         <div class="form-group col-12">
                             <label>Subject</label>
-                            <input type="text"  name="subject" class="form-control" required>
+                            <input type="text" name="subject" class="form-control" required>
                         </div>
                         <div class="form-group col-12">
                             <label>Title of box</label>
-                            <input type="text"  name="title" class="form-control" required>
+                            <input type="text" name="title" class="form-control" required>
                         </div>
                         <div class="form-group col-12">
                             <label>Content</label>
-                            <textarea rows="3"  name="content" class="form-control" required></textarea>
+                            <textarea rows="3" name="content" class="form-control" required></textarea>
                         </div>
                     </div>
-                
+
 
                 </div>
 
