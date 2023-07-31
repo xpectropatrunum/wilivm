@@ -750,10 +750,10 @@
         let openModal = (data) => {
             $(".modal-body").html(data)
         }
-        var confirm = 0;
+        var confirm__ = 0;
         $("form").submit(function(e){
-            if($("[name=status]").val() == 6 && confirm == 0){
-                confirm = 1;
+            if($("[name=status]").val() == 6 && confirm__ == 0){
+                confirm__ = 1;
                 Swal.fire({text: "to confirm this action, click on `update` button again",title: "Warning!"})
                 return false;
 
