@@ -73,12 +73,12 @@
                             </div>
                             <div class="form-group col-lg-3">
                                 <label>State</label>
-                                <input type="state" value="{{ old('state', $user->state) }}" name="state" class="form-control @error('state') is-invalid @enderror" required>
+                                <input type="state" value="{{ old('state', $user->state) }}" name="state" class="form-control @error('state') is-invalid @enderror">
                             </div>
 
                             <div class="form-group col-lg-3">
                                 <label>City</label>
-                                <input type="city" value="{{ old('city', $user->city) }}" name="city" class="form-control @error('city') is-invalid @enderror" required>
+                                <input type="city" value="{{ old('city', $user->city) }}" name="city" class="form-control @error('city') is-invalid @enderror">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label>Password</label>
