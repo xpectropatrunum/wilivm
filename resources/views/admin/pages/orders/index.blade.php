@@ -166,6 +166,7 @@
                                     <th>{{ __('admin.created_date') }}</th>
                                     <th>Expires At</th>
                                     <th>Transaction Status</th>
+                                    <th>Transaction Method</th>
                                     <th>Service Status</th>
                                     <th>Actions</th>
 
@@ -189,13 +190,21 @@
 
                                             @if ($item->transactions()->latest()->first()?->status == 1)
                                                 <div class="badge badge-success">Paid</div> /
-                                                <strong>{{ ucfirst($item->transactions()->latest()->first()?->method) }}</strong> 
+                                                <strong>{{ ucfirst($item->transactions()->latest()->first()?->method) }}</strong>
                                             @else
                                                 <div class="badge badge-warning">Unpaid</div>
                                             @endif
 
-                                            
-                                         
+
+
+
+                                        </td>
+                                        <td>
+                                            @if ($item->transactions()->latest()->first()?->status == 1)
+                                                {{ ucfirst($item->transactions()->latest()->first()?->method) }}
+                                            @else
+                                                -
+                                            @endif
 
                                         </td>
                                         <td>
