@@ -202,7 +202,7 @@ class OrderController extends Controller
 
         if ($order->service->status == EServiceType::Refund) {
             $wallet = $order->user->wallet;
-            $wallet->amount += $order->price;
+            $wallet->balance += $order->price;
             $wallet->save();
         }
 
