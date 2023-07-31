@@ -91,7 +91,7 @@ class ServiceController extends Controller
             $email = Email::where("type", EEmailType::New_order)->first();
             Mail::to($new_order->user->email)->send(new MailTemplate($email, (object)["user" => $new_order->user, "order" => $new_order]));
             if ($new_transaction) {
-                return MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
+                MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
                 return redirect()->route("panel.invoices.show", ["order" => $new_order->id]);
             }
         }

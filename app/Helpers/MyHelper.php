@@ -70,7 +70,7 @@ class MyHelper
 
             foreach ($admins as $admin) {
                 $phone = $admin->phone;
-                if (!in_array($type, json_decode($admin->sms))) {
+                if (!in_array($type, json_decode($admin->sms)) || $type == ESmsType::Draft) {
                     continue;
                 }
 
@@ -79,7 +79,6 @@ class MyHelper
                 }
                 $append = "";
 
-                return 45; 
 
                 switch ($type) {
                     case ESmsType::Order:
