@@ -62,15 +62,10 @@
                                 <div class="col-lg-3 col-6">
                                     <div class="small-box bg-info">
                                         <div class="inner">
-                                            @php
-                                            dd($user->transactions);
-                                            @endphp
-                                            <h3>{{
-                                                $user->transactions()->where("status", 1)->sum(function($q){
-                                                    return $q->order->price - $q->order->discount;
-
-                                                });
-                                            }}</h3>
+                                         
+                                            <h3>{{$user->orders()->whereHas("transactions", function($q){
+                                                    $q->where("status", 1);
+                                                })->sum("price")}}</h3>
                                             <p>Paid</p>
                                         </div>
                                         <div class="icon">
