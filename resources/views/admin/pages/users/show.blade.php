@@ -414,6 +414,8 @@
                                                     <span class="badge bg-danger">Canceled</span>
                                                 @elseif ($item->service->status == 7)
                                                     <span class="badge bg-danger">Suspended</span>
+                                                @elseif ($item->service->status == 6)
+                                                    <span class="badge bg-danger">Refund</span>
                                                 @else
                                                     <span class="badge bg-warning">not set</span>
                                                 @endif
