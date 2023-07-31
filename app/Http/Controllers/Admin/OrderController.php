@@ -109,7 +109,12 @@ class OrderController extends Controller
             return ["success" => 0];
         }
       
-        return ["os" => $server->os, "location" => $server->locations];
+        return ["os" => $server->os, "location" => $server->locations,
+        "ram" => $server->ram,
+        "cpu" => $server->cpu,
+        "bandwith" => $server->bandwith,
+        "storage" => $server->storage,
+    ];
     }
     public function create_for_user(User $user)
     {
