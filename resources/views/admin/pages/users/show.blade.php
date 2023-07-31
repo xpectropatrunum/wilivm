@@ -84,7 +84,7 @@
                                                 $q->where('status', 0);
                                             })->sum('price') }}
                                         </h3>
-                                        <p>Unaid</p>
+                                        <p>Unpaid</p>
                                     </div>
                                     <div class="icon">
                                         <i class="ion ion-bag"></i>
@@ -95,6 +95,41 @@
 
 
                             
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-info">
+                                    <div class="inner">
+    
+                                        <h3>$ {{ $user->wallet->balance }}
+                                        </h3>
+                                        <p>Balance</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-bag"></i>
+                                    </div>
+    
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-3 col-6">
+                                <div class="small-box bg-danger">
+                                    <div class="inner">
+    
+                                        <h3>$ {{ $user->orders()->whereHas('transactions', function ($q) {
+                                            //refund = 3
+                                                $q->where('status', 3);
+                                            })->sum('price') }}
+                                        </h3>
+                                        <p>Refund</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="ion ion-bag"></i>
+                                    </div>
+    
+                                </div>
+                            </div>
+
 
                             <div class="col-12 p-2 col-lg-4  ">
 
