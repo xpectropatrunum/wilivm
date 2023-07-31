@@ -200,7 +200,7 @@ class OrderController extends Controller
             Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
         }
 
-        if ($order->service->status == EServiceType::Refund) {
+        if ($order->service->status != EServiceType::Refund && $request->status ==  EServiceType::Refund) {
             $wallet = $order->user->wallet;
             $wallet->balance += $order->price;
             $wallet->save();
