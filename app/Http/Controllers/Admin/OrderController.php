@@ -200,6 +200,11 @@ class OrderController extends Controller
             Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
         }
 
+        if ($order->service->status == EServiceType::Refund) {
+            $wallet = $order->user->wallet;
+            $wallet->amount += $order->price;
+            $wallet->save();
+        }
 
         $updated = $order->service->update($request->only("username", "ipv4","ipv6","password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
         $order->update($request->only("label_ids"));
