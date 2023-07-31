@@ -92,6 +92,7 @@
                                     <th>{{ __('admin.created_date') }}</th>
                                     <th>Expires At</th>
                                     <th>Transaction Status</th>
+                                    <th>Transaction Method</th>
                                     <th>Actions</th>
 
                                 </tr>
@@ -118,7 +119,14 @@
                                             @endif
 
                                         </td>
-                                     
+                                        <td>
+                                            @if ($item->transactions()->latest()->first()?->status == 1)
+                                                {{ ucfirst($item->transactions()->latest()->first()?->method) }}
+                                            @else
+                                                -
+                                            @endif
+
+                                        </td>
                                         <td class="project-actions">
                                             <a href="{{ route('admin.invoices.edit', $item->id) }}">
 
