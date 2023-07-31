@@ -104,10 +104,11 @@ class MyHelper
                     case ESmsType::Request:
                         $request = $data["request"];
                         $request_name = ($request->name);
-                        $service = ($data["service"]->type);
+                        $service = $data["service"];
+                        $service_type = ($data["service"]->type);
                         $message = urlencode(str_replace(
                             ["%name%", "%email%", "%request%", "%service%"],
-                            [$user_fullname, $user->email, $request_name, $service . "({$service->id})"],
+                            [$user_fullname, $user->email, $request_name, $service_type . "({$service->id})"],
                             config("admin.service_tg")
                         ));
                         break;
