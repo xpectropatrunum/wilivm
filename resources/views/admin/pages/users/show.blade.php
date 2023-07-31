@@ -56,8 +56,29 @@
                     <div class="tab-pane fade show active" id="custom-basic-home" role="tabpanel"
                         aria-labelledby="custom-tabs-basic-tab">
 
-                        <div class="row p-3">
 
+
+                            <div class="row">
+                                <div class="col-lg-3 col-6">
+                                    <div class="small-box bg-info">
+                                        <div class="inner">
+                                            <h3>{{
+                                                $user->transactions()->where("status", 1)->sum(function($q){
+                                                    return $q->order->price - $q->order->discount;
+
+                                                })
+                                            }}</h3>
+                                            <p>Paid</p>
+                                        </div>
+                                        <div class="icon">
+                                            <i class="ion ion-bag"></i>
+                                        </div>
+                                   
+                                    </div>
+                                </div>
+                                
+
+                            </div>
 
                             <div class="col-12 p-2 col-lg-4  ">
 

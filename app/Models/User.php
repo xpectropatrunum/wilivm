@@ -139,6 +139,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class);
     }
+    function transactions()
+    {
+        return $this->hasManyThrough(Transaction::class, Order::class);
+    }
     function wallet()
     {
         return $this->hasOne(Wallet::class);
