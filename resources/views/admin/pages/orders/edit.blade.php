@@ -283,10 +283,10 @@
                 $("[name=os]").html(``)
                 $("[name=location]").html(``)
 
-                $("[name=cpu]").vale(res.cpu)
-                $("[name=ram]").vale(res.ram)
-                $("[name=bandwith]").vale(res.bandwith)
-                $("[name=storage]").vale(res.storage)
+                $("[name=cpu]").val(res.cpu)
+                $("[name=ram]").val(res.ram)
+                $("[name=bandwith]").val(res.bandwith)
+                $("[name=storage]").val(res.storage)
 
                 res.os.map(item => {
                     if (item.id == {{ $order->service->os }}) {
