@@ -281,7 +281,7 @@
                         <div class="form-group">
                             <label>Status</label>
 
-                            <select name="type" class="form-select form-control ">
+                            <select name="status" class="form-select form-control ">
 
                                 <option value="0">Unpaid</option>
                                 <option value="1">Paid</option>
