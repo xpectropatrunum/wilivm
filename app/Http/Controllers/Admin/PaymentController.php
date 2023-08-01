@@ -60,6 +60,11 @@ class PaymentController extends Controller
 
         return view('admin.pages.payments.index', compact('items', 'search', 'limit'));
     }
+    function updateStatus(Transaction $transaction, Request $request){
+        $transaction->status = $request->status;
+        return $transaction->save();
+
+    }
  
    
     

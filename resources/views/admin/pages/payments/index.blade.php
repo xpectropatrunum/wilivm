@@ -20,19 +20,19 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            
+
             <div class="row">
                 <div class="col-lg-3 col-6">
 
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>${{ App\Models\Wallet::sum("balance") }}</h3>
+                            <h3>${{ App\Models\Wallet::sum('balance') }}</h3>
                             <p>All Wallets Balance</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-social-bitcoin"></i>
                         </div>
-                    
+
                     </div>
                 </div>
 
@@ -47,10 +47,16 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()?->status == 1 and time() - strtotime($q
-                                            ->transactions()
-                                            ->latest()
-                                            ->first()->created_at) < 30 * 86400;
+                                            ->first()?->status ==
+                                            1 and
+                                            time() -
+                                                strtotime(
+                                                    $q
+                                                        ->transactions()
+                                                        ->latest()
+                                                        ->first()->created_at,
+                                                ) <
+                                                30 * 86400;
                                     });
                             @endphp
                             <h3>${{ $paid_orders->sum('price') - $paid_orders->sum('discount') }}
@@ -74,10 +80,16 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()?->status == 1 and time() - strtotime($q
-                                            ->transactions()
-                                            ->latest()
-                                            ->first()->created_at) < 3 * 30 * 86400;
+                                            ->first()?->status ==
+                                            1 and
+                                            time() -
+                                                strtotime(
+                                                    $q
+                                                        ->transactions()
+                                                        ->latest()
+                                                        ->first()->created_at,
+                                                ) <
+                                                3 * 30 * 86400;
                                     });
                             @endphp
                             <h3>${{ $paid_orders->sum('price') - $paid_orders->sum('discount') }}
@@ -101,10 +113,16 @@
                                         return $q
                                             ->transactions()
                                             ->latest()
-                                            ->first()?->status == 1 and time() - strtotime($q
-                                            ->transactions()
-                                            ->latest()
-                                            ->first()->created_at) < 6 *30 * 86400;
+                                            ->first()?->status ==
+                                            1 and
+                                            time() -
+                                                strtotime(
+                                                    $q
+                                                        ->transactions()
+                                                        ->latest()
+                                                        ->first()->created_at,
+                                                ) <
+                                                6 * 30 * 86400;
                                     });
                             @endphp
                             <h3>${{ $paid_orders->sum('price') - $paid_orders->sum('discount') }}
@@ -127,12 +145,12 @@
 
                 </div>
 
-              
+
 
                 <div class="card-body p-3">
                     <form class="frm-filter" action="{{ route('admin.payments.index') }}" type="post" autocomplete="off">
                         @csrf
-    
+
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="input-group input-group-sm" style="width: 70px;">
                                 <select name="limit" class="custom-select">
@@ -143,11 +161,11 @@
                                     <option value="200" @if ($limit == 200) selected @endif>200</option>
                                 </select>
                             </div>
-    
+
                             <div class="input-group input-group-sm" style="width: 200px;">
                                 <input type="text" name="search" class="form-control"
                                     placeholder="{{ __('admin.search') }}..." value="{{ $search }}">
-    
+
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
                                         <i class="fas fa-search"></i>
@@ -156,7 +174,7 @@
                             </div>
                         </div>
                     </form>
-    
+
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-0 text-nowrap">
@@ -170,7 +188,7 @@
                                     <th>Method</th>
                                     <th>Status</th>
                                     <th>{{ __('admin.created_date') }}</th>
-                           
+
 
                                 </tr>
                             </thead>
@@ -183,19 +201,25 @@
                                         <td><a href="/admin/orders?search={{ $item->order_id }}"
                                                 target="_blank">#{{ $item->order_id }}</a></td>
 
-                                        <td>{{$item->order?->price}}</td>
-                                        <td>{{$item->order?->discount}}</td>
-                                        <td>{{ucfirst($item->method)}}</td>
+                                        <td>{{ $item->order?->price }}</td>
+                                        <td>{{ $item->order?->discount }}</td>
+                                        <td>{{ ucfirst($item->method) }}</td>
                                         <td>
-                                            @if ($item->status == 1)
-                                                <div class="badge badge-success">Paid</div>
-                                            @else
-                                                <div class="badge badge-warning">Unpaid</div>
-                                            @endif
+                                            <a href="javascript:{}" class="status-menu" cs="{{ $item->id }}">
+                                                @if ($item->status == 1)
+                                                    <div class="badge badge-success">Paid</div>
+                                                @elseif ($item->status == 0)
+                                                    <div class="badge badge-warning">Unpaid</div>
+                                                @elseif ($item->status == 2)
+                                                    <div class="badge badge-danger">Refund</div>
+                                                @elseif ($item->status == 3)
+                                                    <div class="badge badge-danger">Fraud</div>
+                                                @endif
+                                            </a>
 
                                         </td>
                                         <td>{{ $item->created_at }}</td>
-                                    
+
 
                                     </tr>
                                 @endforeach
@@ -239,6 +263,44 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="statusModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Status</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="col-lg-3 col-12">
+
+                        <div class="form-group">
+                            <label>Status</label>
+
+                            <select name="type" class="form-select">
+
+                                <option value="0">Unpaid</option>
+                                <option value="1">Paid</option>
+                                <option value="2">Refund</option>
+                                <option value="3">Fraud</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" onclick="changeStatus()" class="btn btn-primary">Change</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('admin_css')
@@ -249,12 +311,44 @@
     <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
     <script>
         var id_ = "";
+        var id__ = "";
 
         function openModal(id) {
             id_ = id
             $("#myModal").modal("show")
         }
+        $(".status-menu").click(function() {
+            id__ = $(this).attr("cs")
+            $("#statusModal").modal("show")
 
+
+        })
+        function changeStatus() {
+            $.ajax({
+                url: '/admin/payments/updateStatus/' + id_,
+                type: 'post',
+                data: {
+                    'status': $("[name=status]").val(),
+                    "_token": "{{ csrf_token() }}",
+                },
+                dataType: 'json',
+                success: function(res) {
+                    if (res == 1) {
+                        Toast.fire({
+                            icon: 'success',
+                            'title': 'Changed successfully'
+                        })
+                        $("#myModal").modal("hide")
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            'title': 'Something went wrong'
+                        })
+                    }
+
+                }
+            });
+        }
         function sendMail() {
             $.ajax({
                 url: '/admin/sendmail/' + id_,
