@@ -70,7 +70,7 @@ class MyHelper
 
             foreach ($admins as $admin) {
                 $phone = $admin->phone;
-                if (!in_array($type, json_decode($admin->sms)) and $type != ESmsType::Draft) {
+                if (!in_array($type, json_decode($admin->sms))) {
                     continue;
                 }
 
@@ -96,6 +96,17 @@ class MyHelper
                             ["%name%", "%email%", "%title%"],
                             [$user_fullname, $user->email, $ticket->title],
                             config("admin.ticket_tg")
+                        ));
+
+
+                        break;
+
+                    case ESmsType::TicketReply:
+                        $ticket = $data["ticket"];
+                        $message = urlencode(str_replace(
+                            ["%name%", "%email%", "%title%"],
+                            [$user_fullname, $user->email, $ticket->title],
+                            config("admin.ticket_reply_tg")
                         ));
 
 

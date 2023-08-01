@@ -19,7 +19,8 @@ return [
 
     'ticket_tg' => "کاربر %name% به ایمیل %email%
 تیکت با موضوع %title% ثبت کرد",
-
+'ticket_reply_tg' => "کاربر %name% به ایمیل %email%
+به تیکت با موضوع %title% پاسخ داد ",
     'new_service' => "کاربر %name% به ایمیل %email%
 سفارش شماره %number% را ایجاد کرد
 Type: %type%

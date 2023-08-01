@@ -63,6 +63,8 @@ class TicketController extends Controller
             }
 
             Notification::create(["message" => "new ticket received", "type"=> ENotificationType::Ticket]);
+            MyHelper::sendTg(ESmsType::TicketReply, ["user" => auth()->user(), "ticket" => $ticket]);
+
 
            
             //$ticket_conversation->assets()

@@ -11,6 +11,8 @@ final class ESmsType extends Enum
     const Ticket =   2;
     const Request =   3;
     const Draft =   4;
+    const TicketReply =   5;
+
 
 
 }
