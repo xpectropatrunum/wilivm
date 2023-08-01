@@ -217,7 +217,7 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
 
         Route::resource('payments', PaymentController::class);
-        Route::resource('payments/updateStatus/{transaction}', [PaymentController::class, 'updateStatus']);
+        Route::post('payments/updateStatus/{transaction}', [PaymentController::class, 'updateStatus']);
 
 
         Route::resource('emails', EmailController::class);
