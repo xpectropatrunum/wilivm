@@ -226,6 +226,13 @@
                                     <label class="form-check-label" for="exampleCheck2"> Yes</label>
                                 </div>
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label>Make payment with user wallet</label>
+                                <div class="form-check">
+                                    <input type="checkbox" name="wallet" class="form-check-input" value="1">
+                                    <label class="form-check-label" for="wallet"> Yes</label>
+                                </div>
+                            </div>
 
 
 

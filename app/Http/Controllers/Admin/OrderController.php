@@ -47,7 +47,7 @@ class OrderController extends Controller
         auth()->user()->notifications()->where(["type" => ENotificationType::Deploying])->update(["new" => 0]);
 
 
-      
+
 
         if ($request->limit) {
             $limit = $request->limit;
@@ -58,41 +58,40 @@ class OrderController extends Controller
         }
 
         if ($request->plan) {
-            $query = $query->whereHas("service", function($query) use($request){
+            $query = $query->whereHas("service", function ($query) use ($request) {
                 $query->where("plan", $request->plan);
             });
         }
         if ($request->type) {
-            $query = $query->whereHas("service", function($query) use($request){
+            $query = $query->whereHas("service", function ($query) use ($request) {
                 $query->where("type", $request->type);
             });
         }
         if ($request->os) {
-            $query = $query->whereHas("service", function($query) use($request){
+            $query = $query->whereHas("service", function ($query) use ($request) {
                 $query->where("os", $request->os);
             });
         }
         if ($request->location) {
-            $query = $query->whereHas("service", function($query) use($request){
+            $query = $query->whereHas("service", function ($query) use ($request) {
                 $query->where("location", $request->location);
             });
         }
         if ($request->s_status) {
-            $query = $query->whereHas("service", function($query) use($request){
+            $query = $query->whereHas("service", function ($query) use ($request) {
                 $query->where("status", $request->s_status);
             });
         }
         if (isset($request->t_status)) {
-      
-                $query->whereHas("transactions", function($query) use($request){
-                    $query->where("status", $request->t_status);
-                });
-     
+
+            $query->whereHas("transactions", function ($query) use ($request) {
+                $query->where("status", $request->t_status);
+            });
         }
         if ($request->cycle) {
-                $query->where("cycle", $request->cycle);
+            $query->where("cycle", $request->cycle);
         }
-     
+
 
         $items = $query->paginate($limit);
 
@@ -105,16 +104,17 @@ class OrderController extends Controller
         $type_id = ServerType::where("name", $type)->first()->id;
         $plan_id = ServerPlan::where("name", $plan)->first()->id;
         $server = Server::where(["server_type_id" => $type_id, "server_plan_id" =>  $plan_id])->first();
-        if(!$server){
+        if (!$server) {
             return ["success" => 0];
         }
-      
-        return ["os" => $server->os, "location" => $server->locations,
-        "ram" => $server->ram,
-        "cpu" => $server->cpu,
-        "bandwith" => $server->bandwith,
-        "storage" => $server->storage,
-    ];
+
+        return [
+            "os" => $server->os, "location" => $server->locations,
+            "ram" => $server->ram,
+            "cpu" => $server->cpu,
+            "bandwith" => $server->bandwith,
+            "storage" => $server->storage,
+        ];
     }
     public function create_for_user(User $user)
     {
@@ -133,23 +133,40 @@ class OrderController extends Controller
             "label_ids" => json_encode($request->label_ids)
         ]);
 
-        $server =  $user->services()->create($request->only("username", "password", "ip","ipv4","ipv6", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
-        if($server){
 
-            $order = Order::create(["server_id" => $server->id, 
-            "price" => round($request->price), 
-            "user_id" => $user->id, 
-            "label_ids" => $request->label_ids, 
-            "cycle" => $request->cycle,
-            "discount" => 0,
-            "due_date" => time() + $request->cycle * 86400*30,
-            "expires_at" =>  time() + $request->cycle * 86400*30,
-        ]);
-        $order->transactions()->create(["tx_id" => md5(time())]);
+        if ($request->wallet) {
+            if ($user->wallet->balance < $request->price) {
+                return redirect()->back()->withError("User wallet balance is insufficient");
+            }
+        }
+        $server =  $user->services()->create($request->only("username", "password", "ip", "ipv4", "ipv6", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
+        if ($server) {
+
+            $order = Order::create([
+                "server_id" => $server->id,
+                "price" => round($request->price),
+                "user_id" => $user->id,
+                "label_ids" => $request->label_ids,
+                "cycle" => $request->cycle,
+                "discount" => 0,
+                "due_date" => time() + $request->cycle * 86400 * 30,
+                "expires_at" =>  time() + $request->cycle * 86400 * 30,
+            ]);
+            $tx = $order->transactions()->create(["tx_id" => md5(time())]);
         }
         if ($order) {
+            if ($request->wallet) {
+                if ($user->wallet->balance >= $request->price) {
+                    $user->wallet->balance -= round($request->price);
+                    $user->wallet->save();
+                    $user->wallet->transaction()->
+                    create(["status" => 1, "type" => EWalletTransactionType::Minus, "amount" => round($request->price), 
+                    "tx_id" => $tx->id]);
+    
+                }
+            }
             if ($request->inform) {
-                
+
                 $email = Email::where("type", $request->linux ? EEmailType::LinuxNewServer : EEmailType::WindowsNewServer)->first();
                 Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
             }
@@ -185,13 +202,13 @@ class OrderController extends Controller
     }
     function destroy(Order $order)
     {
-     
-        if($order->service->delete()){
+
+        if ($order->service->delete()) {
             if ($order->delete()) {
                 return redirect()->back()->with("success", "The order deleted successfully");
             }
         }
-      
+
         return redirect()->back()->with("error", "Something went wrong");
     }
     function update(Request $request, Order $order)
@@ -212,20 +229,19 @@ class OrderController extends Controller
             $wallet->save();
             $wallet->transaction()->create([
                 "type" => EWalletTransactionType::Refund,
-                "tx_id" => md5(time(). "wili"),
+                "tx_id" => md5(time() . "wili"),
                 "status" => 1,
                 "amount" => $order->price,
             ]);
         }
 
-        $updated = $order->service->update($request->only("username", "ipv4","ipv6","password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
+        $updated = $order->service->update($request->only("username", "ipv4", "ipv6", "password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
         $order->update($request->only("label_ids"));
         if ($updated) {
             if ($request->inform) {
-               
-                    $email = Email::where("type", $request->linux ? EEmailType::LinuxNewServer : EEmailType::WindowsNewServer)->first();
-                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
-                
+
+                $email = Email::where("type", $request->linux ? EEmailType::LinuxNewServer : EEmailType::WindowsNewServer)->first();
+                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
             }
             return redirect()->back()->withSuccess("Order is updated successfully!");
         }
