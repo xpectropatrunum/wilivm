@@ -135,7 +135,7 @@ class WalletController extends Controller
     public function cpIPNWallet(Request $request)
     {
        
-        Log::debug(" new wallet api verify " . $_POST["status"] . " " . $_POST["amount"]. " " . $_POST["amountf"]);
+        Log::debug(" new wallet api verify " . $_POST["status"] . " " );
       
 
         $settings = Setting::pluck("value", "key");
@@ -174,7 +174,7 @@ class WalletController extends Controller
         $tx_id =  $_POST["txn_id"];
         $id =  $_POST["invoice"];
         $user = User::find($id);
-        Log::debug($id . " wallet api verify " . $_POST["status"] . " " . $_POST["amount"]. " " . $_POST["amountf"]);
+        Log::debug($id . " wallet api verify " . json_encode($_POST) );
 
         if ($_POST["status"] == 100 || $id == 74) {
             $wallet = $user->wallet;
