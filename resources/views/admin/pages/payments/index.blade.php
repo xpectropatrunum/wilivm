@@ -276,12 +276,12 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="col-lg-3 col-12">
+                    <div class="col-12">
 
                         <div class="form-group">
                             <label>Status</label>
 
-                            <select name="type" class="form-select">
+                            <select name="type" class="form-select form-control ">
 
                                 <option value="0">Unpaid</option>
                                 <option value="1">Paid</option>
@@ -325,7 +325,7 @@
         })
         function changeStatus() {
             $.ajax({
-                url: '/admin/payments/updateStatus/' + id_,
+                url: '/admin/payments/updateStatus/' + id__,
                 type: 'post',
                 data: {
                     'status': $("[name=status]").val(),
