@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Helpers\ApiHelper;
 use App\Http\Controllers\Controller;
+use App\Mail\MailTemplate;
 use App\Mail\OrderDelivered;
 use App\Models\DoctorSpecialty;
+use App\Models\Email;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Ticket;
@@ -89,6 +92,10 @@ class TicketController extends Controller
                 $ticket_conversation = $ticket->conversations()->create($request->all());
                 $ticket->update(["new" => 1]);
 
+                $email = Email::where("type", EEmailType::TicketNewMessage)->first();
+                Mail::to($ticket->user->email)->send(new MailTemplate($email, (object)["user" => $ticket->user, "ticket" => $ticket]));
+
+                
                 if($request->file){
                     foreach($request->file as $file){
                         $fileName = time().'_'. $file->getClientOriginalName();
@@ -123,7 +130,8 @@ class TicketController extends Controller
         $create = Ticket::create($request->all());
         if ($create) {
 
-
+            $email = Email::where("type", EEmailType::TicketCreated)->first();
+            Mail::to($create->user->email)->send(new MailTemplate($email, (object)["user" => $create->user, "ticket" => $create]));
             $ticket_conversation = $create->conversations()->create($request->all());
             if($request->file){
                 foreach($request->file as $file){
