@@ -211,7 +211,7 @@
         <input type="hidden" name="ipn_url" value="{{ env('APP_URL') . 'api/wallet/coinpayments' }}">
         <input type="hidden" name="email" value="{{ auth()->user()->email }}">
         <input type="hidden" name="currency" value="USD">
-        <input type="hidden" name="invoice" value="{{auth()->guard("web")->user()->id}}">
+        <input type="hidden" name="item_number" value="{{auth()->guard("web")->user()->id}}">
         <input type="hidden" name="want_shipping" value="0">
 
         <input type="hidden" name="amountf" value="">
