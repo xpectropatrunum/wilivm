@@ -23,6 +23,7 @@ final class EEmailType extends Enum
     const Remind_week = 12;
     const Remind_2 = 14;
     const Overdue = 15;
+    const TicketNewMessage = 16;
     const UnsuspendService =   13;
     
 
