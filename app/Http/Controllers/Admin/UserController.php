@@ -34,7 +34,27 @@ class UserController extends Controller
         $search = "";
         $limit = 10;
         $query =  \DB::table('users')
-        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS Row, *'))->skip(10);
+        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS row, 
+        id	,
+        first_name	,
+        last_name	,
+        email	,
+        verification_code	,
+        verified	,
+        status	,
+        password,	
+        created_at	,
+        updated_at	,
+        phone	,
+        address	,
+        country	,
+        state	,
+        city	,
+        company	,
+        parent_id,	
+        affiliate_code	,
+        google_id	,
+        google2fa_secret'));
 
         dd($query->get()[0]);
 

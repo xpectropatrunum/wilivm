@@ -75,7 +75,7 @@
                             <tbody>
                                 @foreach ($items as $item)
                                     <tr>
-                                        <td>{{ $item->ROW_NUMBER }}</td>
+                                        <td>{{ $item->row }}</td>
                                         <td>
                                             <a href="{{route('admin.users.show', $item->id)}}">{{ $item->first_name }} {{ $item->last_name }}</a>
                                         </td>
