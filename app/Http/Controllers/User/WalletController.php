@@ -176,7 +176,7 @@ class WalletController extends Controller
         $user = User::where("id", $id)->first();
         Log::debug($id . " wallet api verify " . json_encode($_POST) );
 
-        if ($_POST["status"] == 100 || $id == 74) {
+        if ($_POST["status"] == 100) {
             $wallet = $user->wallet;
             $wallet->balance += $_POST["amount1"];
             $wallet->save();
