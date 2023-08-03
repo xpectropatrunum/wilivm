@@ -34,7 +34,7 @@ class UserController extends Controller
         $search = "";
         $limit = 10;
         $query =  \DB::table('users')
-        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS row, 
+        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID asc) AS row, 
         id	,
         first_name	,
         last_name	,
@@ -56,7 +56,6 @@ class UserController extends Controller
         google_id	,
         google2fa_secret'));
 
-        dd($query->get()[0]);
 
         if ($request->search) {
             $search = $request->search;
