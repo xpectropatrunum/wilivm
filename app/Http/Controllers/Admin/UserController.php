@@ -34,7 +34,7 @@ class UserController extends Controller
         $search = "";
         $limit = 10;
         $query =  \DB::table('users')
-        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS Row, *'));
+        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS Row, *'))->skip(10);
 
         dd($query->get()[0]);
 
