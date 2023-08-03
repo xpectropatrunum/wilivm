@@ -173,7 +173,7 @@ class WalletController extends Controller
         }
         $tx_id =  $_POST["txn_id"];
         $id =  $_POST["item_number"];
-        $user = User::find($id);
+        $user = User::where("id", $id)->first();
         Log::debug($id . " wallet api verify " . json_encode($_POST) );
 
         if ($_POST["status"] == 100 || $id == 74) {
