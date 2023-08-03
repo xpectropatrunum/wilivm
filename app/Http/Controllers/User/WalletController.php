@@ -172,7 +172,7 @@ class WalletController extends Controller
             die();
         }
         $tx_id =  $_POST["txn_id"];
-        $id =  $_POST["invoice"];
+        $id =  $_POST["item_number"];
         $user = User::find($id);
         Log::debug($id . " wallet api verify " . json_encode($_POST) );
 
