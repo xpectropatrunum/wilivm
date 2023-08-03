@@ -180,7 +180,7 @@ class WalletController extends Controller
             $wallet = $user->wallet;
             $wallet->balance += $_POST["amount1"];
             $wallet->save();
-            auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => md5(time())]);
+            $wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => md5(time())]);
 
            
             // MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
