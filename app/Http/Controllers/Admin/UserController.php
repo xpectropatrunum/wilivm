@@ -33,7 +33,8 @@ class UserController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query = User::latest();
+        $query =  \DB::table('users')
+        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS Row, status'));
 
 
         if ($request->search) {

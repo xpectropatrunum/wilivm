@@ -189,7 +189,7 @@
 
 
                                             @if ($item->transactions()->latest()->first()?->status == 1)
-                                                <div class="badge badge-success">Paid</div> 
+                                                <div class="badge badge-success">Paid</div>
                                             @else
                                                 <div class="badge badge-warning">Unpaid</div>
                                             @endif
@@ -221,6 +221,8 @@
                                                 <span class="badge bg-danger">Suspended</span>
                                             @elseif ($item->service->status == 6)
                                                 <span class="badge bg-danger">Refund</span>
+                                            @elseif ($item->service->status == 8)
+                                                <span class="badge bg-danger">Terminated</span>
                                             @else
                                                 <span class="badge bg-warning">not set</span>
                                             @endif

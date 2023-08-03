@@ -44,7 +44,7 @@ class invoice_reminder implements ShouldQueue
         $now = Carbon::now();
         foreach ($orders->get() as $item) {
             if ($item->expires_at > time()) {
-                if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 7) {
+                if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 10) {
                     $order = Order::updateOrCreate([
                         "server_id" => $item->server_id,
                         "user_id" => $item->user_id,
@@ -72,7 +72,7 @@ class invoice_reminder implements ShouldQueue
                         $email = Email::where("type", EEmailType::Remind_week)->first();
                         Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                     }
-                } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 3) {
+                } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 5) {
                     $order = Order::where([
                         "server_id" => $item->server_id,
                         "user_id" => $item->user_id,
@@ -85,6 +85,7 @@ class invoice_reminder implements ShouldQueue
                     $email = Email::where("type", EEmailType::Remind_2)->first();
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 0) {
+                    $item->service->update(["status" => EServiceType::Suspended]);
                     $order = Order::where([
                         "server_id" => $item->server_id,
                         "user_id" => $item->user_id,
@@ -99,8 +100,8 @@ class invoice_reminder implements ShouldQueue
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 }
             }else{
-                if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 5) {
-                    $item->service->update(["status" => EServiceType::Suspended]);
+                if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 3) {
+                    $item->service->update(["status" => EServiceType::Terminated]);
                     $order = Order::where([
                         "server_id" => $item->server_id,
                         "user_id" => $item->user_id,
@@ -113,11 +114,11 @@ class invoice_reminder implements ShouldQueue
                     $email = Email::where("type", EEmailType::SuspendService)->first();
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 }
-                elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
-                    $item->service->update(["status" => EServiceType::Cancelled]);
+                // elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
+                //     $item->service->update(["status" => EServiceType::Cancelled]);
 
                   
-                }
+                // }
             }
         }
     }

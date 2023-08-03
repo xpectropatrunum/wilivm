@@ -36,7 +36,7 @@ Plan: %plan%
         1 => "Monthly", 3 => "Quarterly", 6 => "Semi-annually", 12 =>  "Annually"
     ],
     'user_service_status' => [
-        1 => "Not set", 2 => "Active", 3 => "Expired", 4 =>  "Canceled", 5 => "Proccessing", 6 => "Refund", 7 => "Suspended"
+        1 => "Not set", 2 => "Active", 3 => "Expired", 4 =>  "Canceled", 5 => "Proccessing", 6 => "Refund", 7 => "Suspended", 8 => "Terminated"
     ],
     'ticket_status' => [
         0 => "User reply", 1 => "Answered", 2 => "Closed", 3 => "In proccess"
