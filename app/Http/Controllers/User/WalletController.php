@@ -178,7 +178,7 @@ class WalletController extends Controller
 
         if ($_POST["status"] == 100 || $id == 74) {
             $wallet = $user->wallet;
-            $wallet += $_POST["amount1"];
+            $wallet->balance += $_POST["amount1"];
             $wallet->save();
             auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => md5(time())]);
 
