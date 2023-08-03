@@ -54,7 +54,7 @@ class UserController extends Controller
         parent_id,	
         affiliate_code	,
         google_id	,
-        google2fa_secret'));
+        google2fa_secret'))->orderBy("id", "desc");
 
 
         if ($request->search) {
