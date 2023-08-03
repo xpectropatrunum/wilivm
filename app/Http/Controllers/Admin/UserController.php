@@ -36,6 +36,7 @@ class UserController extends Controller
         $query =  \DB::table('users')
         ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID DESC) AS Row, *'));
 
+        dd($query->get()[0]);
 
         if ($request->search) {
             $search = $request->search;
