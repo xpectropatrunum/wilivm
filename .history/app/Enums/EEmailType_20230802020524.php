@@ -25,7 +25,6 @@ final class EEmailType extends Enum
     const Overdue = 15;
     const TicketNewMessage = 16;
     const TicketCreated = 17;
-    const Upgrade_invoice = 18;
     const UnsuspendService =   13;
     
 
