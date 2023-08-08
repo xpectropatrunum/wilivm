@@ -204,9 +204,8 @@ class InvoiceController extends Controller
     {
 
         $users = User::all();
-        $orders = Order::all();
 
-        return view("admin.pages.invoices.edit", compact('invoice', 'users', 'orders'));
+        return view("admin.pages.invoices.edit", compact('invoice', 'users'));
     }
     function sendMail(Request $request, Invoice $invoice)
     {

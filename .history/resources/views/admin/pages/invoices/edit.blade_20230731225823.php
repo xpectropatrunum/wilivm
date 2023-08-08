@@ -1,16 +1,16 @@
 @extends('admin.layouts.master')
 
-@section('title', 'New invoice')
+@section('title', 'Edit invoice')
 
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">new invoice</h1>
+            <h1 class="m-0 text-dark">Edit invoice</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb @if (app()->getLocale() == 'fa') float-sm-left @else float-sm-right @endif">
                 <li class="breadcrumb-item"><a href="{{ route('admin.invoices.index') }}">List invoices</a></li>
-                <li class="breadcrumb-item active">New invoice</li>
+                <li class="breadcrumb-item active">Edit invoice</li>
             </ol>
         </div>
     </div>
@@ -24,41 +24,52 @@
                 <div class="card-header">
                     <h3 class="card-title">Create invoice</h3>
                 </div>
-                <form action="{{ route('admin.invoices.store') }}" method="POST">
+                <form action="{{ route('admin.invoices.update', $invoice->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="card-body">
                         <div class="row">
-                          
+                            <div class="col-12">
+                                @if ($invoice->transactions()->first()?->status == 1)
+                                Paid with
+                                <strong>{{ ucfirst($invoice->transactions()->latest()->first()?->method) }}</strong> at
+                                {{ $invoice->transactions()->latest()->first()?->updated_at }}<br>
+                                Tx id: <strong>{{ $invoice->transactions()->latest()->first()?->tx_id }}</strong>
+                            @else
+                                Not paid
+                            @endif
+                            </div>
                            
+
                             <div class="form-group col-lg-3">
                                 <label>User</label>
-                                <select name="user_id" class="form-control select2">
+                                <select name="user_id" class="form-control select2" disabled>
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
-                                            @if ($user->id == old('user_id', request()->id))) selected @endif>
+                                            @if ($user->id == old('user_id', $invoice->user_id)) ) selected @endif>
                                             {{ $user->first_name }} {{ $user->last_name }} - {{ $user->email }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                       
-
-                         
 
 
 
 
-                        
-                          
+
+
+
+
+
 
                             <div class="col-lg-3 col-12">
 
                                 <div class="form-group">
                                     <label>Billing Cycle</label>
 
-                                    <select name="cycle"
-                                        class="form-select select2">
-                                        @foreach (config("admin.cycle") as $key => $item)
-                                            <option value="{{ $key }}">{{ $item }}
+                                    <select name="cycle" class="form-select select2">
+                                        @foreach (config('admin.cycle') as $key => $item)
+                                            <option @if ($invoice->cycle == $key) selected @endif
+                                                value="{{ $key }}">{{ $item }}
                                             </option>
                                         @endforeach
 
@@ -66,52 +77,37 @@
                                 </div>
                             </div>
 
-                           
-                    
-                      
 
-                     
-                      
-                     
 
-                            
 
-                          
+
+
+
+
+
+
+
+
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input name="price" class="form-control" value="{{ old("price") }}">
+                                    <input name="price" class="form-control" value="{{ old('price', $invoice->price) }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Discount</label>
-                                    <input name="discount" class="form-control" value="{{ old("discount", 0) }}">
+                                    <input name="discount" class="form-control"
+                                        value="{{ old('discount', $invoice->discount) }}">
                                 </div>
                             </div>
                             <div class="form-group col-lg-3">
                                 <label>Title</label>
-                                <input name="title" class="form-control" value="{{ old('title') }}">
+                                <input name="title" class="form-control" value="{{ old('title', $invoice->title) }}">
                             </div>
-                            <div class="col-lg-3 col-12">
-
-                                <div class="form-group">
-                                    <label>Order</label>
-
-                                    <select name="order_id"
-                                        class="form-select select2">
-                                        <option value="0">Optional</option>
-                                        @foreach ($orders as $item)
-                                            <option value="{{ $item->id }}">#{{ $item->id }} {{ $item->user?->email }}
-                                            </option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-6">
+                            <div class="form-group col-lg-9">
                                 <label>Description</label>
-                                <textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea>
+                                <textarea name="description" class="form-control" rows="4">{{ old('description', $invoice->description) }}</textarea>
                             </div>
 
                             <div class="form-group col-lg-3">
@@ -122,13 +118,13 @@
                                 </div>
                             </div>
 
-                    
+
 
                         </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer text-left">
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
 
                 </form>
@@ -145,8 +141,5 @@
 @endpush
 
 @push('admin_js')
-    <script>
-       
-        
-    </script>
+    <script></script>
 @endpush

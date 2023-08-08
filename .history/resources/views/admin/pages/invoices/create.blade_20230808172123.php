@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     <label>Order</label>
 
-                                    <select name="order_id"
+                                    <select name="cycle"
                                         class="form-select select2">
                                         <option value="0">Optional</option>
                                         @foreach ($orders as $item)
