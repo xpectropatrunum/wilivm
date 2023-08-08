@@ -38,9 +38,6 @@ Plan: %plan%
     'user_service_status' => [
         1 => "Not set", 2 => "Active", 3 => "Expired", 4 =>  "Canceled", 5 => "Proccessing", 6 => "Refund", 7 => "Suspended", 8 => "Terminated"
     ],
-    'user_transaction_status' => [
-        0 => "Unpaid", 1 => "Paid", 2 => "Refund", 3 =>  "Fraud", 
-    ],
     'ticket_status' => [
         0 => "User reply", 1 => "Answered", 2 => "Closed", 3 => "In proccess"
     ],

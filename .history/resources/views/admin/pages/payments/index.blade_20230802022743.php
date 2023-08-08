@@ -188,8 +188,6 @@
                                     <th>Method</th>
                                     <th>Status</th>
                                     <th>{{ __('admin.created_date') }}</th>
-                                    <th>Actions</th>
-
 
 
                                 </tr>
@@ -221,14 +219,6 @@
 
                                         </td>
                                         <td>{{ $item->created_at }}</td>
-                                        <td class="project-actions">
-                                            <a href="{{ route('admin.payments.edit', $item->id) }}">
-                                                <button type="button" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-pen"></i>
-                                                    Edit
-                                                </button>
-                                            </a>
-                                        </td>
 
 
                                     </tr>
@@ -333,7 +323,6 @@
 
 
         })
-
         function changeStatus() {
             $.ajax({
                 url: '/admin/payments/updateStatus/' + id__,
@@ -360,7 +349,6 @@
                 }
             });
         }
-
         function sendMail() {
             $.ajax({
                 url: '/admin/sendmail/' + id_,

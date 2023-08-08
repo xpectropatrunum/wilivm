@@ -188,8 +188,6 @@
                                     <th>Method</th>
                                     <th>Status</th>
                                     <th>{{ __('admin.created_date') }}</th>
-                                    <th>Actions</th>
-
 
 
                                 </tr>
