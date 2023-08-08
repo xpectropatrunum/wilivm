@@ -179,7 +179,7 @@ class UserController extends Controller
     {
         if ($request->balance and !$request->email) {
             $rules = [
-                "balance" => "required|numeric",
+                "balance" => "required|number",
             ];
             $request->validate($rules);
             $user->wallet->balance = round($request->balance, 2);
