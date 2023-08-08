@@ -39,10 +39,6 @@ class Order extends Model
     {
         return $this->hasOne(UserService::class, "id", "server_id");
     }
-    function invoices()
-    {
-        return $this->hasMany(Invoice::class);
-    }
     protected $appends = ['status', 'date','expire_date','create_date'];
     function getStatusAttribute()
     {
