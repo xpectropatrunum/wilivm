@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
                             "name" => "Invoices", "url" => "invoices",
                             "icon" => "receipt",
                             "badge" => auth()->user()->invoices()->get()->filter(function ($q) {
-                                return $q->transactions()->latest()->first()?->status == 0;
+                                return $q->transactions()->latest()->first()->status == 0;
                             })->count()
                         ],
                         [
