@@ -65,11 +65,6 @@ class PaymentController extends Controller
         return $transaction->save();
 
     }
-    function edit(Transaction $transaction){
-        return view('admin.pages.payments.edit2', compact('transaction'));
-       
-
-    }
  
    
     
