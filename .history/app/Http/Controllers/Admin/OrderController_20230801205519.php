@@ -238,17 +238,6 @@ class OrderController extends Controller
         $updated = $order->service->update($request->only("username", "ipv4", "ipv6", "password", "ip", "status", "label_ids", "cpu", "bandwith", "ram", "storage", "type", "plan", "os", "location"));
         $order->update($request->only("label_ids"));
         if ($updated) {
-            if($request->upgrade){
-                $order->invoices()->create([
-                    'user_id' => $order->user_id,
-                    'title' => "#{$order->id} upgrade",
-                    'description' => "",
-                    'expires_at' => time() + $request->cycle * 86400*30,
-                    'cycle' => $order->cycle,
-                    'price' => $order->price,
-                    'discount' => $order->discount,
-                ]);
-            }
             if ($request->inform) {
 
                 $email = Email::where("type", $request->linux ? EEmailType::LinuxNewServer : EEmailType::WindowsNewServer)->first();
