@@ -356,7 +356,7 @@
         $("form").submit(function(e){
             if($("[name=status]").val() == 6 && confirm__ == 0){
                 confirm__ = 1;
-                Swal.fire({html: "<span><span class='text-danger'>to confirm</span> this action, click on `update` button again</span>",title: "Refund Request!",confirmButtonText:"got it!"})
+                Swal.fire({text: "to confirm this action, click on `update` button again",title: "Warning!",confirmButtonText:"got it!"})
                 return false;
 
             }
