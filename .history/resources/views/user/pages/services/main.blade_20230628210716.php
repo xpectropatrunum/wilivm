@@ -54,7 +54,7 @@
 
                                         @if ($item->status == 2)
                                             <span
-                                                class="badge bg-success">{{ App\Enums\EServiceبType::getKey($item->status) }}</span>
+                                                class="badge bg-success">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                         @elseif ($item->status == 5)
                                             <span
                                                 class="badge bg-warning">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
@@ -78,7 +78,7 @@
                                     <td>{{ MyHelper::due($item->order) }}</td>
                                     <td>
 
-                                        @if ($item->status == 2 || $item->status == 5)
+                                        @if ($item->status == 2)
                                             <a href="{{ route('panel.services.show', $item->id) }}"
                                                 class="btn btn-outline-primary">
                                                 Manage Service</a> </span>
