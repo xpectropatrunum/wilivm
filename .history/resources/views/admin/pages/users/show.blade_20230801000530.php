@@ -289,7 +289,7 @@
                                         <br>
 
                                         <a target="_blank" class="mt-1"
-                                            href="{{ route('admin.users.edit',  $user->id, ["fund" => true]) }}">
+                                            href="{{ route('admin.users.edit',  $user->id) }}">
                                             <i class="fas fa-wallet"></i> {{ __('Manage Credit') }}
                                         </a>
                                     </div>

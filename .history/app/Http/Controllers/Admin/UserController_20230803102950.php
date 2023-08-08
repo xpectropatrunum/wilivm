@@ -34,7 +34,7 @@ class UserController extends Controller
         $search = "";
         $limit = 10;
         $query =  \DB::table('users')
-            ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID asc) AS row, 
+        ->select(\DB::raw('ROW_NUMBER() OVER(ORDER BY ID asc) AS row, 
         id	,
         first_name	,
         last_name	,
@@ -59,15 +59,16 @@ class UserController extends Controller
 
         if ($request->search) {
             $search = $request->search;
-            if (is_numeric($search)) {
+            if(is_numeric($search)){
                 $query = $query
-                    ->where("id", $search);
-            } else {
+                ->where("id", $search);
+            }else{
                 $query = $query
-                    ->where("first_name", $search)
-                    ->orWhere("last_name", $search)
-                    ->orWhere("email", $search);
+                ->where("first_name", $search)
+                ->orWhere("last_name", $search)
+                ->orWhere("email", $search);
             }
+          
         }
 
         if ($request->limit) {
@@ -93,15 +94,16 @@ class UserController extends Controller
 
         if ($request->search) {
             $search = $request->search;
-            if (is_numeric($search)) {
+            if(is_numeric($search)){
                 $query = $query
-                    ->where("id", $search);
-            } else {
+                ->where("id", $search);
+            }else{
                 $query = $query
-                    ->where("first_name", $search)
-                    ->orWhere("last_name", $search)
-                    ->orWhere("email", $search);
+                ->where("first_name", $search)
+                ->orWhere("last_name", $search)
+                ->orWhere("email", $search);
             }
+          
         }
 
         if ($request->limit) {
@@ -121,7 +123,7 @@ class UserController extends Controller
         auth()->guard("web")->login($user);
         return redirect()->route("panel.dashboard")->withSuccess("Hi Admin!");
     }
-
+   
     public function create()
     {
         return view('admin.pages.users.create');
@@ -167,7 +169,7 @@ class UserController extends Controller
                 "verified" => 0,
             ]);
         }
-
+    
         $created = User::create($request->all());
         if ($created) {
             return redirect()->route("admin.users.index")->withSuccess("User is created successfully!");
@@ -177,43 +179,36 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        if ($request->balance and !$request->email) {
-            $rules = [
-                "balance" => "required",
-            ];
-            $request->validate($rules);
-        } else {
+        $request->merge([
+            "email" => strtolower($request->email),
+        ]);
+        $rules = [
+            "first_name" => "required",
+            "last_name" => "required",
+            "email" => "required|email|unique:users,email," . $user->id,
+            "password_confirm" => "same:password",
+        ];
+        $request->validate($rules);
+        if (!$request->verified) {
             $request->merge([
-                "email" => strtolower($request->email),
+                "verified" => 0,
             ]);
-            $rules = [
-                "first_name" => "required",
-                "last_name" => "required",
-                "email" => "required|email|unique:users,email," . $user->id,
-                "password_confirm" => "same:password",
-            ];
-            $request->validate($rules);
-            if (!$request->verified) {
-                $request->merge([
-                    "verified" => 0,
-                ]);
-            }
-            if ($request->password) {
-                $request->merge([
-                    "password" => Hash::make($request->password),
-                ]);
-            } else {
-                $request->merge([
-                    "password" => $user->password,
-                ]);
-            }
-
-            if (isset($request->balance)) {
-                $user->wallet->balance = round($request->balance, 2);
-                $user->wallet->save();
-            }
+        }
+        if($request->password){
+            $request->merge([
+                "password" => Hash::make($request->password),
+            ]);
+        }else{
+            $request->merge([
+                "password" => $user->password,
+            ]);
         }
 
+        if(isset($request->balance)){
+            $user->wallet->balance = round($request->balance, 2);
+            $user->wallet->save();
+        }
+    
         $created = $user->update($request->all());
         if ($created) {
             return redirect()->back()->withSuccess("User is updated successfully!");
@@ -241,15 +236,17 @@ class UserController extends Controller
         $countries = json_decode(file_get_contents(public_path() . "/data/countries.json"));
 
         return view('admin.pages.users.edit', compact('user', 'countries'));
+
     }
     public function destroy(User $user)
     {
 
         $user->delete();
         return redirect()->back()->withSuccess("User is removed successfully!");
+
+
     }
-    public function sendEmail(Request $request, User $user)
-    {
+    public function sendEmail(Request $request, User $user){
         $request->validate(
             [
                 "title" => "required",
@@ -258,17 +255,21 @@ class UserController extends Controller
             ]
         );
 
-        $mail = Mail::to($user->email)->send(new MailTemplate($user->email, null, (object)
+        $mail = Mail::to($user->email)->send(new MailTemplate($user->email, null,(object)
         ["head" => $request->title, "title" => $request->subject, "template" => $request->content, "user" => $user]));
-        if ($mail) {
+        if($mail){
             return redirect()->back()->withSuccess("Email sent successfully");
         }
         return redirect()->back()->withError("Something went wrong!");
+
     }
     public function destroySentEmail(SentEmail $sentEmail)
     {
 
         $sentEmail->delete();
         return redirect()->back()->withSuccess("Email is removed successfully!");
+
+
     }
+    
 }
