@@ -240,7 +240,7 @@
                         </div>
                     </div>
 
-                    <div class="invoices p-2 m-2">
+                    <div class="invoices m-2">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered mb-0 text-nowrap">
                                 <thead>
