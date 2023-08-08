@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\EEmailType;
 use App\Enums\ENotificationType;
 use App\Enums\ESmsType;
 use App\Helpers\MyHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
-use App\Mail\MailTemplate;
 use App\Models\Doctor;
 use App\Models\DoctorImage;
 use App\Models\DoctorSpecialty;
-use App\Models\Email;
 use App\Models\Notification;
 use App\Models\Server;
 use App\Models\ServerType;
 use App\Models\Ticket;
 use App\Models\TvTemp;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class TicketController extends Controller
 {
@@ -106,8 +102,7 @@ class TicketController extends Controller
         if($ticket){
             MyHelper::sendSMS(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
             MyHelper::sendTg(ESmsType::Ticket, ["user" => auth()->user(), "ticket" => $ticket]);
-            $email = Email::where("type", EEmailType::TicketCreated)->first();
-            Mail::to(auth()->user()->email)->send(new MailTemplate($email, (object)["user" => auth()->user(), "ticket" => $ticket]));
+
             $ticket_conversation = $ticket->conversations()->create(["message" => $request->message,]);
             if($request->file){
                 foreach($request->file as $file){
