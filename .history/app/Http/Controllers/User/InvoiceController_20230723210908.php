@@ -64,8 +64,8 @@ class InvoiceController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query1 = auth()->user()->invoices()->latest()->get();
-        $query2 = auth()->user()->orders()->latest()->get();
+        $query1 = auth()->user()->invoices()->get();
+        $query2 = auth()->user()->orders()->get();
 
 
         if ($request->limit) {
