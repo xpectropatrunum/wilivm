@@ -93,22 +93,7 @@
                                 <label>Title</label>
                                 <input name="title" class="form-control" value="{{ old('title') }}">
                             </div>
-                            <div class="col-lg-3 col-12">
-
-                                <div class="form-group">
-                                    <label>Order</label>
-
-                                    <select name="cycle"
-                                        class="form-select select2">
-                                        @foreach ($orders as $item)
-                                            <option value="{{ $item->id }}">#{{ $item->id }} {{ $item->user?->email }}
-                                            </option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-6">
+                            <div class="form-group col-lg-9">
                                 <label>Description</label>
                                 <textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea>
                             </div>

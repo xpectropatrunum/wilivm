@@ -23,7 +23,6 @@ class Invoice extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'order_id',
         'description',
         'expires_at',
         'cycle',
@@ -39,10 +38,6 @@ class Invoice extends Model
     function service()
     {
         return $this->hasOne(UserService::class, "id", "server_id");
-    }
-    function order()
-    {
-        return $this->belongsTo(Order::class);
     }
     protected $appends = ['status', 'date', 'expire_date', 'create_date'];
     function getStatusAttribute()

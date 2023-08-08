@@ -91,9 +91,8 @@ class InvoiceController extends Controller
     {
 
         $users = User::all();
-        $orders = Order::all();
 
-        return view("admin.pages.invoices.create", compact("users", "orders"));
+        return view("admin.pages.invoices.create", compact("users"));
     }
     function store(Request $request)
     {
