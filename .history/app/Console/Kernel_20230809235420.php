@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new invoice_reminder(), 'invoice_reminder')->dailyAt('00:00')->withoutOverlapping();
+        $schedule->job(new invoice_reminder(), 'invoice_reminder')->dailyAt('00:00');
     }
 
     /**
