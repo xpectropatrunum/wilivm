@@ -70,91 +70,88 @@ use Spatie\Permission\Models\Role;
 
 Route::get("/3", function () {
     $orders = Order::whereHas("transactions", function ($query) {
-        $query->where("status", 1);
-    })->orWhereHas("service", function ($query) {
-        $query->where("status", 2);
-    });
+            $query->where("status", 1);
+        });
 
-    $now = Carbon::now();
-    foreach ($orders->get() as $item) {
-        if ($item->expires_at > time()) {
-            if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 10) {
-                $order = Order::updateOrCreate([
-                    "server_id" => $item->server_id,
-                    "user_id" => $item->user_id,
-                    "cycle" => $item->cycle,
-                    "price" => $item->price,
-                    "label_ids" => $item->label_ids,
-                    "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
-                    "discount" => $item->discount
-                ], [
-                    "server_id" => $item->server_id,
-                    "user_id" => $item->user_id,
-                    "cycle" => $item->cycle,
-                    "price" => $item->price,
-                    "label_ids" => $item->label_ids,
-                    "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
-                    "discount" => $item->discount,
-                    "due_date" =>  time() + 86400 * 7,
-                ]);
-
-                if ($order->wasRecentlyCreated) {
-                    $order->transactions()->create([
-                        "status" => 0,
-                        "tx_id" => md5($order->id . time()),
+        $now = Carbon::now();
+        foreach ($orders->get() as $item) {
+            if ($item->expires_at > time()) {
+                if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 7) {
+                    $order = Order::updateOrCreate([
+                        "server_id" => $item->server_id,
+                        "user_id" => $item->user_id,
+                        "cycle" => $item->cycle,
+                        "price" => $item->price,
+                        "label_ids" => $item->label_ids,
+                        "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
+                        "discount" => $item->discount
+                    ], [
+                        "server_id" => $item->server_id,
+                        "user_id" => $item->user_id,
+                        "cycle" => $item->cycle,
+                        "price" => $item->price,
+                        "label_ids" => $item->label_ids,
+                        "expires_at" => $item->expires_at + 30 * 86400 * $item->cycle,
+                        "discount" => $item->discount,
+                        "due_date" =>  time() + 86400 * 7,
                     ]);
-                    $email = Email::where("type", EEmailType::Remind_week)->first();
+
+                    if ($order->wasRecentlyCreated) {
+                        $order->transactions()->create([
+                            "status" => 0,
+                            "tx_id" => md5($order->id . time()),
+                        ]);
+                        $email = Email::where("type", EEmailType::Remind_week)->first();
+                        Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                    }
+                } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 3) {
+                    $order = Order::where([
+                        "server_id" => $item->server_id,
+                        "user_id" => $item->user_id,
+                        "cycle" => $item->cycle,
+                        "price" => $item->price,
+                        "discount" => $item->discount
+                    ])->firstOrFail();
+
+
+                    $email = Email::where("type", EEmailType::Remind_2)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 0) {
+                    $order = Order::where([
+                        "server_id" => $item->server_id,
+                        "user_id" => $item->user_id,
+                        "cycle" => $item->cycle,
+                        "price" => $item->price,
+                        "discount" => $item->discount
+                    ])->firstOrFail();
+                  
+
+
+                    $email = Email::where("type", EEmailType::Overdue)->first();
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 }
-            } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 5) {
-                $order = Order::where([
-                    "server_id" => $item->server_id,
-                    "user_id" => $item->user_id,
-                    "cycle" => $item->cycle,
-                    "price" => $item->price,
-                    "discount" => $item->discount
-                ])->firstOrFail();
+            }else{
+                if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 5) {
+                    $item->service->update(["status" => EServiceType::Suspended]);
+                    $order = Order::where([
+                        "server_id" => $item->server_id,
+                        "user_id" => $item->user_id,
+                        "cycle" => $item->cycle,
+                        "price" => $item->price,
+                        "discount" => $item->discount
+                    ])->firstOrFail();
 
 
-                $email = Email::where("type", EEmailType::Remind_2)->first();
-                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
-            } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 0) {
-                $item->service->update(["status" => EServiceType::Suspended]);
-                $order = Order::where([
-                    "server_id" => $item->server_id,
-                    "user_id" => $item->user_id,
-                    "cycle" => $item->cycle,
-                    "price" => $item->price,
-                    "discount" => $item->discount
-                ])->firstOrFail();
-              
+                    $email = Email::where("type", EEmailType::SuspendService)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                }
+                elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
+                    $item->service->update(["status" => EServiceType::Cancelled]);
 
-
-                $email = Email::where("type", EEmailType::Overdue)->first();
-                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                  
+                }
             }
-        }else{
-            if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 3) {
-                $item->service->update(["status" => EServiceType::Terminated]);
-                $order = Order::where([
-                    "server_id" => $item->server_id,
-                    "user_id" => $item->user_id,
-                    "cycle" => $item->cycle,
-                    "price" => $item->price,
-                    "discount" => $item->discount
-                ])->firstOrFail();
-
-
-                $email = Email::where("type", EEmailType::SuspendService)->first();
-                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
-            }
-            // elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 15) {
-            //     $item->service->update(["status" => EServiceType::Cancelled]);
-
-              
-            // }
         }
-    }
 });
 Route::get('auth/google', [AuthLoginController::class, "redirectToGoogle"])->name("redirect.google");
 
