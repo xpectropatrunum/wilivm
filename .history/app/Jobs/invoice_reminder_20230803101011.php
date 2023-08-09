@@ -39,8 +39,6 @@ class invoice_reminder implements ShouldQueue
     {
         $orders = Order::whereHas("transactions", function ($query) {
             $query->where("status", 1);
-        })->orWhereHas("service", function ($query) {
-            $query->where("status", 2);
         });
 
         $now = Carbon::now();
