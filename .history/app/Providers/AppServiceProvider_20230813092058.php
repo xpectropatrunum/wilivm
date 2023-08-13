@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Models\Setting;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
