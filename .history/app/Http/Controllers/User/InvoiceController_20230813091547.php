@@ -72,7 +72,7 @@ class InvoiceController extends Controller
             $limit = $request->limit;
         }
 
-        $items = collect($query1->merge( $query2))->orderBy("created_at", "desc")->values();
+        $items = collect($query1->merge( $query2))->orderBy("created_at", "desc");
 
 
 
