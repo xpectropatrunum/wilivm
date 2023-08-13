@@ -106,7 +106,6 @@ class InvoiceController extends Controller
         ]);
     
         if($request->order_id > 0){
-            dd($request->order_id );
             $invoice =  Invoice::create([
                 "user_id" => $request->user_id, 
                 "price" => round($request->price), 
