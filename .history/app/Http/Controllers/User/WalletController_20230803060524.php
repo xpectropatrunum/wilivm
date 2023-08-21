@@ -175,13 +175,12 @@ class WalletController extends Controller
         $id =  $_POST["item_number"];
         $user = User::where("id", $id)->first();
         Log::debug($id . " wallet api verify " . json_encode($_POST) );
-        $wallet = $user->wallet;
-        $last =  $wallet->transaction()->where(["tx_id" => $tx_id])->first();
-        if ($_POST["status"] == 100 && !$last) {
-           
+
+        if ($_POST["status"] == 100) {
+            $wallet = $user->wallet;
             $wallet->balance += $_POST["amount1"];
             $wallet->save();
-            $wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => $tx_id ]);
+            $wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => md5(time())]);
 
            
             // MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
