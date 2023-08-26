@@ -86,7 +86,7 @@ class DashboardController extends Controller
             $query = Order::latest();
             $orders = $query
                 ->whereHas("service", function ($query) use ($search) {
-                    $query->where("id", "LIKE", "%$search%")->orWhere("ip", "LIKE", "%$search%");
+                    $query->where("ip", "LIKe", "%$search%");
                 })
 
                 ->take(5)->get();
