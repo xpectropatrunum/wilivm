@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (auth()->user()->services()->where('status', '!=', '1')->latest()->get() as $key => $item)
+                            @foreach (auth()->user()->services()->latest()->get() as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->type }}</td>
