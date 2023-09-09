@@ -41,8 +41,6 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        return auth()->user();
-        
         $search = "";
         $limit = 10;
         $query = Order::latest();
