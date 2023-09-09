@@ -179,6 +179,12 @@
                                     <input name="ipv6" class="form-control" value="{{ $order->service->ipv6 }}">
                                 </div>
                             </div>
+                              <div class="col-lg-3 col-12">
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input name="price" class="form-control" value="{{ $order->price }}">
+                                </div>
+                            </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Server Username</label>
@@ -236,6 +242,13 @@
                                     <label class="form-check-label" for="exampleCheck2"> Yes</label>
                                 </div>
                             </div>
+                            <div class="form-group col-lg-3">
+                                <label>Make upgrade invoice?</label>
+                                <div class="form-check">
+                                    <input type="checkbox" name="upgrade" class="form-check-input" value="1">
+                                    <label class="form-check-label" for="exampleCheck2"> Yes</label>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -253,7 +266,11 @@
             <!-- /.card -->
         </div>
         <div class="col-12">
-                <div class="card invoices">
+            <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Invoices</h3>
+            </div>
+                <div class=" invoices">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-0 text-nowrap">
                             <thead>
@@ -286,7 +303,7 @@
                                         <td>
 
 
-                                            @if ($item->transactions()->latest()->first()->status == 1)
+                                            @if ($item->transactions()->latest()->first()?->status == 1)
                                                 <div class="badge badge-success">Paid</div>
                                             @else
                                                 <div class="badge badge-warning">Unpaid</div>
@@ -330,7 +347,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div></div>
     </div>
 @endsection
 
@@ -352,12 +369,13 @@
         $("form").submit(function(e){
             if($("[name=status]").val() == 6 && confirm__ == 0){
                 confirm__ = 1;
-                Swal.fire({text: "to confirm this action, click on `update` button again",title: "Warning!"})
+                Swal.fire({html: "<span class='text-danger'>to confirm this action, click on `update` button again</span>",title: "Refund Request!",confirmButtonText:"got it!"})
                 return false;
 
             }
             
         });
+        var fetched_price = 0;
         function fetchProp() {
             type = $("[name=type]").val()
             plan = $("[name=plan]").val()
@@ -369,6 +387,7 @@
                 $("[name=ram]").val(res.ram)
                 $("[name=bandwith]").val(res.bandwith)
                 $("[name=storage]").val(res.storage)
+                fetched_price = res.price;
 
                 res.os.map(item => {
                     if (item.id == {{ $order->service->os }}) {

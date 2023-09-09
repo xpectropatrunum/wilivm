@@ -181,6 +181,12 @@
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
+                                    <label>Price</label>
+                                    <input name="price" class="form-control" value="{{ $order->price }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+                                <div class="form-group">
                                     <label>Server Username</label>
                                     <input name="username" class="form-control" value="{{ $order->service->username }}">
                                 </div>
@@ -247,7 +253,7 @@
                         </div>
                     </div>
 
-                 
+
                     <!-- /.card-body -->
                     <div class="card-footer text-left">
                         <button type="submit" class="btn btn-primary">{{ __('admin.update') }}</button>
@@ -261,9 +267,9 @@
         </div>
         <div class="col-12">
             <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Invoices</h3>
-            </div>
+                <div class="card-header">
+                    <h3 class="card-title">Invoices</h3>
+                </div>
                 <div class=" invoices">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-0 text-nowrap">
@@ -284,7 +290,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($order->invoices()->latest()->get() as $item)
-                                  
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td><a href="/admin/users?search={{ $item->user?->email }}"
@@ -297,7 +302,7 @@
                                         <td>
 
 
-                                            @if ($item->transactions()->latest()->first()->status == 1)
+                                            @if ($item->transactions()->latest()->first()?->status == 1)
                                                 <div class="badge badge-success">Paid</div>
                                             @else
                                                 <div class="badge badge-warning">Unpaid</div>
@@ -325,7 +330,8 @@
                                                 class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this, title='Are you sure?', text='the related transaction could be deleted!')"
+                                                <button type="submit"
+                                                    onclick="swalConfirmDelete(this, title='Are you sure?', text='the related transaction could be deleted!')"
                                                     class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
@@ -341,7 +347,8 @@
                         </table>
                     </div>
                 </div>
-            </div></div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -360,15 +367,31 @@
         });
         fetchProp()
         var confirm__ = 0;
-        $("form").submit(function(e){
-            if($("[name=status]").val() == 6 && confirm__ == 0){
+        $("form").submit(function(e) {
+            if ($("[name=status]").val() == 6 && confirm__ == 0) {
                 confirm__ = 1;
-                Swal.fire({html: "<span class='text-danger'>to confirm this action, click on `update` button again</span>",title: "Refund Request!",confirmButtonText:"got it!"})
+                Swal.fire({
+                    html: "<span class='text-danger'>to confirm this action, click on `update` button again</span>",
+                    title: "Refund Request!",
+                    confirmButtonText: "got it!"
+                })
                 return false;
 
             }
-            
+
         });
+        var fetched_price = 0;
+        $("[name=upgrade]").change(fucntion() {
+            if ($(this).is(":selected")) {
+                $("[name=price]").val(fetched_price * 0.5)
+
+            } else {
+                $("[name=price]").val(fetched_price)
+
+            }
+
+        })
+
         function fetchProp() {
             type = $("[name=type]").val()
             plan = $("[name=plan]").val()
@@ -380,6 +403,7 @@
                 $("[name=ram]").val(res.ram)
                 $("[name=bandwith]").val(res.bandwith)
                 $("[name=storage]").val(res.storage)
+                fetched_price = res.price;
 
                 res.os.map(item => {
                     if (item.id == {{ $order->service->os }}) {
