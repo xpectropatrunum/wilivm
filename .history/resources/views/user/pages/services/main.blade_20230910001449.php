@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (auth()->user()->services()->where('status', '!=', '1')->latest()->get() as $key => $item)
+                            @foreach (auth()->user()->services()->latest()->get() as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->type }}</td>
@@ -78,7 +78,7 @@
                                     <td>{{ MyHelper::due($item->order) }}</td>
                                     <td>
 
-                                        @if ($item->status == 2)
+                                        @if ($item->status == 2 || $item->status == 5)
                                             <a href="{{ route('panel.services.show', $item->id) }}"
                                                 class="btn btn-outline-primary">
                                                 Manage Service</a> </span>
