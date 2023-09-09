@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Os extends Authenticatable
+class ServerPlan extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,14 +20,18 @@ class Os extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        
         'name',
         'enabled',
+
     ];
+
+
     protected static function boot()
     {
         parent::boot();
 
-             if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
         static::deleting(
@@ -61,6 +65,5 @@ class Os extends Authenticatable
             }
         );
     }
-  
   
 }

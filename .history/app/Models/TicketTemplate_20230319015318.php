@@ -6,30 +6,21 @@ namespace App\Models;
 
 use App\Enums\ELogType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Os extends Authenticatable
+class TicketTemplate extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'enabled',
-    ];
     protected static function boot()
     {
         parent::boot();
-
-             if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
+
         static::deleting(
             function ($item) {
                 Log::create([
@@ -61,6 +52,20 @@ class Os extends Authenticatable
             }
         );
     }
-  
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'ticket_template_type_id',
+        'text',
+        'enable',
+    ];
+    function ticket_template_type(){
+        return $this->belongsTo(TicketTemplateType::class);
+    }
+    
   
 }

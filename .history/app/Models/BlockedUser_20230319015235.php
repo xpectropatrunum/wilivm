@@ -2,34 +2,35 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Enums\ELogType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
-class Os extends Authenticatable
+class BlockedUser extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'enabled',
+
+
+    protected $fillable = ['user_id','from_datetime','to_datetime','description','enable'];
+
+    protected $casts = [
+        'extra' => 'array'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
     protected static function boot()
     {
         parent::boot();
-
-             if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
+
+
         static::deleting(
             function ($item) {
                 Log::create([
@@ -61,6 +62,4 @@ class Os extends Authenticatable
             }
         );
     }
-  
-  
 }

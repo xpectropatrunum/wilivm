@@ -6,11 +6,12 @@ namespace App\Models;
 
 use App\Enums\ELogType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Os extends Authenticatable
+class OrderLabel extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,13 +22,13 @@ class Os extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'enabled',
+        'enable',
     ];
     protected static function boot()
     {
         parent::boot();
 
-             if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
         static::deleting(
@@ -61,6 +62,5 @@ class Os extends Authenticatable
             }
         );
     }
-  
   
 }

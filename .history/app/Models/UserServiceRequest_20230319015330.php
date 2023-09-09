@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Os extends Authenticatable
+class UserServiceRequest extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,14 +20,16 @@ class Os extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'enabled',
+        'user_service_id',
+        'request_id',
+        'status',
+        'note',
     ];
     protected static function boot()
     {
         parent::boot();
 
-             if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
         static::deleting(
@@ -61,6 +63,31 @@ class Os extends Authenticatable
             }
         );
     }
-  
-  
+    function getNTimeAttribute(){
+        $diff = time() - strtotime($this->created_at);
+        $diff_hour = $diff / 3600;
+        if($diff_hour >= 24){
+            return round($diff_hour / 24) . " day(s) ago";
+        }
+        if($diff_hour < 1){
+            $diff_min = round($diff / 60);
+            if($diff_min == 0){
+                return "now";
+            }
+            return $diff_min . " minutes ago";
+        }
+        return round($diff_hour) . " hours ago";
+    }
+    function request()
+    {
+        return $this->belongsTo(Request::class);
+    }
+    function user()
+    {
+        return $this->hasOneThrough(UserService::class, User::class);
+    }
+    function service()
+    {
+        return $this->hasOne(UserService::class, "id", "user_service_id");
+    }
 }

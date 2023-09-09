@@ -5,12 +5,13 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\ELogType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class UserServiceRequest extends Authenticatable
+class UserService extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,16 +21,27 @@ class UserServiceRequest extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_service_id',
-        'request_id',
+        'user_id',
+        'type',
+        'plan',
+        'ram',
+        'storage',
+        'cpu',
+        'bandwith',
+        'ip',
+        'ipv4',
+        'ipv6',
+        'os',
+        'location',
+        'username',
+        'password',
         'status',
-        'note',
     ];
     protected static function boot()
     {
         parent::boot();
 
-             if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
         static::deleting(
@@ -43,13 +55,19 @@ class UserServiceRequest extends Authenticatable
             }
         );
         static::updating(
+
             function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Update,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
+                try{
+                    Log::create([
+                        "admin_id" => auth()->user()->id,
+                        "type" => ELogType::Update,
+                        "model" => self::class,
+                        "related_id" => $item,
+                    ]);
+                }catch(\Exception $e){
+
+                }
+              
             }
         );
         static::created(
@@ -63,31 +81,32 @@ class UserServiceRequest extends Authenticatable
             }
         );
     }
-    function getNTimeAttribute(){
-        $diff = time() - strtotime($this->created_at);
-        $diff_hour = $diff / 3600;
-        if($diff_hour >= 24){
-            return round($diff_hour / 24) . " day(s) ago";
-        }
-        if($diff_hour < 1){
-            $diff_min = round($diff / 60);
-            if($diff_min == 0){
-                return "now";
-            }
-            return $diff_min . " minutes ago";
-        }
-        return round($diff_hour) . " hours ago";
-    }
-    function request()
-    {
-        return $this->belongsTo(Request::class);
-    }
     function user()
     {
-        return $this->hasOneThrough(UserService::class, User::class);
+        return $this->belongsTo(User::class);
     }
-    function service()
+    function order()
     {
-        return $this->hasOne(UserService::class, "id", "user_service_id");
+        return $this->hasOne(Order::class, "server_id", "id");
     }
+    function requests()
+    {
+        return $this->hasMany(UserServiceRequest::class);
+    }
+    function location_()
+    {
+        return $this->hasOne(Location::class, "id", "location");
+    }
+    function os_()
+    {
+        return $this->hasOne(Os::class,  "id", "os");
+    }
+    function os_parent()
+    {
+        $type = ServerType::where("name", $this->attributes["type"])->first();
+    
+        $server = Server::where("server_type_id", $type->id)->first();
+        return $server->os();
+    }
+  
 }

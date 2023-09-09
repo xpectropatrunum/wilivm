@@ -9,31 +9,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Event;
 use Laravel\Sanctum\HasApiTokens;
 
-class Email extends Model
+class Bulletin extends Model
 {
+
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'title',
-        'name',
-        'head',
-        'template',
-        'type',
-        'enabled',
+        'message',
+        'id',
     ];
-   
-  
+
     protected static function boot()
     {
         parent::boot();
-        if(!auth()->user()->tg_id){
+        if (auth()->guard("web")->check()) {
             return 0;
         }
 

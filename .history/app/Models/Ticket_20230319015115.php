@@ -6,11 +6,12 @@ namespace App\Models;
 
 use App\Enums\ELogType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Os extends Authenticatable
+class Ticket extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,16 +21,24 @@ class Os extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'enabled',
+        'user_id',
+        'status',
+        'title',
+        'department',
+        'new',
     ];
+    function conversations()
+    {
+        return $this->hasMany(TicketConversation::class);
+    }
     protected static function boot()
     {
         parent::boot();
 
-             if(!auth()->user()->tg_id){
+        if(auth()->guard("web")->check()){
             return 0;
         }
+
         static::deleting(
             function ($item) {
                 Log::create([
@@ -52,6 +61,7 @@ class Os extends Authenticatable
         );
         static::created(
             function ($item) {
+
                 Log::create([
                     "admin_id" => auth()->user()->id,
                     "type" => ELogType::Create,
@@ -61,6 +71,9 @@ class Os extends Authenticatable
             }
         );
     }
-  
-  
+
+    function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -33,7 +33,7 @@ class Email extends Model
     protected static function boot()
     {
         parent::boot();
-        if(!auth()->user()->tg_id){
+          if(auth()->guard("web")->check()){
             return 0;
         }
 
