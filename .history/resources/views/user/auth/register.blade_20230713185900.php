@@ -171,20 +171,6 @@
                                         </div>
 
                                      
-                                        <div class="form-group  col-12 fv-plugins-icon-container ">
-                                            <div class="d-flex justify-content-between align-items-center mb-2"
-                                                style="float:left">
-                                                <label class="font-size-lg text-dark-50 mb-0  text-left" for="ref">
-                                                    Affiliate Code</label>
-
-                                            </div>
-                                            <input
-                                                class="form-control ltr en-text force-ltr form-control-solid h-auto py-4 px-4 rounded-md"
-                                                type="text" id="ref" name="ref" value="{{ old('ref', request()->ref ?? "") }}" placeholder="Optional"
-                                                autocomplete="off">
-                                            <div class="fv-plugins-message-container"></div>
-                                        </div>
-
 
 
                                         <div class="form-group fv-plugins-icon-container   col-12" dir="ltr">

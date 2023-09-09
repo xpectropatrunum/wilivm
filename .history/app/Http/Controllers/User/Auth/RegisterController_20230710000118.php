@@ -104,8 +104,8 @@ class RegisterController extends Controller
             "password" => Hash::make($request->password),
             "affiliate_code" => $code,
         ]);
-        if ($request->ref) {
-            $parent = User::where("affiliate_code", $request->ref)->first();
+        if ($request->affiliate) {
+            $parent = User::where("affiliate_code", $request->affiliate)->first();
             if ($parent) {
                 $request->merge([
                     "parent_id" => $parent->id,
