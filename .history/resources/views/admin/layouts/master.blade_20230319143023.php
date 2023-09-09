@@ -146,7 +146,6 @@
                     $(".search-users").hide()
                     $(".search-tickets").hide()
                     $(".search-orders").hide()
-                    $(".search-invoices").hide()
 
                 } else if (search.length < 3) {
                     $(".dropdown-search").css("display", "block");
@@ -154,16 +153,13 @@
                     $(".search-users").hide()
                     $(".search-tickets").hide()
                     $(".search-orders").hide()
-                    $(".search-invoices").hide()
-                    $(".type-more").text("Type at least 3 characters to search");
+                    $(".type-more").text("Type atleast 3 characters to search");
                 } else {
                     $(".dropdown-search").css("display", "block");
                     $(".type-more").hide();
                     $(".search-users").show()
                     $(".search-tickets").show()
                     $(".search-orders").show()
-                    $(".search-invoices").show()
-
 
                 }
 
@@ -184,7 +180,6 @@
                     success: function(res) {
                         $(".search-users").html("")
                         $(".search-orders").html("")
-                        $(".search-invoices").html("")
                         $(".search-tickets").html("")
                         res.users.map(item => {
                             $(".search-users").append(`<span
@@ -193,10 +188,6 @@
                         res.orders.map(item => {
                             $(".search-orders").append(`<span
                             class="dropdown-item dropdown-header text-left cursor-pointer"><a href="/admin/orders/${item.id}/edit"><i class="nav-icon fas fa-shopping-cart"></i> Order #${item.id}</a></span>`)
-                        })
-                        res.invoices.map(item => {
-                            $(".search-invoices").append(`<span
-                            class="dropdown-item dropdown-header text-left cursor-pointer"><a href="/admin/invoices/${item.id}/edit"><i class="nav-icon fas fa-shopping-cart"></i> Order #${item.id}</a></span>`)
                         })
                         res.tickets.map(item => {
                             $(".search-tickets").append(`<span

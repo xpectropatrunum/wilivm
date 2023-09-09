@@ -23,7 +23,6 @@
 
                         <div class="search-users"></div>
                         <div class="search-orders"></div>
-                        <div class="search-invoices"></div>
                         <div class="search-tickets"></div>
               
                   
