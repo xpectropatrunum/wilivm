@@ -66,7 +66,7 @@
                             <div class="col-12 mb-3">
                                 <h4>Server</h4>
                                 Due Date: {{ MyHelper::due($order) }}<br>
-                                Expires in: {{ MyHelper::due($order, 1) }}<br>
+                                Expires in: {{ MyHelper::due($order) }} days<br>
                                 Cycle: {{ App\Enums\ECycle::getKey($order->cycle) }}<br>
                                 Created Date: {{ $order->created_at }}<br>
 
