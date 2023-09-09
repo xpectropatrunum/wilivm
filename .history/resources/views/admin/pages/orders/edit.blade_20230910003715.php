@@ -382,7 +382,7 @@
         });
         var fetched_price = 0;
         $("[name=upgrade]").change(fucntion() {
-            if ($(this).is(":checked")) {
+            if ($(this).is(":selected")) {
                 $("[name=price]").val(fetched_price * 0.5)
 
             } else {
