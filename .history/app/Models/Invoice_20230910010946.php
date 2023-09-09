@@ -71,7 +71,7 @@ class Invoice extends Model
     {
         parent::boot();
 
-          if(auth()->guard("web")->check()){
+        if(!auth()->user()->tg_id){
             return 0;
         }
         static::deleting(
