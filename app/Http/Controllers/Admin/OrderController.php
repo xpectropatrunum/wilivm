@@ -114,6 +114,7 @@ class OrderController extends Controller
             "cpu" => $server->cpu,
             "bandwith" => $server->bandwith,
             "storage" => $server->storage,
+            "price" => $server->price,
         ];
     }
     public function create_for_user(User $user)
