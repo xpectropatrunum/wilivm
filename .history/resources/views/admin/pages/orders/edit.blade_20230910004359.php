@@ -385,7 +385,7 @@
         var odd = {{ round(($order->due_date - time()) / 86400, 1)}};
         $("[name=upgrade]").change(function() {
             if ($(this).is(":checked")) {
-                $("[name=price]").val(Math.round(fetched_price * odd, 2))
+                $("[name=price]").val(fetched_price * 0.5)
 
             } else {
                 $("[name=price]").val(fetched_price)
