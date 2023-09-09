@@ -40,7 +40,7 @@ class MyHelper
 
         return $englishNumbersOnly;
     }
-    static function due($order, $normal = false, $remaining= false)
+    static function due($order, $normal = false)
     {
 
         if ($normal) {
@@ -56,20 +56,6 @@ class MyHelper
                 return round($diff / 60) . " minutes ago";
             }
             return round($diff_hour) . " hours ago";
-        }
-        if($remaining){
-            $diff = time() - strtotime($order->due_date);
-            $diff_hour = $diff / 3600;
-            if ($diff_hour >= 24) {
-                return round($diff_hour / 24) . " day(s)";
-            }
-            if ($diff_hour < 1) {
-                if (round($diff / 60) == 0) {
-                    return "now";
-                }
-                return round($diff / 60) . " minutes";
-            }
-            return round($diff_hour) . " hours";
         }
 
 
