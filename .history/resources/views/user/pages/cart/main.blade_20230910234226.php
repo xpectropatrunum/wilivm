@@ -77,9 +77,6 @@
             </div>`)
             $(".action-section").hide()
         }
-        $("add-new-service").click(()=>{
-            window.location.href = "/new-service"
-        })
         cart.forEach((i) => {
             $(".cart-items-list").append(`<div class="row my-1">
             <div class="col-lg-3">
