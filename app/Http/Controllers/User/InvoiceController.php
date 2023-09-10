@@ -64,15 +64,15 @@ class InvoiceController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query1 = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
-        $query2 = auth()->user()->orders()->orderBy("created_at", "desc")->get();
-
+        // $query1 = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
+        // $query2 = auth()->user()->orders()->orderBy("created_at", "desc")->get();
+        $items = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
 
         if ($request->limit) {
             $limit = $request->limit;
         }
 
-        $items = collect($query1->merge( $query2))->sortByDate('created_at', true);
+        // $items = collect($query1->merge( $query2))->sortByDate('created_at', true);
 
 
 

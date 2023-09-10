@@ -64,15 +64,15 @@ class InvoiceController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query1 = auth()->user()->invoices()->get();
-        $query2 = auth()->user()->orders()->get();
-
+        // $query1 = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
+        // $query2 = auth()->user()->orders()->orderBy("created_at", "desc")->get();
+        $items = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
 
         if ($request->limit) {
             $limit = $request->limit;
         }
 
-        $items = $query1->merge( $query2);
+        // $items = collect($query1->merge( $query2))->sortByDate('created_at', true);
 
 
 
@@ -160,7 +160,7 @@ class InvoiceController extends Controller
                 $transaction->method = "wallet";
                 $transaction->save();
                 // MyHelper::sendSMS(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
-                MyHelper::sendTg(ESmsType::Order, ["user" => auth()->user(), "order" => $order]);
+                MyHelper::sendTg(ESmsType::Order, ["user" => auth()->user(), "order" => $invoice]);
                 $email = Email::where("type", EEmailType::Paid_invoice)->first();
                 Mail::to($invoice->user->email)->send(new MailTemplate($email, (object)["user" => $invoice->user, "invoice" => $invoice]));
                
