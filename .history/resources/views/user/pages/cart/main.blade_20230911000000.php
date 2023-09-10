@@ -84,11 +84,8 @@
         $(".make-order").click(function() {
             $.ajax({
                 type: "POST",
-                url: "{{route('panel.checkout')}}",
+                url: "/webservices/PodcastService.asmx/CreateMarkers",
                 data: JSON.stringify(cart),
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data) {
