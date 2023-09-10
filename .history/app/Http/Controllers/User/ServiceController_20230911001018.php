@@ -15,7 +15,6 @@ use App\Models\Doctor;
 use App\Models\DoctorImage;
 use App\Models\DoctorSpecialty;
 use App\Models\Email;
-use App\Models\InvoiceItem;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Request as ModelsRequest;
@@ -101,7 +100,6 @@ class ServiceController extends Controller
     public function checkout(Request $request)
     {
 
-        $next_id =  $this->getNextInvoiceID();
         $items = json_decode($request->getContent());
         foreach ($items as $item) {
             $server = Server::where(["server_plan_id" => $item->plan, "server_type_id" => $item->type, "enabled" => 1])->firstOrFail();
@@ -112,21 +110,11 @@ class ServiceController extends Controller
                 "location" => $item->location, "os" => $item->os,
             ]);
             if ($new_server) {
-                $item_price = $item->cycle * ($server->price + $server->locations->pluck("price", "id")[$item->location]);
                 $new_order = auth()->user()->orders()->create([
-                    "server_id" => $new_server->id, "price" =>  $item_price,
+                    "server_id" => $new_server->id, "price" =>  $item->cycle * ($server->price + $server->locations->pluck("price", "id")[$item->location]),
                     "expires_at" => time() + $item->cycle * 86400 * 30,
                     "due_date" => time() + $item->cycle * 86400 * 30,
                     "cycle" => $item->cycle
-                ]);
-                InvoiceItem::create([
-                    "invoice_id" => $next_id,
-                    "title" => $item->title,
-                    "discount" => 0,
-                    "price" => $item_price,
-                    "cycle" => $item->cycle,
-                    "expires_at" =>  time() + $item->cycle * 86400 * 30,
-                    "order_id" => $new_order->id,
                 ]);
             }
         }
@@ -137,31 +125,17 @@ class ServiceController extends Controller
         //     MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
         //     return redirect()->route("panel.invoices.show", ["order" => $new_order->id]);
         // }
-
-       
-       
-        $total = InvoiceItem::where("invoice_id", $next_id)->get()->sum("price");
-
-        if($invoice = auth()->user()->invoices()->create([
-            "id" => $next_id,
-            "price" => $total,
-            "cycle" => $item->cycle,
-            "title" => "",
-            "description" => "",
-            "discount" => 0,
-            "expires_at" =>  time() + $item->cycle * 86400 * 30
-        ])){
-            return redirect()->route("panel.invoices.show", ["invoice" => $invoice->id]);
-        }
+        
 
 
         return redirect()->back()->withError("Something went wrong");
     }
-    public function getNextInvoiceID()
-    {
-        $statement = \DB::select("show table status like 'invoices'");
-        return $statement[0]->Auto_increment;
-    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function renew(Request $request, UserService $service)
     {
         $request->validate([

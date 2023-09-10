@@ -140,19 +140,15 @@ class ServiceController extends Controller
 
        
        
-        $total = InvoiceItem::where("invoice_id", $next_id)->get()->sum("price");
-
-        if($invoice = auth()->user()->invoices()->create([
-            "id" => $next_id,
-            "price" => $total,
-            "cycle" => $item->cycle,
+        auth()->user()->invoices()->create([
+            "id" => $this->getNextInvoiceID(),
+            "price" => $price,
+            "cycle" => $request->cycle,
             "title" => "",
             "description" => "",
             "discount" => 0,
-            "expires_at" =>  time() + $item->cycle * 86400 * 30
-        ])){
-            return redirect()->route("panel.invoices.show", ["invoice" => $invoice->id]);
-        }
+            "expires_at" =>  time() + $request->cycle * 86400 * 30
+        ]);
 
 
         return redirect()->back()->withError("Something went wrong");
