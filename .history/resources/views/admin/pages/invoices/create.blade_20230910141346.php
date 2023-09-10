@@ -295,13 +295,10 @@
 
                         },
                         error: function(res) {
-                            if(!res.message.includes("[App\\Models\\InvoiceItem]")){
-                                Toast.fire({
-                                    icon: 'error',
-                                  title: res.responseJSON.message,
-                                  })
-                            }
-                          
+                            Toast.fire({
+                              icon: 'error',
+                            title: res.responseJSON.message,
+                            })
 
                         }
 
