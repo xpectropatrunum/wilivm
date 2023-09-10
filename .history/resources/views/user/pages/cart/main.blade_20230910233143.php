@@ -42,7 +42,7 @@
                             Actions
                         </div>
                     </div>
-                    <div class="cart-items-list">
+                    <div class="row cart-items-list">
 
                     </div>
                    
@@ -78,7 +78,7 @@
                 ${i.price}
             </div>
             <div class="col-lg-3">
-                <a href="javascript:{}" onclick="removeRow(this, ${i.id})">
+                <a href="javascript:{}" onclick="removeFromCart(${i.id})">
                     <div class="btn btn-outline-primary btn-sm">
                         <i class="fa fa-trash"></i>
                         Remove
@@ -89,9 +89,5 @@
         </div>`)
 
         })
-        function removeRow(item, id){
-            removeFromCart(id);
-            $(item).parent().parent().html("")
-        }
     </script>
 @endpush
