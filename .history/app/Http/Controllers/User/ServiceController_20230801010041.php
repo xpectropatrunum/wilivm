@@ -97,36 +97,7 @@ class ServiceController extends Controller
         }
         return redirect()->back()->withError("Something went wrong");
     }
-    public function checkout(Request $request)
-    {
-        return $request->body();
-        $server = Server::where(["server_plan_id" => $plan, "server_type_id" => $type, "enabled" => 1])->firstOrFail();
-        $new_server = auth()->user()->services()->create([
-            "type" => $server->type->name, "plan" => $server->plan->name,
-            "ram" => $server->ram, "cpu" => $server->cpu,
-            "storage" => $server->storage, "bandwith" => $server->bandwith,
-            "location" => $request->location, "os" => $request->os,
-        ]);
-        if ($new_server) {
-            $new_order = auth()->user()->orders()->create([
-                "server_id" => $new_server->id, "price" =>  $request->cycle * ($server->price + $server->locations->pluck("price", "id")[$request->location]),
-                "expires_at" => time() + $request->cycle * 86400 * 30,
 
-                "due_date" => time() + $request->cycle * 86400 * 30,
-                "cycle" => $request->cycle
-
-
-            ]);
-            $new_transaction = $new_order->transactions()->create(["tx_id" => md5("wil4li" . $new_order->id)]);
-            $email = Email::where("type", EEmailType::New_order)->first();
-            Mail::to($new_order->user->email)->send(new MailTemplate($email, (object)["user" => $new_order->user, "order" => $new_order]));
-            if ($new_transaction) {
-                MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
-                return redirect()->route("panel.invoices.show", ["order" => $new_order->id]);
-            }
-        }
-        return redirect()->back()->withError("Something went wrong");
-    }
     /**
      * Store a newly created resource in storage.
      *
