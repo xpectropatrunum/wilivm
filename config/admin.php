@@ -17,6 +17,10 @@ return [
     'order_tg' => "کاربر %name% به ایمیل %email%
 سفارش شماره %number% را پرداخت کرد",
 
+'suspension_tg' => "موعد تمدید %name% به ایمیل %email%
+سفارش با شماره %number% فرا رسیده است",
+
+
     'ticket_tg' => "کاربر %name% به ایمیل %email%
 تیکت با موضوع %title% ثبت کرد",
 'ticket_reply_tg' => "کاربر %name% به ایمیل %email%

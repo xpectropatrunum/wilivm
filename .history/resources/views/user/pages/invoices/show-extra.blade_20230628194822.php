@@ -57,8 +57,7 @@
                                     </address>
                                 </div>
                                 <div class="invoice-date"> <small>Invoice / #{{ $invoice->id }}</small>
-                                    <div class="date text-inverse m-t-5">
-                                        {{ date('M d, Y', strtotime($invoice->created_at)) }}
+                                    <div class="date text-inverse m-t-5">{{ date('M d, Y', strtotime($invoice->created_at)) }}
                                     </div>
                                     <div class="invoice-detail">
                                         @if ($invoice->transactions()->latest()->first()->status == 1)
@@ -88,32 +87,15 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($invoice->items as $item)
-                                                <tr>
-                                                    <td> <span class="text-inverse">{{ $item->title }}</span><br>
-                                                        <small>{{ $item->description }}
-                                                        </small>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {{ App\Enums\ECycle::getKey((int) $item->cycle) }}</td>
-                                                    <td class="text-center">{{ MyHelper::due($item) }}</td>
-                                                    <td class="text-right">${{ $item->price }}</td>
-                                                </tr>
-                                            @endforeach
-
-                                            @if ($invoice->title)
-                                                <tr>
-                                                    <td> <span class="text-inverse">{{ $invoice->title }}</span><br>
-                                                        <small>{{ $invoice->description }}
-                                                        </small>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        {{ App\Enums\ECycle::getKey((int) $invoice->cycle) }}</td>
-                                                    <td class="text-center">{{ MyHelper::due($invoice) }}</td>
-                                                    <td class="text-right">${{ $invoice->price }}</td>
-                                                </tr>
-                                            @endif
-
+                                            <tr>
+                                                <td> <span class="text-inverse">{{ $invoice->title }}</span><br>
+                                                    <small>{{ $invoice->description }} 
+                                                    </small>
+                                                </td>
+                                                <td class="text-center">{{ App\Enums\ECycle::getKey((int)$invoice->cycle) }}</td>
+                                                <td class="text-center">{{ MyHelper::due($invoice) }}</td>
+                                                <td class="text-right">${{ $invoice->price }}</td>
+                                            </tr>
 
                                         </tbody>
                                     </table>
@@ -214,12 +196,8 @@
                                 @else
                                     <div class="col-12 d-flex mt-3">
                                         <div class="col-12">
-                                            Paid with
-                                            <strong>{{ ucfirst($invoice->transactions()->latest()->first()->method) }}</strong>
-                                            at
-                                            {{ date('M d, Y',strtotime($invoice->transactions()->latest()->first()->updated_at)) }}<br>
-                                            Tx id:
-                                            <strong>{{ $invoice->transactions()->latest()->first()->tx_id }}</strong>
+                                            Paid with <strong>{{ucfirst($invoice->transactions()->latest()->first()->method)}}</strong> at {{date("M d, Y", strtotime($invoice->transactions()->latest()->first()->updated_at))}}<br>
+                                            Tx id: <strong>{{$invoice->transactions()->latest()->first()->tx_id}}</strong>
                                         </div>
                                     </div>
                                 @endif
@@ -311,7 +289,7 @@
                             'title': res.message
                         });
                         setTimeout(() => {
-                            window.location.href = window.location.href
+                            window.location.href =  window.location.href
                         }, 2000)
 
 

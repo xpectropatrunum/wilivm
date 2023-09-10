@@ -119,7 +119,7 @@ class MyHelper
                         $message = urlencode(str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
-                            config("admin.suspension_tg")
+                            config("admin.order_tg")
                         ));
 
 

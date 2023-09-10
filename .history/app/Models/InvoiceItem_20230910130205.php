@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Invoice extends Model
+class InvoiceItem extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,7 +21,6 @@ class Invoice extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'title',
         'order_id',
         'description',
@@ -36,10 +35,6 @@ class Invoice extends Model
     {
         return $this->hasMany(Transaction::class, "order_id", "id");
     }
-    function items()
-    {
-        return $this->hasMany(InvoiceItem::class);
-    }
     function service()
     {
         return $this->hasOne(UserService::class, "id", "server_id");
@@ -53,9 +48,9 @@ class Invoice extends Model
     {
         return $this->transactions()?->latest()?->first()?->status ?? 0;
     }
-    function user()
+    function invoice()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Invoice::class);
     }
 
     function getExpireDateAttribute()
@@ -71,49 +66,6 @@ class Invoice extends Model
         return date("d M Y", strtotime($this->attributes["created_at"]));
     }
     
-    protected static function boot()
-    {
-        parent::boot();
-
-        if(!auth()->user()->tg_id){
-            return 0;
-        }
-        static::deleting(
-            function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Delete,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
-                try{
-                    $item->transactions()->delete();
-                }catch(\Exception $e){
-
-                }
-            }
-        );
-        static::updating(
-            function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Update,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
-            }
-        );
-        static::created(
-            function ($item) {
-                Log::create([
-                    "admin_id" => auth()->user()->id,
-                    "type" => ELogType::Create,
-                    "model" => self::class,
-                    "related_id" => $item,
-                ]);
-            }
-        );
-    }
-
+   
 
 }

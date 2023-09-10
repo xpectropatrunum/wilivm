@@ -39,5 +39,7 @@ class Admin extends Authenticatable
     protected static function boot()
     {
         parent::boot();
+
+      
     }
 }

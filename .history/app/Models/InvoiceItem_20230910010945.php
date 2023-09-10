@@ -36,10 +36,6 @@ class Invoice extends Model
     {
         return $this->hasMany(Transaction::class, "order_id", "id");
     }
-    function items()
-    {
-        return $this->hasMany(InvoiceItem::class);
-    }
     function service()
     {
         return $this->hasOne(UserService::class, "id", "server_id");

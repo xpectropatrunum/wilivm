@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Enums\EEmailType;
 use App\Enums\EServiceType;
+use App\Enums\ESmsType;
+use App\Helpers\MyHelper;
 use App\Mail\MailTemplate;
 use App\Models\Email;
 use App\Models\Order;
@@ -87,6 +89,7 @@ class invoice_reminder implements ShouldQueue
                     $email = Email::where("type", EEmailType::Remind_2)->first();
                     Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
                 } elseif ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 0) {
+                  
                     $item->service->update(["status" => EServiceType::Suspended]);
                     $order = Order::where([
                         "server_id" => $item->server_id,
@@ -95,6 +98,8 @@ class invoice_reminder implements ShouldQueue
                         "price" => $item->price,
                         "discount" => $item->discount
                     ])->firstOrFail();
+
+                    MyHelper::sendTg(ESmsType::Suspension, ["user" =>  $order->user, "order" => $order]);
                   
 
 
