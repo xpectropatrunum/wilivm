@@ -176,8 +176,6 @@
 
 @push('admin_js')
     <script>
-        const orders = {!! json_encode($orders) !!};
-
         $(() => {
 
 
@@ -219,14 +217,6 @@
 
             </form>
             `)
-
-            $user_id = $("[name=user_id]").val()
-            $("[name=order_id]").html(``)
-            $("[name=order_id]").append(`<option value="0">Optional</option>`)
-
-            orders.filter(i => i.user_id == $user_id).map(i => {
-                $("[name=order_id]").append(`<option value="${i.id}">#${i.id}</option>`)
-            })
                 $(".select2").select2()
 
 
