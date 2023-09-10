@@ -48,7 +48,7 @@
 
                 </div>
                 <div class="mt-2 col-12 d-flex justify-content-end align-items-center action-section">
-                    <strong class="mx-4">Total: <span class="final-price px-2">$</span></strong>
+                    <strong class="mx-4">Price: <span class="final-price px-2">$</span></strong>
                     <button class="btn btn-success me-1 mb-1 make-order">
                         Submit
                     </button>
