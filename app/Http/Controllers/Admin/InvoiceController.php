@@ -13,6 +13,7 @@ use App\Mail\OrderDelivered;
 use App\Models\DoctorSpecialty;
 use App\Models\Email;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\Order;
 use App\Models\OrderLabel;
 use App\Models\User;
@@ -76,6 +77,27 @@ class InvoiceController extends Controller
 
         return view('admin.pages.invoices.index', compact('items', 'search', 'limit'));
     }
+
+    public function addItem(Invoice $invoice, Request $request)
+    {
+        $request->validate(["brand_fa" => "required", 
+        "price" => "required|numeric"]);
+
+        if ($new = $invoice->items()->create($request->all())) {
+            return $new;
+        }
+        return 0;
+    }
+    public function removeItem(InvoiceItem $invoiceItem)
+    {
+
+        if ($invoiceItem->delete()) {
+            return 1;
+        }
+        return 0;
+    }
+
+
     public function props($type, $plan)
     {
         $type_id = ServerType::where("name", $type)->first()->id;

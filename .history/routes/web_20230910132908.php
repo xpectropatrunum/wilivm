@@ -77,10 +77,13 @@ Route::get("/3", function () {
 
     $now = Carbon::now();
     foreach ($orders->get() as $item) {
+     
         if ($item->expires_at > time()) {
-            if($item->id == 784599){
-                echo $now->diffInDays(date("Y-m-d H:i", $item->expires_at));
+            if($item->id == "784598"){
+                echo $now->diffInDays(date("Y-m-d H:i", $item->expires_at));  die();
+                
             }
+          
             if ($now->diffInDays(date("Y-m-d H:i", $item->expires_at)) == 10) {
                 $order = Order::updateOrCreate([
                     "server_id" => $item->server_id,
@@ -217,6 +220,12 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::post('orders/store/{user}', [OrderController::class, "store"])->name("orders.new");
 
         Route::resource('invoices', AdminInvoiceController::class);
+
+        
+        Route::prefix("invoices/items")->name("products.items.")->group(function () {
+            Route::post('add/{invoice}',  [AdminInvoiceController::class, 'addItem'])->name("add");
+            Route::post('remove/{invoiceItem}',  [AdminInvoiceController::class, 'removeItem'])->name("remove");
+        });
         Route::get('invoices/excel/dl', [AdminInvoiceController::class, "excel"])->name("invoices.excel");
 
         Route::delete('emails/{sentEmail}', [UserController::class, "destroySentEmail"])->name("sent-emails.destroy");

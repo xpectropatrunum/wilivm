@@ -220,6 +220,12 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::post('orders/store/{user}', [OrderController::class, "store"])->name("orders.new");
 
         Route::resource('invoices', AdminInvoiceController::class);
+
+        
+        Route::prefix("invoices/items")->name("products.items.")->group(function () {
+            Route::post('add/{invoice}',  [AdminInvoiceController::class, 'addItem'])->name("add");
+            Route::post('remove/{invoiceItem}',  [AdminInvoiceController::class, 'removeItem'])->name("remove");
+        });
         Route::get('invoices/excel/dl', [AdminInvoiceController::class, "excel"])->name("invoices.excel");
 
         Route::delete('emails/{sentEmail}', [UserController::class, "destroySentEmail"])->name("sent-emails.destroy");

@@ -13,6 +13,7 @@ use App\Mail\OrderDelivered;
 use App\Models\DoctorSpecialty;
 use App\Models\Email;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\Order;
 use App\Models\OrderLabel;
 use App\Models\User;
@@ -76,6 +77,27 @@ class InvoiceController extends Controller
 
         return view('admin.pages.invoices.index', compact('items', 'search', 'limit'));
     }
+
+    public function addItem(Invoice $invoice, Request $request)
+    {
+        $request->validate(["brand_fa" => "required", 
+        "price" => "required|numeric"]);
+
+        if ($new = $invoice->items()->create($request->all())) {
+            return $new;
+        }
+        return 0;
+    }
+    public function removeItem(InvoiceItem $invoiceItem)
+    {
+
+        if ($invoiceItem->delete()) {
+            return 1;
+        }
+        return 0;
+    }
+
+
     public function props($type, $plan)
     {
         $type_id = ServerType::where("name", $type)->first()->id;
@@ -105,15 +127,29 @@ class InvoiceController extends Controller
            
         ]);
     
-        $invoice =  Invoice::create([
-            "user_id" => $request->user_id, 
-            "price" => round($request->price), 
-            "cycle" => $request->cycle,
-            "title" => $request->title,
-            "description" => $request->description,
-            "discount" => round($request->discount),
-            "expires_at" =>  time() + $request->cycle * 86400*30
-        ]);
+        if($request->order_id > 0){
+            $invoice =  Invoice::create([
+                "user_id" => $request->user_id, 
+                "price" => round($request->price), 
+                "cycle" => $request->cycle,
+                "title" => $request->title,
+                "order_id" => $request->order_id,
+                "description" => $request->description,
+                "discount" => round($request->discount),
+                "expires_at" =>  time() + $request->cycle * 86400*30
+            ]);
+        }else{
+            $invoice =  Invoice::create([
+                "user_id" => $request->user_id, 
+                "price" => round($request->price), 
+                "cycle" => $request->cycle,
+                "title" => $request->title,
+                "description" => $request->description,
+                "discount" => round($request->discount),
+                "expires_at" =>  time() + $request->cycle * 86400*30
+            ]);
+        }
+      
         if($invoice){
             $invoice->transactions()->create(["tx_id" => md5(time())]);
 
@@ -190,8 +226,9 @@ class InvoiceController extends Controller
     {
 
         $users = User::all();
+        $orders = Order::all();
 
-        return view("admin.pages.invoices.edit", compact('invoice', 'users'));
+        return view("admin.pages.invoices.edit", compact('invoice', 'users', 'orders'));
     }
     function sendMail(Request $request, Invoice $invoice)
     {
