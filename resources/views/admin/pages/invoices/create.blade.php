@@ -40,7 +40,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <input type="hidden" name="id" value="{{$next_id}}">
+                            <input type="hidden" name="id" value="{{ $next_id }}">
 
 
 
@@ -150,7 +150,7 @@
 
                     <div>
                         <button type="button" class="btn btn-primary btn-icon-text add-variable">
-                           Add item
+                            Add item
                             <i class="btn-icon-append" data-feather="plus"></i>
                         </button>
                     </div>
@@ -159,9 +159,11 @@
 
                         <div>
                             <div class="row w-100">
-                                <div class="col-lg-4">نام</div>
-                                <div class="col-lg-4">قیمت</div>
-                                <div class="col-lg-4">اقدامات</div>
+                                <div class="col-lg-3">Title</div>
+                                <div class="col-lg-2">Order</div>
+                                <div class="col-lg-2">Price</div>
+                                <div class="col-lg-2">Expires At</div>
+                                <div class="col-lg-3">Actions</div>
 
                             </div>
                         </div>
@@ -170,11 +172,14 @@
 
                             @foreach ($invoice->items ?? [] as $item)
                                 <form class="row w-100">
-                                    <div class="col-lg-4">{{ $item->brand_fa }}</div>
-                                    <div class="col-lg-4">{{ number_format($item->price) }}</div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">{{ $item->title }}</div>
+                                    <div class="col-lg-3">{{ $item->title }}</div>
+                                    <div class="col-lg-2">{{ number_format($item->price) }}</div>
+                                    <div class="col-lg-2">{{ $item->expirs_at }}</div>
+
+                                    <div class="col-lg-3">
                                         <a data-url="{{ route('admin.invoices.items.remove', $item->id) }}">
-                                            <button type="button" class="btn btn-danger">حذف</button>
+                                            <button type="button" class="btn btn-danger">Remove</button>
                                         </a>
                                     </div>
                                 </form>
@@ -195,20 +200,35 @@
 
 @push('admin_js')
     <script>
-        
         const orders = {!! json_encode($orders) !!};
         $(() => {
+
+
 
 
             $(".add-variable").click(function() {
                 $(".variables-tbody").append(`
                 <form class="row">
-                    <div class="col-lg-4"><input type="text" placeholder="200cc" name="brand_fa" class="form-control"
+                    <div class="col-lg-3"><input type="text" placeholder="upgrade" name="title" class="form-control"
                         autocomplete="off"></div>
-                     <div class="col-lg-4"><input type="text" placeholder="15000"   name="price" class="form-control"
+                     <div class="col-lg-2"> 
+
+                        <select name="order_id" class="form-select select2">
+                            <option value="0">Optional</option>
+                            @foreach ($users[0]->orders as $order)
+                                <option value="{{ $order->id }}">#{{ $order->id }}</option>
+                            @endforeach
+
+                        </select>
+                  
+                    </div>
+                    <div class="col-lg-2"><input type="text" placeholder="14.99" name="price" class="form-control"
                         autocomplete="off">
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2"><input type="text" placeholder="" name="expires_at" class="form-control"
+                        autocomplete="off">
+                    </div>
+                    <div class="col-lg-3">
                         <a data-url="{{ route('admin.invoices.items.add', $next_id) }}">
                             <button type="button" class="btn btn-success">Submit</button>
                         </a>
@@ -220,6 +240,7 @@
 
                 </form>
                 `)
+                $(".select2").select2()
 
 
 
@@ -269,8 +290,8 @@
                         },
                         error: function(res) {
                             //Toast.fire({
-                              //  icon: 'error',
-                                //title: res.responseJSON.message,
+                            //  icon: 'error',
+                            //title: res.responseJSON.message,
                             //})
 
                         }
@@ -279,11 +300,11 @@
                     });
 
                 }
-               
+
             })
- $('body').on('click', '.remove-pre-form', function() {
-                    $(this).parent().parent().parent().html("")
-                });
+            $('body').on('click', '.remove-pre-form', function() {
+                $(this).parent().parent().parent().html("")
+            });
             $("[name=user_id]").change(function() {
                 $user_id = $("[name=user_id]").val()
                 $("[name=order_id]").html(``)
