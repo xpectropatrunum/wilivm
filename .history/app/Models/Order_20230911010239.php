@@ -49,7 +49,7 @@ class Order extends Model
     }
     function invoice()
     {
-        return $this->invoiceItem->invoice;
+        return $this->invoiceItem->invoice();
     }
     protected $appends = ['status', 'date','expire_date','create_date'];
     function getStatusAttribute()
