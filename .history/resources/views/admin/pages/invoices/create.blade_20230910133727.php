@@ -40,7 +40,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <input type="hidden" name="id" value="{{$next_id}}">
 
 
 
