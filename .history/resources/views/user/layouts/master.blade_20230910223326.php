@@ -59,9 +59,10 @@
                         </div>
 
                     </a>
+                    <a href="{{ route('panel.cart') }}" class="mr-2">
                         <div class=" btn btn-light btn-md">
                             <i class="fa fa-shopping-cart" style="font-size:15px"></i>
-                            <span class="badge badge-red cart-items" style="background: red;font-size: 8px;top: 5px;left: -14px;">0
+                            <span class="badge badge-red cart-items" style="background: red;font-size: 8px;">0
                             </span>
 
 
@@ -69,6 +70,7 @@
 
                     </a>
                     <div class="dropdown">
+                        <a href="#" id="topbarUserDropdown"
                             class="user-dropdown d-flex align-items-center dropend dropdown-toggle"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div id="profileImage">
@@ -186,11 +188,7 @@
         })();
 
         let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-        updateCart()
-        function updateCart(){
-            $(".cart-items").text(cart.length)
-        }
-     
+        $(".cart-items").text(cart.length)
 
         function addToCart(item) {
             if (cart.find(i => i.id == item.id)) {
@@ -199,7 +197,6 @@
             cart.push(item);
             localStorage.setItem("cart", JSON.stringify(cart));
             cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-            updateCart()
         }
 
         function removeFromCart(id) {
@@ -211,7 +208,6 @@
                 console.log(e)
 
             }
-            updateCart()
 
         }
 
@@ -222,15 +218,13 @@
                         cart[i] = item;
                     }
                 }
-                localStorage.setItem("cart", JSON.stringify(cart));
-                cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             } catch (e) {
                 console.log(e)
 
             }
 
-         
-            updateCart()
+            localStorage.setItem("cart", JSON.stringify(cart));
+            cart = JSON.parse(localStorage.getItem("cart")) ?? [];
         }
     </script>
     @stack('admin_js')

@@ -186,11 +186,7 @@
         })();
 
         let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-        updateCart()
-        function updateCart(){
-            $(".cart-items").text(cart.length)
-        }
-     
+        $(".cart-items").text(cart.length)
 
         function addToCart(item) {
             if (cart.find(i => i.id == item.id)) {
@@ -199,7 +195,6 @@
             cart.push(item);
             localStorage.setItem("cart", JSON.stringify(cart));
             cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-            updateCart()
         }
 
         function removeFromCart(id) {
@@ -211,7 +206,6 @@
                 console.log(e)
 
             }
-            updateCart()
 
         }
 
@@ -222,15 +216,13 @@
                         cart[i] = item;
                     }
                 }
-                localStorage.setItem("cart", JSON.stringify(cart));
-                cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             } catch (e) {
                 console.log(e)
 
             }
 
-         
-            updateCart()
+            localStorage.setItem("cart", JSON.stringify(cart));
+            cart = JSON.parse(localStorage.getItem("cart")) ?? [];
         }
     </script>
     @stack('admin_js')

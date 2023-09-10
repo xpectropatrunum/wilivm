@@ -34,7 +34,6 @@ use App\Http\Controllers\User\Auth\ForgotPasswordController;
 use App\Http\Controllers\User\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\BulletinController as UserBulletinController;
-use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\NotificationController as UserNotificationController;
@@ -303,7 +302,7 @@ Route::name("panel.")->group(function () {
 
         Route::get('notifications', [UserNotificationController::class, 'index'])->name("notifications");
         Route::get('new-service', [ServiceController::class, 'new_service'])->name("new-service");
-        Route::get('cart', [CartController::class, 'index'])->name("cart");
+        Route::get('cart', [ServiceController::class, 'cart'])->name("cart");
         Route::get('new-service/{id}/{_id}', [ServiceController::class, 'order_form'])->name("new-service.make");
         Route::post('new-service/{id}/{_id}', [ServiceController::class, 'submit_order'])->name("new-service.submit");
         Route::get('resend-email', [UserDashboardController::class, 'resend_email'])->name("resend-email")->middleware('throttle:api');;

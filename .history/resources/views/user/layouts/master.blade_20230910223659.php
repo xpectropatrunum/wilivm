@@ -222,14 +222,13 @@
                         cart[i] = item;
                     }
                 }
-                localStorage.setItem("cart", JSON.stringify(cart));
-                cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             } catch (e) {
                 console.log(e)
 
             }
 
-         
+            localStorage.setItem("cart", JSON.stringify(cart));
+            cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             updateCart()
         }
     </script>
