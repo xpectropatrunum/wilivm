@@ -76,11 +76,11 @@
 
 
 
-{{--  
+
                             <div class="form-group col-lg-4">
                                 <label>Title</label>
                                 <input name="title" class="form-control" value="{{ old('title') }}">
-                            </div>  --}}
+                            </div>
                             
                             {{--  <div class="form-group col-lg-6">
                                 <label>Description</label>
