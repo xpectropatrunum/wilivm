@@ -28,35 +28,36 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-
-
+                          
+                           
                             <div class="form-group col-lg-3">
                                 <label>User</label>
                                 <select name="user_id" class="form-control select2">
                                     @foreach ($users as $user)
                                         <option value="{{ $user->id }}"
-                                            @if ($user->id == old('user_id', request()->id)) ) selected @endif>
+                                            @if ($user->id == old('user_id', request()->id))) selected @endif>
                                             {{ $user->first_name }} {{ $user->last_name }} - {{ $user->email }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                       
+
+                         
 
 
 
 
-
-
-
-
-
+                        
+                          
 
                             <div class="col-lg-3 col-12">
 
                                 <div class="form-group">
                                     <label>Billing Cycle</label>
 
-                                    <select name="cycle" class="form-select select2">
-                                        @foreach (config('admin.cycle') as $key => $item)
+                                    <select name="cycle"
+                                        class="form-select select2">
+                                        @foreach (config("admin.cycle") as $key => $item)
                                             <option value="{{ $key }}">{{ $item }}
                                             </option>
                                         @endforeach
@@ -65,27 +66,27 @@
                                 </div>
                             </div>
 
+                           
+                    
+                      
 
+                     
+                      
+                     
 
+                            
 
-
-
-
-
-
-
-
-
+                          
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input name="price" class="form-control" value="{{ old('price') }}">
+                                    <input name="price" class="form-control" value="{{ old("price") }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Discount</label>
-                                    <input name="discount" class="form-control" value="{{ old('discount', 0) }}">
+                                    <input name="discount" class="form-control" value="{{ old("discount", 0) }}">
                                 </div>
                             </div>
                             <div class="form-group col-lg-3">
@@ -97,11 +98,13 @@
                                 <div class="form-group">
                                     <label>Order</label>
 
-                                    <select name="order_id" class="form-select select2">
+                                    <select name="order_id"
+                                        class="form-select select2">
                                         <option value="0">Optional</option>
                                         @foreach ($users[0]->orders as $order)
-                                            <option value="{{ $order->id }}">#{{ $order->id }}</option>
-                                        @endforeach
+                                        <option value="{{ $order->id }}"
+                                           >#{{ $order->id }}</option>
+                                    @endforeach
 
                                     </select>
                                 </div>
@@ -119,7 +122,7 @@
                                 </div>
                             </div>
 
-
+                    
 
                         </div>
                     </div>
@@ -131,7 +134,7 @@
                 </form>
 
 
-
+                
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -145,43 +148,34 @@
                     <h3 class="card-title">Invoice items</h3>
                 </div>
 
-                <div class="row">
+                <div class="table variants-table mt-2 row">
 
                     <div>
-                        <button type="button" class="btn btn-primary btn-icon-text add-variable">
-                            اضافه کردن
-                            <i class="btn-icon-append" data-feather="plus"></i>
-                        </button>
+                        <div class="row w-100">
+                            <div class="col-lg-4">نام</div>
+                            <div class="col-lg-4">قیمت</div>
+                            <div class="col-lg-4">اقدامات</div>
+
+                        </div>
                     </div>
 
-                    <div class="table variants-table mt-2">
+                    <div class="variables-tbody">
 
-                        <div>
-                            <div class="row w-100">
-                                <div class="col-lg-4">نام</div>
-                                <div class="col-lg-4">قیمت</div>
-                                <div class="col-lg-4">اقدامات</div>
+                        @foreach ($invoice->items ?? [] as $item)
+                            <form class="row w-100">
+                                <div class="col-lg-4">{{ $item->brand_fa }}</div>
+                                <div class="col-lg-4">{{ number_format($item->price) }}</div>
+                                <div class="col-lg-4">
+                                    <a data-url="{{ route('admin.products.variables.remove', $item->id) }}">
+                                        <button type="button" class="btn btn-danger">حذف</button>
+                                    </a>
+                                </div>
+                            </form>
+                        @endforeach
 
-                            </div>
-                        </div>
-
-                        <div class="variables-tbody">
-
-                            @foreach ($invoice->items ?? [] as $item)
-                                <form class="row w-100">
-                                    <div class="col-lg-4">{{ $item->brand_fa }}</div>
-                                    <div class="col-lg-4">{{ number_format($item->price) }}</div>
-                                    <div class="col-lg-4">
-                                        <a data-url="{{ route('admin.products.variables.remove', $item->id) }}">
-                                            <button type="button" class="btn btn-danger">حذف</button>
-                                        </a>
-                                    </div>
-                                </form>
-                            @endforeach
-
-                        </div>
                     </div>
                 </div>
+              
             </div>
         </div>
     </div>
@@ -195,9 +189,9 @@
 @push('admin_js')
     <script>
         const orders = {!! json_encode($orders) !!};
-        $(() => {
+        $(()=>{
 
-            $("[name=user_id]").change(function() {
+            $("[name=user_id]").change(function(){
                 $user_id = $("[name=user_id]").val()
                 $("[name=order_id]").html(``)
                 $("[name=order_id]").append(`<option value="0">Optional</option>`)
@@ -205,8 +199,10 @@
                 orders.filter(i => i.user_id == $user_id).map(i => {
                     $("[name=order_id]").append(`<option value="${i.id}">#${i.id}</option>`)
                 })
-
+               
             })
         })
+       
+        
     </script>
 @endpush
