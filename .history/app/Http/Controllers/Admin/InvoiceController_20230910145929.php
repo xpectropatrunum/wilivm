@@ -82,7 +82,7 @@ class InvoiceController extends Controller
 
         $price = 0;
         $parent = Invoice::find($invoice);
-
+      
         if ($new = InvoiceItem::create([
             "invoice_id" => $invoice,
             "title" => $request->title,
@@ -93,14 +93,13 @@ class InvoiceController extends Controller
             "order_id" => $request->order_id ?? 0,
 
         ])) {
-            if ($parent) {
+            if($parent){
                 $price = $parent->items()->get()->sum("price");
             }
-
+    
             $parent->update([
                 "price" => $price
-            ]);
-            $new->cycle = config('admin.cycle')[$new->cycle];
+            ]);            $new->cycle = config('admin.cycle')[$new->cycle];
             $new->sum = $price;
             return $new;
         }
@@ -115,20 +114,20 @@ class InvoiceController extends Controller
     {
         $price = 0;
         $parent = $invoiceItem->invoice;
-        if ($parent) {
-            if ($parent->items()->count() == 1) {
+        if($parent){
+            if($parent->items()->count() == 1){
                 return ["success" => 0, "msg" => "You must have at least 1 item in invoice"];
             }
         }
 
         if ($invoiceItem->delete()) {
-            if ($parent) {
+            if($parent){
                 $price = $parent->items()->get()->sum("price");
                 $parent->update([
                     "price" => $price
                 ]);
             }
-
+    
             return  ["success" => 1, "price" => $price];
         }
         return  ["success" => 0];
@@ -153,7 +152,7 @@ class InvoiceController extends Controller
         $users = User::all();
         $orders = Order::all();
         $next_id = $this->getNextInvoiceID();
-        if (!Invoice::find($next_id)) {
+        if(!Invoice::find($next_id)){
             InvoiceItem::where("invoice_id", $next_id)->delete();
         }
         return view("admin.pages.invoices.create", compact("users", "orders", "next_id"));
@@ -234,11 +233,11 @@ class InvoiceController extends Controller
         ]);
 
 
-
-
+    
+      
 
         $price = $invoice->items()->get()->sum("price");
-
+        
         $update = $invoice->update([
             "price" => $price,
             "cycle" => $request->cycle,
