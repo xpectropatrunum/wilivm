@@ -179,17 +179,7 @@
         let cart = localStorage.getItem("cart") ?? [];
         function addToCart(item){
             cart.push(item);
-            localStorage.setItem("cart", cart);
-            cart = localStorage.getItem("cart") ?? [];
-        }
-        function removeFromCart(id){
-            pop(cart.find(item => item.id == id))
-            localStorage.setItem("cart", cart);
-            cart = localStorage.getItem("cart") ?? [];
-        }
-        function editCart(id, item){
-            cart.find(item => item.id == id) = item
-            localStorage.setItem("cart", cart);
+            localStorage.setItem("items", cart);
             cart = localStorage.getItem("cart") ?? [];
         }
     </script>
