@@ -72,7 +72,7 @@
                 ${i.price}
             </div>
             <div class="col-lg-3">
-                <a href="javascript:{}" onclick="removeFromCart(${i.id})">
+                <a href="javascript:{}" class="removeFromCart(${i.id})">
                     <div class="btn btn-outline-primary btn-sm">
                         <i class="fa fa-trash"></i>
                         Remove
