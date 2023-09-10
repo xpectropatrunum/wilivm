@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
-                                        <div class="form form-vertical" action="{{route('panel.new-service.submit', [$plan->server_type_id, $plan->server_plan_id])}}" method="POST">
+                                        <form class="form form-vertical" action="{{route('panel.new-service.submit', [$plan->server_type_id, $plan->server_plan_id])}}" method="POST">
                                             @csrf
                                             <div class="form-body">
                                                 <div class="row">
@@ -140,14 +140,14 @@
                                                     </div>
                                                     <div class="mt-2 col-12 d-flex justify-content-end align-items-center">
                                                         <strong class="mx-4">Price: <span class="final-price px-2">${{$plan->price}}</span></strong>
-                                                        <button type="submit" class="btn btn-success me-1 mb-1 add-to-cart">
-                                                            Add to Cart
+                                                        <button type="submit" class="btn btn-success me-1 mb-1">
+                                                            Submit
                                                         </button>
                                                       
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -184,16 +184,6 @@
         var base_price = {{$plan->price}};
         var add = 0;
         var final_price = base_price;
-
-        $(".add-to-cart").click(function(){
-            $item = {
-                price: $(".final-price").val(),
-                location: $("[name=location]").val(),
-                cycle: $("[name=cycle]").val(),
-                cycle_text: $("[name=cycle] option:selected").text().trim(),
-                title: "{{ $plan->type->name }} {{ $plan->plan->name }}"
-            }
-        })
         $("[name=location]").change(function(){
             id =  $(this).val()
             $add = parseInt(prices.find(item => item.id == id).price)
