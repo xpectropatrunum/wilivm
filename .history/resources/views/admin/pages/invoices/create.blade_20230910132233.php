@@ -101,7 +101,10 @@
                                     <select name="order_id"
                                         class="form-select select2">
                                         <option value="0">Optional</option>
-                                      
+                                        @foreach ($users[0]->orders as $order)
+                                        <option value="{{ $order->id }}"
+                                           >#{{ $order->id }}</option>
+                                    @endforeach
 
                                     </select>
                                 </div>
@@ -129,9 +132,51 @@
                     </div>
 
                 </form>
+
+
+                
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+        </div>
+
+
+        <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Invoice items</h3>
+                </div>
+
+                <div class="table variants-table mt-2">
+
+                    <div>
+                        <div class="row w-100">
+                            <div class="col-lg-4">نام</div>
+                            <div class="col-lg-4">قیمت</div>
+                            <div class="col-lg-4">اقدامات</div>
+
+                        </div>
+                    </div>
+
+                    <div class="variables-tbody">
+
+                        @foreach ($product->variables as $item)
+                            <form class="row w-100">
+                                <div class="col-lg-4">{{ $item->brand_fa }}</div>
+                                <div class="col-lg-4">{{ number_format($item->price) }}</div>
+                                <div class="col-lg-4">
+                                    <a data-url="{{ route('admin.products.variables.remove', $item->id) }}">
+                                        <button type="button" class="btn btn-danger">حذف</button>
+                                    </a>
+                                </div>
+                            </form>
+                        @endforeach
+
+                    </div>
+                </div>
+              
+            </div>
         </div>
     </div>
 @endsection
@@ -148,11 +193,11 @@
 
             $("[name=user_id]").change(function(){
                 $user_id = $("[name=user_id]").val()
-                console.log(orders.filter(i => i.user_id == $user_id))
                 $("[name=order_id]").html(``)
+                $("[name=order_id]").append(`<option value="0">Optional</option>`)
+
                 orders.filter(i => i.user_id == $user_id).map(i => {
-                    $("[name=order_id]").append(`<option value="0">Optional</option>`)
-                    $("[name=order_id]").append(`<option value="0">#${i.id} ${i.user.email}</option>`)
+                    $("[name=order_id]").append(`<option value="${i.id}">#${i.id}</option>`)
                 })
                
             })
