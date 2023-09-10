@@ -45,7 +45,7 @@
                         <tbody>
                             @foreach (auth()->user()->services()->latest()->get() as $key => $item)
 @php
-    dd($item->order->invoice);
+    dd($item->invoice);
 @endphp                                <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->type }}</td>
