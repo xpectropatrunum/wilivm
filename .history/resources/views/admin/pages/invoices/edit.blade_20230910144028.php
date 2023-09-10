@@ -31,19 +31,19 @@
                         <div class="row">
                             <div class="col-12">
                                 @if ($invoice->transactions()->first()?->status == 1)
-                                    Paid with
-                                    <strong>{{ ucfirst($invoice->transactions()->latest()->first()?->method) }}</strong> at
-                                    {{ $invoice->transactions()->latest()->first()?->updated_at }}<br>
-                                    Tx id: <strong>{{ $invoice->transactions()->latest()->first()?->tx_id }}</strong>
-                                @else
-                                    Not paid
-                                @endif
+                                Paid with
+                                <strong>{{ ucfirst($invoice->transactions()->latest()->first()?->method) }}</strong> at
+                                {{ $invoice->transactions()->latest()->first()?->updated_at }}<br>
+                                Tx id: <strong>{{ $invoice->transactions()->latest()->first()?->tx_id }}</strong>
+                            @else
+                                Not paid
+                            @endif
                             </div>
 
                             <div class="col-12">
-                                ${{ number_format($invoice->price) }}
+                                ${{number_format($invoice->price)}}
                             </div>
-
+                           
 
                             <div class="form-group col-lg-3">
                                 <label>User</label>
@@ -150,7 +150,7 @@
                             @foreach ($invoice->items ?? [] as $item)
                                 <form class="row w-100 my-1">
                                     <div class="col-lg-3">{{ $item->title }}</div>
-                                    <div class="col-lg-2">{{ $item->order_id > 0 ? '#' . $item->order_id : '--' }}</div>
+                                    <div class="col-lg-2">{{ $item->order_id > 0 ? "#" .$item->order_id : "--" }}</div>
                                     <div class="col-lg-2">{{ config('admin.cycle')[$item->cycle] }}</div>
                                     <div class="col-lg-2">{{ number_format($item->price) }}</div>
                                     <div class="col-lg-3">
@@ -175,120 +175,5 @@
 @endpush
 
 @push('admin_js')
-    <script>
-        $(() => {
-
-
-            $(".add-variable").click(function() {
-                $(".variables-tbody").append(`
-            <form class="row my-1">
-                <div class="col-lg-3"><input type="text" placeholder="upgrade" name="title" class="form-control"
-                    autocomplete="off"></div>
-                 <div class="col-lg-2"> 
-
-                    <select name="order_id" class="form-select select2">
-                        <option value="0">Optional</option>
-                        @foreach ($users[0]->orders as $order)
-                            <option value="{{ $order->id }}">#{{ $order->id }}</option>
-                        @endforeach
-
-                    </select>
-              
-                </div>
-                <div class="col-lg-2">
-                    <select name="cycle" class="form-select select2">
-                    @foreach (config('admin.cycle') as $key => $item)
-                        <option value="{{ $key }}">{{ $item }}
-                        </option>
-                    @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-2"><input type="text" placeholder="14.99" name="price" class="form-control"
-                    autocomplete="off">
-                </div>
-               
-                <div class="col-lg-3">
-                    <a data-url="{{ route('admin.invoices.items.add', $next_id) }}">
-                        <button type="button" class="btn btn-success">Submit</button>
-                    </a>
-
-                    <a data-url="{{ route('admin.invoices.items.remove', $next_id) }}">
-                        <button type="button" class="btn btn-danger remove-pre-form">Remove</button>
-                    </a>
-                </div>
-
-            </form>
-            `)
-                $(".select2").select2()
-
-
-
-            })
-
-            $('body').on('click', '.variables-tbody a', function(e) {
-                url = $(this).attr("data-url")
-                if (url) {
-                    oldForm = $(this).parent().parent()
-
-                    e.preventDefault();
-                    var formData = new FormData($(this).parent().parent()[0]);
-
-                    $.ajax({
-                        url: url,
-                        type: 'post',
-
-                        data: formData,
-                        dataType: 'json',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        success: function(res) {
-                            if (res) {
-                                if (res.id) {
-                                    $(oldForm).html("")
-                                    $(".variables-tbody").append(` <form class="row w-100 my-1">
-                                    <div class="col-lg-3">${res.title}</div>
-                                    <div class="col-lg-2">${res.order_id > 0? "#"+res.order_id : "--"}</div>
-                                    <div class="col-lg-2">${res.cycle}</div>
-                                    <div class="col-lg-2">${res.price}</div>
-                                    <div class="col-lg-3">
-                                        <a data-url="/admin/invoices/items/remove/${res.id}">
-                                            <button type="button" class="btn btn-danger">Remove</button>
-                                        </a>
-                                    </div>
-                                </form>`)
-                                } else if (res === 1) {
-                                    $(oldForm).html("")
-                                }
-                            } else {
-
-                            }
-
-                        },
-                        error: function(res) {
-                            if (!res.responseJSON.message.includes(
-                                "[App\\Models\\InvoiceItem]")) {
-                                Toast.fire({
-                                    icon: 'error',
-                                    title: res.responseJSON.message,
-                                })
-                            }
-
-
-                        }
-
-
-                    });
-
-                }
-
-            })
-            $('body').on('click', '.remove-pre-form', function() {
-                $(this).parent().parent().parent().html("")
-            });
-        })
-    </script>
+    <script></script>
 @endpush
