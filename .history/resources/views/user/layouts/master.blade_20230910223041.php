@@ -189,7 +189,6 @@
         })();
 
         let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-        $(".cart-items").text(cart.length)
 
         function addToCart(item) {
             if (cart.find(i => i.id == item.id)) {
