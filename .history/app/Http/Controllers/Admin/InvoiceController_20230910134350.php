@@ -86,8 +86,6 @@ class InvoiceController extends Controller
             "title" => $request->title,
             "discount" => $request->discount,
             "price" => $request->price,
-            "cycle" => $request->cycle,
-            "due_date" => $request->due_date,
             "order_id" => $request->order_id ?? 0,
 
         ])) {
