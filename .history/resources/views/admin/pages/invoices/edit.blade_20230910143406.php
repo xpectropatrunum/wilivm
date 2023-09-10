@@ -148,6 +148,57 @@
             </div>
             <!-- /.card -->
         </div>
+
+        <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Invoice items</h3>
+                </div>
+
+                <div class="col-12 mt-2">
+
+                    <div>
+                        <button type="button" class="btn btn-primary btn-icon-text add-variable">
+                            Add item
+                            <i class="btn-icon-append" data-feather="plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="table variants-table mt-2">
+
+                        <div>
+                            <div class="row w-100">
+                                <div class="col-lg-3">Title</div>
+                                <div class="col-lg-2">Order</div>
+                                <div class="col-lg-2">Cycle</div>
+                                <div class="col-lg-2">Price</div>
+                                <div class="col-lg-3">Actions</div>
+
+                            </div>
+                        </div>
+
+                        <div class="variables-tbody">
+
+                            @foreach ($invoice->items ?? [] as $item)
+                                <form class="row w-100">
+                                    <div class="col-lg-3">{{ $item->title }}</div>
+                                    <div class="col-lg-2">#{{ $item->order_id }}</div>
+                                    <div class="col-lg-2">{{ config('admin.cycle')[$item->cycle] }}</div>
+                                    <div class="col-lg-2">{{ number_format($item->price) }}</div>
+                                    <div class="col-lg-3">
+                                        <a data-url="{{ route('admin.invoices.items.remove', $item->id) }}">
+                                            <button type="button" class="btn btn-danger">Remove</button>
+                                        </a>
+                                    </div>
+                                </form>
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
