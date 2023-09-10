@@ -15,7 +15,6 @@ use App\Models\Doctor;
 use App\Models\DoctorImage;
 use App\Models\DoctorSpecialty;
 use App\Models\Email;
-use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Notification;
 use App\Models\Order;
@@ -103,9 +102,6 @@ class ServiceController extends Controller
     {
 
         $next_id =  $this->getNextInvoiceID();
-        if (!Invoice::find($next_id)) {
-            InvoiceItem::where("invoice_id", $next_id)->delete();
-        }
         $items = json_decode($request->getContent());
         foreach ($items as $item) {
             $server = Server::where(["server_plan_id" => $item->plan, "server_type_id" => $item->type, "enabled" => 1])->firstOrFail();
