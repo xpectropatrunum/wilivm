@@ -86,7 +86,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>User</th>
-                                    <th>Items</th>
+                                    <th>Title</th>
                                     <th>Price</th>
                                     <th>Cycle</th>
                                     <th>{{ __('admin.created_date') }}</th>
@@ -104,7 +104,7 @@
                                         <td>{{ $item->id }}</td>
                                         <td><a href="/admin/users?search={{ $item->user?->email }}"
                                                 target="_blank">{{ $item->user?->email }}</a></td>
-                                        <td>{{ $item->items()->count() }}</td>
+                                        <td>{{ $item->title }}</td>
                                         <td>{{ $item->price }}</td>
                                         <td>{{ $item->cycle }} Months</td>
                                         <td>{{ $item->created_at }}</td>

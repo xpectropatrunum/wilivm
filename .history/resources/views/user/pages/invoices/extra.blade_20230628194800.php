@@ -33,7 +33,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Item Count</th>
+                                <th>Title</th>
                                 <th>Cycle</th>
                                 <th>Price</th>
                                 <th>Status</th>
@@ -45,7 +45,7 @@
                             @foreach ($items as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->items()->count()}}</td>
+                                    <td>{{ $item->title ??  $item->service->type}}</td>
                                     <td>{{ App\Enums\ECycle::getKey((int)$item->cycle) }}</td>
                                     <td>${{ $item->price - $item->discount }}</td>
                                     <td>
