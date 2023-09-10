@@ -43,13 +43,9 @@ class Order extends Model
     {
         return $this->hasMany(Invoice::class);
     }
-    function invoiceItem()
-    {
-        return $this->hasOne(InvoiceItem::class);
-    }
     function invoice()
     {
-        return $this->belongsTo(Invoice::class, InvoiceItem::class);
+        return $this->belongsTo(InvoiceItem::class, Invoice::class);
     }
     protected $appends = ['status', 'date','expire_date','create_date'];
     function getStatusAttribute()
