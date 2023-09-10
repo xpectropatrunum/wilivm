@@ -61,7 +61,7 @@
 @push('admin_js')
     <script>
         cart.forEach((i) => {
-            $(".cart-items-list").append(`<div class="row">
+            $(".cart-items-list").append(`<div>
             <div class="col-lg-3">
                 ${i.title}
             </div>
