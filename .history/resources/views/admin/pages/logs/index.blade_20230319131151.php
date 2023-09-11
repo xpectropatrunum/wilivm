@@ -77,12 +77,7 @@
                                         <td>{{ $item->admin?->username  ?? "(maybe user)"}}</td>
                                         <td>{{ App\Enums\ELogType::getKey($item->type) }}</td>
                                         <td>{{ $item->model }}</td>
-                                        <td>
-                                            @foreach ($item->related_id as $key => $item_)
-                                            {{$key}}: {{$item_}},
-                                                
-                                            @endforeach
-                                        </td>
+                                        <td>{{ $item->related_id }}</td>
 
                         
                                         <td>{{ $item->created_at }}</td>
