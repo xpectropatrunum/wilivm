@@ -145,7 +145,7 @@
 
                 </div>
 
-                <div class="px-3 mt-2"> <a href="{{ route('admin.payments.excel', request()->all()) }}"><button type="button"
+                <div class="px-3 mt-2"> <a href="{{ route('admin.payments.excel', reuest()->all()) }}"><button type="button"
                             class="btn btn-primary">{{ __('Download Excel') }}</button></a>
                 </div>
 
