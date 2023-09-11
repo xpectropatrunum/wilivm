@@ -1,17 +1,17 @@
 @extends('admin.layouts.master')
 
-@section('title', 'invoices')
+@section('title', 'trashed invoices')
 
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">invoices</h1>
+            <h1 class="m-0 text-dark">trashed invoices</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb @if (app()->getLocale() == 'fa') float-sm-left @else float-sm-right @endif">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ __('admin.dashboard') }}</a>
                 </li>
-                <li class="breadcrumb-item active">invoices</li>
+                <li class="breadcrumb-item active">trashed invoices</li>
             </ol>
         </div>
     </div>
@@ -23,20 +23,13 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header d-flex align-items-center px-3" style="justify-content: space-between;">
-                    <h3 class="card-title">orders</h3>
-                    <a href="{{ route('admin.invoices.create') }}"><button type="button"
-                        class="btn btn-outline-primary">{{ __('Add Invoice') }}</button></a>
-                    <a href="{{route("admin.orders.trashed")}}"><button type="button" class="btn btn-outline-primary"> Trashed ({{App\Models\Invoice::onlyTrashed()->count()}})</button></a>
+                    <h3 class="card-title">trashed invoices</h3>
+                  
                 </div>
-
-
 
              
-                <div class="px-3 mt-2"> <a href="{{ route('admin.invoices.excel') }}"><button type="button"
-                            class="btn btn-primary">{{ __('Download Excel') }}</button></a>
-                </div>
                 <div class="card-body p-3">
-                    <form class="frm-filter" action="{{ route('admin.invoices.index') }}" type="post" autocomplete="off">
+                    {{--  <form class="frm-filter" action="{{ route('admin.invoices.index') }}" type="post" autocomplete="off">
                         @csrf
 
                         <div class="row">
@@ -80,7 +73,7 @@
                                 <a href="javascript:{}"><button type="submit" class="btn btn-info">Filter</button></a>
                             </div>
                         </div>
-                    </form>
+                    </form>  --}}
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-0 text-nowrap">
@@ -138,16 +131,31 @@
                                                 </button>
                                             </a>
 
-                                            <form action="{{ route('admin.invoices.destroy', $item->id) }}"
-                                                class="d-inline-block" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this, title='Are you sure?', text='the related transaction could be deleted!')"
-                                                    class="btn btn-danger btn-sm">
-                                                    <i class="fas fa-trash"></i>
-                                                    {{ __('admin.delete') }}
-                                                </button>
-                                            </form>
+                                            <td class="project-actions">
+                                         
+                                                <form action="{{ route('admin.trashed.recover', $item->id) }}"
+                                                    class="d-inline-block" method="POST">
+                                                    @csrf
+                                                    <button type="submit" 
+                                                        class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                        Undo
+                                                    </button>
+                                                </form>
+    
+    
+                                                <form action="{{ route('admin.trashed.permanent_destroy', $item->id) }}"
+                                                    class="d-inline-block" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="swalConfirmDelete(this)"
+                                                        class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-trash"></i>
+                                                        {{ __('admin.delete') }}
+                                                    </button>
+                                                </form>
+                                            </td>
+    
 
 
                                         </td>

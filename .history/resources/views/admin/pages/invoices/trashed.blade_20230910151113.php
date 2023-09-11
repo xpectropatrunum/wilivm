@@ -22,16 +22,14 @@
         <div class="col-12">
             <!-- Default box -->
             <div class="card">
-                <div class="card-header d-flex align-items-center px-3" style="justify-content: space-between;">
-                    <h3 class="card-title">orders</h3>
+                <div class="card-header d-flex align-items-center px-3" style="
+                justify-content: space-between;
+            ">
+                    <h3 class="card-title">invoices</h3>
                     <a href="{{ route('admin.invoices.create') }}"><button type="button"
                         class="btn btn-outline-primary">{{ __('Add Invoice') }}</button></a>
-                    <a href="{{route("admin.orders.trashed")}}"><button type="button" class="btn btn-outline-primary"> Trashed ({{App\Models\Invoice::onlyTrashed()->count()}})</button></a>
                 </div>
 
-
-
-             
                 <div class="px-3 mt-2"> <a href="{{ route('admin.invoices.excel') }}"><button type="button"
                             class="btn btn-primary">{{ __('Download Excel') }}</button></a>
                 </div>

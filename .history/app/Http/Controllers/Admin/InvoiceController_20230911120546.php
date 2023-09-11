@@ -39,54 +39,6 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-     public function trashed(Request $request)
-     {
-         $search = "";
-         $limit = 10;
-         $query = Invoice::onlyTrashed()->latest();
- 
- 
- 
- 
-         if ($request->search) {
-             $searching_for = $request->search;
-             $search = $request->search;
-             $query = $query->where("title", "like", "%$searching_for%");
-         }
- 
-         if ($request->limit) {
-             $limit = $request->limit;
-         }
- 
-         $items = $query->paginate($limit);
- 
- 
- 
-         return view('admin.pages.invoices.trashed', compact('items', 'search', 'limit'));
-     }
- 
-     function permDestry($invoice)
-     {
-         $invoice = Invoice::withTrashed()->find($invoice);
-         if ($invoice == null) {
-             abort(404);
-         }
- 
-         if ($invoice->forceDelete()) {
-             return redirect()->route("admin.invoices.trashed")->with("success", "The item deleted permanently");
-         }
-         return redirect()->route("admin.invoices.trashed")->with("error", "Something went wrong");
-     }
-     function recover($invoice)
-     {
-         $invoice = Invoice::withTrashed()->find($invoice);
-         if ($invoice == null) {
-             abort(404);
-         }
-         $invoice->restore();
-         return redirect()->route("admin.invoices.index")->with("success", "The item recovered permanently");
-     }
     public function index(Request $request)
     {
         $search = "";

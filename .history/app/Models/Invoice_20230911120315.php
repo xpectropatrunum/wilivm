@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Notification extends Model
+class Invoice extends Model
 {
     use SoftDeletes;
 
@@ -24,30 +24,57 @@ class Notification extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'user_id',
-        'type',
-        'message',
-        'new',
-    ];
+        'title',
+        'order_id',
+        'description',
+        'expires_at',
+        'cycle',
+        'price',
+        'discount',
+        'due_date',
 
-    function user(){
+    ];
+    function transactions()
+    {
+        return $this->hasMany(Transaction::class, "order_id", "id");
+    }
+    function items()
+    {
+        return $this->hasMany(InvoiceItem::class);
+    }
+    function service()
+    {
+        return $this->hasOne(UserService::class, "id", "server_id");
+    }
+    function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+    protected $appends = ['status', 'date', 'expire_date', 'create_date'];
+    function getStatusAttribute()
+    {
+        return $this->transactions()?->latest()?->first()?->status ?? 0;
+    }
+    function user()
+    {
         return $this->belongsTo(User::class);
     }
-    function getNTimeAttribute(){
-        $diff = time() - strtotime($this->created_at);
-        $diff_hour = $diff / 3600;
-        if($diff_hour >= 24){
-            return round($diff_hour / 24) . " day(s) ago";
-        }
-        if($diff_hour < 1){
-            $diff_min = round($diff / 60);
-            if($diff_min == 0){
-                return "now";
-            }
-            return $diff_min . " minutes ago";
-        }
-        return round($diff_hour) . " hours ago";
+
+    function getExpireDateAttribute()
+    {
+        return date("Y-m-d", $this->attributes["expires_at"]);
     }
+    function getCreateDateAttribute()
+    {
+        return date("Y-m-d", strtotime($this->attributes["created_at"]));
+    }
+    function getDateAttribute()
+    {
+        return date("d M Y", strtotime($this->attributes["created_at"]));
+    }
+    
     protected static function boot()
     {
         parent::boot();
@@ -55,7 +82,6 @@ class Notification extends Model
         if(!auth()->user()->tg_id){
             return 0;
         }
-
         static::forceDeleted(
             function ($item) {
                 Log::create([
@@ -64,6 +90,11 @@ class Notification extends Model
                     "model" => self::class,
                     "related_id" => $item,
                 ]);
+                try{
+                    $item->transactions()->delete();
+                }catch(\Exception $e){
+
+                }
             }
         );
         static::updating(
@@ -78,7 +109,6 @@ class Notification extends Model
         );
         static::created(
             function ($item) {
-
                 Log::create([
                     "admin_id" => auth()->user()->id,
                     "type" => ELogType::Create,
@@ -88,4 +118,6 @@ class Notification extends Model
             }
         );
     }
+
+
 }

@@ -44,7 +44,7 @@ class InvoiceController extends Controller
      {
          $search = "";
          $limit = 10;
-         $query = Invoice::onlyTrashed()->latest();
+         $query = Order::onlyTrashed()->latest();
  
  
  
@@ -63,29 +63,29 @@ class InvoiceController extends Controller
  
  
  
-         return view('admin.pages.invoices.trashed', compact('items', 'search', 'limit'));
+         return view('admin.pages.orders.trashed', compact('items', 'search', 'limit'));
      }
  
-     function permDestry($invoice)
+     function permDestry($order)
      {
-         $invoice = Invoice::withTrashed()->find($invoice);
-         if ($invoice == null) {
+         $order = Order::withTrashed()->find($order);
+         if ($order == null) {
              abort(404);
          }
  
-         if ($invoice->forceDelete()) {
-             return redirect()->route("admin.invoices.trashed")->with("success", "The item deleted permanently");
+         if ($order->forceDelete()) {
+             return redirect()->route("admin.orders.trashed")->with("success", "The item deleted permanently");
          }
-         return redirect()->route("admin.invoices.trashed")->with("error", "Something went wrong");
+         return redirect()->route("admin.orders.trashed")->with("error", "Something went wrong");
      }
-     function recover($invoice)
+     function recover($order)
      {
-         $invoice = Invoice::withTrashed()->find($invoice);
-         if ($invoice == null) {
+         $order = Order::withTrashed()->find($order);
+         if ($order == null) {
              abort(404);
          }
-         $invoice->restore();
-         return redirect()->route("admin.invoices.index")->with("success", "The item recovered permanently");
+         $order->restore();
+         return redirect()->route("admin.orders.index")->with("success", "The item recovered permanently");
      }
     public function index(Request $request)
     {
