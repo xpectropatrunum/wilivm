@@ -224,7 +224,7 @@ class InvoiceController extends Controller
             foreach($request->invoice_id as $item){
                 Invoice::find($item)->delete();
             }
-            $create->transactions()->create(["tx_id" => md5(time())]);
+            $invoice->transactions()->create(["tx_id" => md5(time())]);
 
             return redirect()->route("admin.invoices.index")->withSuccess("#{$create->id} created");
         }
