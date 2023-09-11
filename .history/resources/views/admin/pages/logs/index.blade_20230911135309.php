@@ -41,16 +41,15 @@
                                 </select>
                             </div>
 
-                            <div class="input-group input-group-sm" style="width: 70px;">
-                                <select name="search" class="custom-select">
-                                    <option value="0" @if (!$search) selected @endif>
-                                        All</option>
+                            <div class="input-group input-group-sm" style="width: 200px;">
+                                <input type="text" name="search" class="form-control"
+                                    placeholder="{{ __('admin.search') }}..." value="{{ $search }}">
 
-                                    @foreach (App\Models\Admin::get() as $admin)
-                                        <option value="{{ $admin->id }}"
-                                            @if ($search == $admin->id) selected @endif>{{ $admin->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -78,7 +77,7 @@
                                             <td>{{ $item->model }}</td>
                                             <td>
                                                 @foreach (json_decode($item->related_id) as $key => $item_)
-                                                    @if (!in_array($key, ['id', 'created_at', 'updated_at', 'password', 'deleted_at']) and strpos($key, '_id') === false)
+                                                    @if (!in_array( $key, ['id', 'created_at', 'updated_at', 'password']) and strpos($key, '_id') === false)
                                                         {{ $key }}: {{ $item_ }},
                                                     @endif
                                                 @endforeach

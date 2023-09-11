@@ -24,7 +24,7 @@ class LogController extends Controller
 
         if ($request->search) {
             $searching_for = $request->search;
-            $query->where("admin_id", $searching_for);
+            $search = $request->search;
           
         }
 
