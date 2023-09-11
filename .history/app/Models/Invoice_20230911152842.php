@@ -114,7 +114,6 @@ class Invoice extends Model
         static::restoring(
             function ($item) {
                 try{
-                    $item->items()->restore();
                     foreach($item->items as $item__){
                         $item__->restore();
                         $item__->order()->restore();
