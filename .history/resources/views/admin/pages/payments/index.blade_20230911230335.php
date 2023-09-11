@@ -151,11 +151,12 @@
 
                 <div class="card-body p-3">
 
-                    <form class="frm-filter" action="{{ route('admin.payments.index') }}" type="post" autocomplete="off">
+                    <form class="frm-filter" action="{{ route('admin.payments.index') }}" type="post"
+                        autocomplete="off">
                         @csrf
 
                         <div class="row">
-
+                          
                             <div class="col-lg-3 col-12">
 
                                 <div class="form-group">
@@ -163,17 +164,15 @@
 
                                     <select name="status" class="select2 form-select">
 
-                                        <option @if ($status == -1) selected @endif value="-1">All
+                                        <option @if($status == -1) selected @endif value="-1">All
                                         </option>
-                                        <option @if ($status == 0) selected @endif value="0">Unpaid
+                                        <option @if($status == 0) selected @endif value="0">Unpaid
                                         </option>
-                                        <option @if ($status == 1) selected @endif value="1">Paid
+                                        <option @if($status == 1) selected @endif value="1">Paid
                                         </option>
 
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-12">
 
                                 <div class="form-group">
                                     <label>Period</label>
@@ -181,32 +180,28 @@
                                     <select name="period" class="select2 form-select">
 
 
-                                        <option @if ($period == 0) selected @endif value="0">All Time
+                                        <option @if($period == 0) selected @endif value="0">All Time
                                         </option>
-                                        <option @if ($period == 1) selected @endif value="1">Today
+                                        <option @if($period == 1) selected @endif  value="1">Today
                                         </option>
-                                        <option @if ($period == 2) selected @endif value="2">This Month
+                                        <option @if($period == 2) selected @endif  value="2">This Month
                                         </option>
-                                        <option @if ($period == 3) selected @endif value="3">
-                                            Custom
+                                        <option @if($period == 3) selected @endif  value="3">
+                                             Custom
                                         </option>
 
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-lg-3 col-12">
 
                                 <div class="date-box row" style="display: none">
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-4">
                                         <label>From date time:</label>
-                                        <input type="text" name="from_datetime" id="from-datetime" class="form-control "
-                                            value="{{$from_datetime}}" required="">
+                                        <input type="text" name="from_datetime" id="from-datetime" class="form-control " value="" required="">
                                     </div>
 
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-4">
                                         <label>From date time:</label>
-                                        <input type="text" name="to_datetime" id="to-datetime" class="form-control "
-                                            value="{{$to_datetime}}" required="">
+                                        <input type="text" name="to_datetime" id="to-datetime" class="form-control " value="" required="">
                                     </div>
                                 </div>
                             </div>
@@ -435,23 +430,15 @@
         $(function() {
 
 
-            period = $('[name=period]').val()
-            if (period == 3) {
-                $(".date-box").show()
-            } else {
-                $(".date-box").hide()
-            }
-
-
-            $('[name=period]').change(function() {
+            $('[name=period]').change(function(){
                 period = $(this).val()
-                if (period == 3) {
+                if(period == 3){
                     $(".date-box").show()
-                } else {
+                }else{
                     $(".date-box").hide()
                 }
             });
-
+            
 
 
             $('#from-datetime,#to-datetime').datepicker({

@@ -72,7 +72,7 @@ class PaymentController extends Controller
                 $query = $query->where('created_at', '>=', Carbon::now()->subDay(30)->toDateTimeString());
             }
             elseif($period == 3){
-                $query = $query->whereBetween('created_at', [$from_datetime, $to_datetime]);
+                $query = $query->whereDate('created_at', Carbon::now()->subDays(30));
             }
             
         }

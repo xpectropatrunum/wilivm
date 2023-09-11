@@ -200,13 +200,13 @@
                                     <div class="form-group col-lg-6">
                                         <label>From date time:</label>
                                         <input type="text" name="from_datetime" id="from-datetime" class="form-control "
-                                            value="{{$from_datetime}}" required="">
+                                            value="" required="">
                                     </div>
 
                                     <div class="form-group col-lg-6">
                                         <label>From date time:</label>
                                         <input type="text" name="to_datetime" id="to-datetime" class="form-control "
-                                            value="{{$to_datetime}}" required="">
+                                            value="" required="">
                                     </div>
                                 </div>
                             </div>
