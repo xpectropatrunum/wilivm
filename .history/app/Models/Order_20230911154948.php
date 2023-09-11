@@ -51,7 +51,7 @@ class Order extends Model
     function invoices()
     {
 
-        return $this->hasManyThrough(Invoice::class, InvoiceItem::class, "id", "invoice_id");
+        return $this->hasManyThrough(Invoice::class, InvoiceItem::class, "invoice_id");
     }
     protected $appends = ['status', 'date','expire_date','create_date'];
     function getStatusAttribute()
