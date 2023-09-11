@@ -69,9 +69,6 @@ class PaymentController extends Controller
             if($period == 2){
                 $query = $query->whereDate('created_at', Carbon::now()->subDays(30));
             }
-            if($period == 3){
-                $query = $query->whereDate('created_at', Carbon::now()->subDays(30));
-            }
             
         }
 
