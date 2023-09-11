@@ -317,7 +317,7 @@ class OrderController extends Controller
                     $next_id = $this->getNextInvoiceID();
                     if ($new = InvoiceItem::create([
                         "invoice_id" => $next_id,
-                        "title" => "#{$order->id} upgrade to " . $order->service->type->name . " " .  $order->service->plan->name,
+                        "title" => "#{$order->id} upgrade to " . $request->type . " " . $request->plan,
                         "discount" => 0,
                         "price" =>  $request->price,
                         "cycle" => $order->cycle,
