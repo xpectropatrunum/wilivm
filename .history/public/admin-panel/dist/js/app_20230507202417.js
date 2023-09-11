@@ -46,9 +46,6 @@ $(function() {
     $('select[name="limit"]').on('change', function() {
         $('form.frm-filter').submit();
     });
-    $('select[name="admin"]').on('change', function() {
-        $('form.frm-filter').submit();
-    });
 });
 
 function initCkeditor() {
