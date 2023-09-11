@@ -49,7 +49,7 @@
                             <div class="form-group col-lg-4"> 
                                 <label>Choose Invoices</label>
 
-                                <select name="invoice_id[]" class="form-select select2" multiple>
+                                <select name="invoice_id" class="form-select select2" multiple>
                                     @foreach ($users[0]->invoices as $invoice)
                                         <option value="{{ $invoice->id }}">#{{ $invoice->id }}</option>
                                     @endforeach

@@ -203,13 +203,11 @@ class InvoiceController extends Controller
             $items = $invoice->items;
             foreach($items as $item_){
                 $item_->invoice_id = $next_id;
-                if(InvoiceItem::create($item_)){
-                    $item_->delete();
-                }
+                InvoiceItem::create($item_);
             }
         }
         $price = InvoiceItem::where("invoice_id", $next_id)->get()->sum("price");
-        $create =  Invoice::create([
+        $invoice =  Invoice::create([
             "user_id" => $request->user_id,
             "id" => $next_id,
             "price" => round($price, 2),
@@ -219,14 +217,6 @@ class InvoiceController extends Controller
             "discount" => 0,
             "expires_at" =>  time() + $invoice->cycle * 86400 * 30
         ]);
-
-        if($create){
-            foreach($request->invoice_id as $item){
-                Invoice::find($item)->delete();
-            }
-            return redirect()->route("admin.invoices.index")->withSuccess("#{$create->id} created");
-        }
-        return redirect()->back()->withError("Something went wrong");
 
 
     }
