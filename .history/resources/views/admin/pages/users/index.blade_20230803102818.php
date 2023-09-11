@@ -22,12 +22,11 @@
         <div class="col-12">
             <!-- Default box -->
             <div class="card">
-           
-                <div class="card-header d-flex align-items-center px-3" style="justify-content: space-between;">
+                <div class="card-header d-flex align-items-center px-3">
                     <h3 class="card-title">users</h3>
 
-                    <a href="{{route("admin.users.trashed")}}"><button type="button" class="btn btn-outline-primary"> Trashed ({{App\Models\User::onlyTrashed()->count()}})</button></a>
                 </div>
+
                 <div class="px-3 mt-2"> <a href="{{ route('admin.users.excel') }}"><button
                             type="button" class="btn btn-primary">{{ __('Download Excel') }}</button></a>
                 </div>

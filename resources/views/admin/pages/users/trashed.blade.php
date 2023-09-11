@@ -1,17 +1,17 @@
 @extends('admin.layouts.master')
 
-@section('title', 'users')
+@section('title', 'trashed users')
 
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">users</h1>
+            <h1 class="m-0 text-dark">trashed users</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb @if (app()->getLocale() == 'fa') float-sm-left @else float-sm-right @endif">
                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">{{ __('admin.dashboard') }}</a>
                 </li>
-                <li class="breadcrumb-item active">users</li>
+                <li class="breadcrumb-item active">trashed users</li>
             </ol>
         </div>
     </div>
@@ -22,17 +22,14 @@
         <div class="col-12">
             <!-- Default box -->
             <div class="card">
-           
-                <div class="card-header d-flex align-items-center px-3" style="justify-content: space-between;">
-                    <h3 class="card-title">users</h3>
+                <div class="card-header d-flex align-items-center px-3">
+                    <h3 class="card-title">trashed users</h3>
 
-                    <a href="{{route("admin.users.trashed")}}"><button type="button" class="btn btn-outline-primary"> Trashed ({{App\Models\User::onlyTrashed()->count()}})</button></a>
                 </div>
-                <div class="px-3 mt-2"> <a href="{{ route('admin.users.excel') }}"><button
-                            type="button" class="btn btn-primary">{{ __('Download Excel') }}</button></a>
-                </div>
+
+            
                 <div class="card-body p-3">
-                    <form class="frm-filter" action="{{ route('admin.users.index') }}" type="post" autocomplete="off">
+                    {{--  <form class="frm-filter" action="{{ route('admin.users.index') }}" type="post" autocomplete="off">
                         @csrf
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -57,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form>  --}}
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-0 text-nowrap">
@@ -107,26 +104,28 @@
 
                                         <td>{{ $item->created_at }}</td>
                                         <td class="project-actions">
-                                            <a class="btn btn-info btn-sm"
-                                                href="{{ route('admin.users.edit', $item->id) }}">
-                                                <i class="fas fa-pen"></i>
-                                                {{ __('Edit') }}
-                                            </a>
+                                         
+                                            <form action="{{ route('admin.users.recover', $item->id) }}"
+                                                class="d-inline-block" method="POST">
+                                                @csrf
+                                                <button type="submit" 
+                                                    class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                    Undo
+                                                </button>
+                                            </form>
 
-                                            <form action="{{ route('admin.users.destroy', $item->id) }}"
+
+                                            <form action="{{ route('admin.users.permanent_destroy', $item->id) }}"
                                                 class="d-inline-block" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" onclick="swalConfirmDelete(this, title='Are you sure?', text='All the tickets, orders, services and notifications that is related to user will be deleted')"
+                                                <button type="submit" onclick="swalConfirmDelete(this)"
                                                     class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                     {{ __('admin.delete') }}
                                                 </button>
                                             </form>
-                                            <a target="_blank" class="btn btn-outline-warning btn-sm"
-                                                href="{{ route('admin.users.login', $item->id) }}">
-                                                {{ __('Login') }}
-                                            </a>
                                         </td>
 
                                     </tr>

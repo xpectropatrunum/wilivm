@@ -24,11 +24,53 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function trashed(Request $request)
+    {
+        $search = "";
+        $limit = 10;
+        $query = User::onlyTrashed()->latest();
+
+
+
+
+        if ($request->search) {
+            $searching_for = $request->search;
+            $search = $request->search;
+            $query = $query->where("title", "like", "%$searching_for%");
+        }
+
+        if ($request->limit) {
+            $limit = $request->limit;
+        }
+
+        $items = $query->paginate($limit);
+
+
+
+        return view('admin.pages.users.trashed', compact('items', 'search', 'limit'));
+    }
+
+    function permDestry($user)
+    {
+        $user = User::withTrashed()->find($user);
+        if ($user == null) {
+            abort(404);
+        }
+
+        if ($user->forceDelete()) {
+            return redirect()->route("admin.users.trashed")->with("success", "The item deleted permanently");
+        }
+        return redirect()->route("admin.users.trashed")->with("error", "Something went wrong");
+    }
+    function recover($user)
+    {
+        $user = User::withTrashed()->find($user);
+        if ($user == null) {
+            abort(404);
+        }
+        $user->restore();
+        return redirect()->route("admin.users.index")->with("success", "The item recovered permanently");
+    }
     public function index(Request $request)
     {
         $search = "";
