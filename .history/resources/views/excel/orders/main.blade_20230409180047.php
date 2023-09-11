@@ -33,7 +33,7 @@
                     <td>
 
 
-                        @if ($item->transactions()->latest()->first()?->status == 1)
+                        @if ($item->transactions()->latest()->first()->status == 1)
                             <div class="badge badge-success">Paid</div>
                         @else
                             <div class="badge badge-warning">Unpaid</div>
@@ -43,13 +43,13 @@
                     <td>
 
 
-                        @if ($item->service?->status == 2)
+                        @if ($item->service->status == 2)
                             <span class="badge bg-success">Active</span>
-                        @elseif ($item->service?->status == 5)
+                        @elseif ($item->service->status == 5)
                             <span class="badge bg-warning">Proccessing</span>
-                        @elseif ($item->service?->status == 3)
+                        @elseif ($item->service->status == 3)
                             <span class="badge bg-danger">Expired</span>
-                        @elseif ($item->service?->status == 4)
+                        @elseif ($item->service->status == 4)
                             <span class="badge bg-danger">Canceled</span>
                         @else
                             <span class="badge bg-warning">not set</span>
