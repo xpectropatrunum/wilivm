@@ -194,12 +194,7 @@ class InvoiceController extends Controller
 
         return ["os" => $server->os, "location" => $server->locations];
     }
-    public function doMerge(Request $request)
-    {
-        $users = User::all();
-        $invoices = Invoice::all();
-        return view("admin.pages.invoices.merger", compact("users", "invoices"));
-    }
+
     public function merger()
     {
         $users = User::all();

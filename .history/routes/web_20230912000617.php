@@ -226,7 +226,6 @@ Route::prefix("admin")->name("admin.")->group(function () {
 
         Route::get('invoices/next', [AdminInvoiceController::class, "getNextInvoiceID"])->name("invoices.next");
         Route::get('invoices/merger', [AdminInvoiceController::class, "merger"])->name("invoices.merger");
-        Route::post('invoices/doMerge', [AdminInvoiceController::class, "doMerge"])->name("invoices.doMerge");
 
         Route::get('invoices/trashed/last', [AdminInvoiceController::class, 'trashed'])->name("invoices.trashed");
         Route::post('invoices/recover/{order}', [AdminInvoiceController::class, 'recover'])->name("invoices.recover");
