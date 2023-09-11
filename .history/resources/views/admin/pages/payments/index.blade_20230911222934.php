@@ -164,30 +164,10 @@
 
                                     <select name="status" class="select2 form-select">
 
-                                        <option @if($status == -1) selected @endif value="-1">All
-                                        </option>
-                                        <option @if($status == 0) selected @endif value="0">Unpaid
-                                        </option>
-                                        <option @if($status == 1) selected @endif value="1">Paid
-                                        </option>
 
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Period</label>
-
-                                    <select name="period" class="select2 form-select">
-
-
-                                        <option @if($period == 0) selected @endif value="0">All Time
+                                        <option value="0">Unpaid
                                         </option>
-                                        <option @if($period == 1) selected @endif  value="1">Today
-                                        </option>
-                                        <option @if($period == 2) selected @endif  value="2">This Month
-                                        </option>
-                                        <option @if($period == 3) selected @endif  value="3">
-                                             Custom
+                                        <option value="1">Paid
                                         </option>
 
                                     </select>

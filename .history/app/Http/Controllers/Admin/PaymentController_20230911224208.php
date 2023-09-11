@@ -21,7 +21,6 @@ use App\Models\Server;
 use App\Models\ServerPlan;
 use App\Models\ServerType;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -39,9 +38,6 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
         $search = "";
-        $status = $request->status;
-        $period = $request->period;
-        $search = "";
         $limit = 10;
         $query = Transaction::latest();
 
@@ -57,16 +53,11 @@ class PaymentController extends Controller
         }
 
         if (isset($request->status)) {
-            if($request->status > -1){
-                $query = $query->where("status", $request->status);
-            }
+            $query = $query->where("status", $request->status);
         }
 
-        if ($period = $request->period) {
-            if($period == 1){
-                $query = $query->whereDate('created_at', Carbon::now()->subDays(1));
-            }
-            
+        if (isset($request->period)) {
+            $query = $query->where("status", $request->status);
         }
 
     
@@ -75,7 +66,7 @@ class PaymentController extends Controller
 
 
 
-        return view('admin.pages.payments.index', compact('items', 'search', 'limit', 'status', 'period'));
+        return view('admin.pages.payments.index', compact('items', 'search', 'limit'));
     }
     function updateStatus(Transaction $transaction, Request $request){
         $transaction->status = $request->status;

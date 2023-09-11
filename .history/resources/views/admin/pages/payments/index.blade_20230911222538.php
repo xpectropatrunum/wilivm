@@ -145,36 +145,133 @@
 
                 </div>
 
-
+                <div class="px-3 mt-2"> <a href="{{ route('admin.transactions.excel') }}"><button type="button"
+                            class="btn btn-primary">{{ __('Download Excel') }}</button></a>
+                </div>
 
                 <div class="card-body p-3">
-                    <form class="frm-filter" action="{{ route('admin.payments.index') }}" type="post" autocomplete="off">
+
+                    <form class="frm-filter" action="{{ route('admin.transactions.index') }}" type="post"
+                        autocomplete="off">
                         @csrf
 
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="input-group input-group-sm" style="width: 70px;">
-                                <select name="limit" class="custom-select">
-                                    <option value="10" @if ($limit == 10) selected @endif>10</option>
-                                    <option value="25" @if ($limit == 25) selected @endif>25</option>
-                                    <option value="50" @if ($limit == 50) selected @endif>50</option>
-                                    <option value="100" @if ($limit == 100) selected @endif>100</option>
-                                    <option value="200" @if ($limit == 200) selected @endif>200</option>
-                                </select>
-                            </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-12">
 
-                            <div class="input-group input-group-sm" style="width: 200px;">
-                                <input type="text" name="search" class="form-control"
-                                    placeholder="{{ __('admin.search') }}..." value="{{ $search }}">
+                                <div class="form-group">
+                                    <label>Type</label>
 
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
+                                    <select name="type" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Models\ServerType::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->name }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
                                 </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Plan</label>
+
+                                    <select name="plan" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Models\ServerPlan::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->name }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Os</label>
+
+                                    <select name="os" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Models\Os::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Location</label>
+
+                                    <select name="location" class="select2 form-select">
+                                        <option value="0">Select</option>
+                                        @foreach (\App\Models\Location::where('enabled', 1)->get() as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Cycle</label>
+
+                                    <select name="cycle" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Enums\ECycle::asSelectArray() as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Service status</label>
+
+                                    <select name="s_status" class="select2 form-select">
+                                        <option value="0">Select</option>
+
+                                        @foreach (\App\Enums\EServiceType::asSelectArray() as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Transaction Status</label>
+
+                                    <select name="t_status" class="select2 form-select">
+
+
+                                        <option value="0">Unpaid
+                                        </option>
+                                        <option value="1">Paid
+                                        </option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-5">
+                                <a href="javascript:{}"><button type="submit" class="btn btn-info">Filter</button></a>
                             </div>
                         </div>
                     </form>
-
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-0 text-nowrap">
@@ -223,14 +320,14 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td class="project-actions">
                                             @if ($item->order)
-                                            <a href="{{ route('admin.payments.edit', $item->id) }}">
-                                                <button type="button" class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-pen"></i>
-                                                    Edit
-                                                </button>
-                                            </a>
+                                                <a href="{{ route('admin.payments.edit', $item->id) }}">
+                                                    <button type="button" class="btn btn-primary btn-sm">
+                                                        <i class="fas fa-pen"></i>
+                                                        Edit
+                                                    </button>
+                                                </a>
                                             @endif
-                                        
+
                                         </td>
 
 

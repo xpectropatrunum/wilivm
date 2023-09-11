@@ -21,6 +21,7 @@ use App\Models\Server;
 use App\Models\ServerPlan;
 use App\Models\ServerType;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -50,6 +51,17 @@ class PaymentController extends Controller
 
         if ($request->search) {
             $query = $query->where("tx_id", $request->search);
+        }
+
+        if (isset($request->status)) {
+            $query = $query->where("status", $request->status);
+        }
+
+        if ($period = $request->period) {
+            if($period == 1){
+                $query = $query->whereDate('created_at', Carbon::now()->subDays(1));
+            }
+            
         }
 
     
