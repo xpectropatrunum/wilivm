@@ -107,7 +107,6 @@ class Order extends Model
                 ]);
                 try{
                     $item->transactions()->delete();
-                    $item->service->delete();
                 }catch(\Exception $e){
 
                 }
