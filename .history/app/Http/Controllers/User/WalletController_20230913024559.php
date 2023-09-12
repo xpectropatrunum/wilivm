@@ -43,13 +43,8 @@ class WalletController extends Controller
     {
         $message = $request->message;
         $user = $request->tg_id;
-        $message_id = $request->message_id;
-        if ($message_id) {
-            $url = "https://api.telegram.org/bot6658321334:AAFjGslOpSKhpH5e0BDSbvq4ImuKwPWRbWg/replyMessage?message_id={$message_id}&text=$message&parse_mode=html&chat_id={$user}&parse_mode=HTML";
-        } else {
-            $url = "https://api.telegram.org/bot6658321334:AAFjGslOpSKhpH5e0BDSbvq4ImuKwPWRbWg/sendMessage?text=$message&parse_mode=html&chat_id={$user}&parse_mode=HTML";
-        }
 
+        $url = "https://api.telegram.org/bot6658321334:AAFjGslOpSKhpH5e0BDSbvq4ImuKwPWRbWg/sendMessage?text=$message&parse_mode=html&chat_id={$user}&parse_mode=HTML";
         $handler = curl_init($url);
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
         return curl_exec($handler);
