@@ -105,10 +105,11 @@
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>Status</label>
+
                                     <select name="status" class="form-select">
-                                        <option @if ($invoice->transactions()->latest()->first()?->status == 0) selected @endif value="0">Unpaid
+                                        <option value="0">Unpaid
                                         </option>
-                                        <option @if ($invoice->transactions()->latest()->first()?->status == 1) selected @endif value="1">Paid
+                                        <option value="1">Paid
                                         </option>
                                     </select>
                                 </div>
