@@ -64,15 +64,15 @@ class InvoiceController extends Controller
     {
         $search = "";
         $limit = 10;
-        $query1 = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
-        $query2 = auth()->user()->orders()->orderBy("created_at", "desc")->get();
-
+        // $query1 = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
+        // $query2 = auth()->user()->orders()->orderBy("created_at", "desc")->get();
+        $items = auth()->user()->invoices()->orderBy("created_at", "desc")->get();
 
         if ($request->limit) {
             $limit = $request->limit;
         }
 
-        $items = collect($query1->merge( $query2))->sortBy("created_at", "desc")->values();
+        // $items = collect($query1->merge( $query2))->sortByDate('created_at', true);
 
 
 
@@ -104,6 +104,7 @@ class InvoiceController extends Controller
             $s2 = auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Minus, "amount" => $order->price, "tx_id" => $order->transactions()->latest()->first()->id]);
 
             if ($s1 && $s2) {
+                
                 $transaction =  $order->transactions()->latest()->first();
                 $transaction->status = 1;
                 $transaction->method = "wallet";
@@ -155,6 +156,11 @@ class InvoiceController extends Controller
             $s2 = auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Minus, "amount" => $invoice->price, "tx_id" => $invoice->transactions()->latest()->first()->id]);
 
             if ($s1 && $s2) {
+                foreach($invoice->items as $item){
+                    $item->order->service->update([
+                        "status" => EServiceType::Deploying
+                    ]);
+                }
                 $transaction =  $invoice->transactions()->latest()->first();
                 $transaction->status = 1;
                 $transaction->method = "wallet";

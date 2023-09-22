@@ -104,6 +104,7 @@ class InvoiceController extends Controller
             $s2 = auth()->user()->wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Minus, "amount" => $order->price, "tx_id" => $order->transactions()->latest()->first()->id]);
 
             if ($s1 && $s2) {
+                
                 $transaction =  $order->transactions()->latest()->first();
                 $transaction->status = 1;
                 $transaction->method = "wallet";
