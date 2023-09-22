@@ -477,6 +477,7 @@
                             
                             <a href="{{ route('admin.invoices.merger') }}" class="mx-2"><button type="button"
                                 class="btn btn-outline-primary">Invoice Merger</button></a>
+                            <br>
                         </div>
                         @php
                             $items = $user
