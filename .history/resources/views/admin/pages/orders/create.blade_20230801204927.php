@@ -157,12 +157,7 @@
                                     <input name="ipv4" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-12">
-                                <div class="form-group">
-                                    <label> IPv4 Secondary</label>
-                                    <input name="ipv4_2" class="form-control">
-                                </div>
-                            </div>
+
                             <div class="col-lg-3 col-12">
                                 <div class="form-group">
                                     <label>IPv6</label>
