@@ -274,6 +274,9 @@
                                             href="{{ route('admin.invoices.create', ['id' => $user->id]) }}">
                                             <i class="fas fa-coins"></i> {{ __('Create Invoice') }}
                                         </a>
+
+                                        <a href="{{ route('admin.invoices.merger') }}" class="mx-2"><button type="button"
+                                            class="btn btn-outline-primary">Invoice Merger</button></a>
                                         <br>
 
                                         <a target="_blank" class="mt-1"
