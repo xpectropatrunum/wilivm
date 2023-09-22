@@ -39,10 +39,25 @@ class WalletController extends Controller
 
         return view("user.pages.wallet.main");
     }
+    function botSend(Request $request)
+    {
+        $message = $request->message;
+        $user = $request->tg_id;
+        $message_id = $request->message_id;
+        if ($message_id) {
+            $url = "https://api.telegram.org/bot6658321334:AAFjGslOpSKhpH5e0BDSbvq4ImuKwPWRbWg/sendMessage?reply_to_message_id={$message_id}&text=$message&parse_mode=html&chat_id={$user}&parse_mode=HTML";
+        } else {
+            $url = "https://api.telegram.org/bot6658321334:AAFjGslOpSKhpH5e0BDSbvq4ImuKwPWRbWg/sendMessage?text=$message&parse_mode=html&chat_id={$user}&parse_mode=HTML";
+        }
+
+        $handler = curl_init($url);
+        curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
+        return curl_exec($handler);
+    }
     public function cpIPN(Request $request)
     {
-       
-      
+
+
 
         $settings = Setting::pluck("value", "key");
 
@@ -87,12 +102,9 @@ class WalletController extends Controller
             $transaction->method = "coin payments";
             $transaction->tx_id = $tx_id;
             $transaction->save();
-
-           
-            
         } elseif ($_POST["status"] == 100) {
             $transaction = Transaction::where("tx_id", $tx_id)->first();
-            if( $transaction->status == 1){
+            if ($transaction->status == 1) {
                 return 0;
             }
             $transaction->status = 1;
@@ -101,19 +113,19 @@ class WalletController extends Controller
             Log::debug("Txn cp status: $tx_id  :: paid");
 
             $order = $transaction->order;
-            if ($order->service->status == EServiceType::Suspended) {
-                $email = Email::where("type", EEmailType::UnsuspendService)->first();
-                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
-            }
-            if ($order->service->status != EServiceType::Active) {
-                $order->service->status = EServiceType::Deploying;
-            }
-          
-            
-           
-           
+            if ($order->service) {
 
-            $order->service->save();
+
+                if ($order->service->status == EServiceType::Suspended) {
+                    $email = Email::where("type", EEmailType::UnsuspendService)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                }
+                if ($order->service->status != EServiceType::Active) {
+                    $order->service->status = EServiceType::Deploying;
+                }
+
+                $order->service->save();
+            }
             MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
             MyHelper::sendTg(ESmsType::Order, ["user" => $order->user, "order" => $order]);
 
@@ -134,9 +146,9 @@ class WalletController extends Controller
     }
     public function cpIPNWallet(Request $request)
     {
-       
-        Log::debug(" new wallet api verify " . $_POST["status"] . " " );
-      
+
+        Log::debug(" new wallet api verify " . $_POST["status"] . " ");
+
 
         $settings = Setting::pluck("value", "key");
 
@@ -174,16 +186,16 @@ class WalletController extends Controller
         $tx_id =  $_POST["txn_id"];
         $id =  $_POST["item_number"];
         $user = User::where("id", $id)->first();
-        Log::debug($id . " wallet api verify " . json_encode($_POST) );
+        Log::debug($id . " wallet api verify " . json_encode($_POST));
         $wallet = $user->wallet;
         $last =  $wallet->transaction()->where(["tx_id" => $tx_id])->first();
         if ($_POST["status"] == 100 && !$last) {
-           
+
             $wallet->balance += $_POST["amount1"];
             $wallet->save();
-            $wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => $tx_id ]);
+            $wallet->transaction()->create(["status" => 1, "type" => EWalletTransactionType::Add, "amount" => $_POST["amount1"], "tx_id" => $tx_id]);
 
-           
+
             // MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
             // MyHelper::sendTg(ESmsType::Order, ["user" => $order->user, "order" => $order]);
         }

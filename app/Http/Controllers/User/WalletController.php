@@ -113,19 +113,19 @@ class WalletController extends Controller
             Log::debug("Txn cp status: $tx_id  :: paid");
 
             $order = $transaction->order;
-            if ($order->service->status == EServiceType::Suspended) {
-                $email = Email::where("type", EEmailType::UnsuspendService)->first();
-                Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+            if ($order->service) {
+
+
+                if ($order->service->status == EServiceType::Suspended) {
+                    $email = Email::where("type", EEmailType::UnsuspendService)->first();
+                    Mail::to($order->user->email)->send(new MailTemplate($email, (object)["user" => $order->user, "order" => $order]));
+                }
+                if ($order->service->status != EServiceType::Active) {
+                    $order->service->status = EServiceType::Deploying;
+                }
+
+                $order->service->save();
             }
-            if ($order->service->status != EServiceType::Active) {
-                $order->service->status = EServiceType::Deploying;
-            }
-
-
-
-
-
-            $order->service->save();
             MyHelper::sendSMS(ESmsType::Order, ["user" => $order->user, "order" => $order]);
             MyHelper::sendTg(ESmsType::Order, ["user" => $order->user, "order" => $order]);
 
