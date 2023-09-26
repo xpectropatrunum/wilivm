@@ -41,9 +41,7 @@ class LoginController extends Controller
             if ($finduser) {
 
                 Auth::login($finduser);
-                if (!$finduser->wallet) {
-                    $finduser->wallet()->create();
-                }
+
                 return redirect()->back();
             } else {
 
