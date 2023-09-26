@@ -54,7 +54,7 @@
                             border-spacing: 6px;">
                                 <tbody>
                                     <tr>
-                                        <th>Expiry Date</th>
+                                        <th>Expire Date</th>
                                         <td>{{ MyHelper::due($service->order) }}
                                             ({{ round((strtotime(MyHelper::due($service->order)) - time()) / 86400) }} Days
                                             left)</td>
@@ -147,7 +147,7 @@
                     </div>
                 @endif
 
-                @if ($item->status == 2 || $item->status == 5) 
+
                 <div class="card">
                     <div class="card-header">
                         <h4>Tools</h4>
@@ -203,7 +203,6 @@
                     @endif
                 </div>
 
-                @endif
 
                 @if ($service->status != App\Enums\EServiceType::Deploying && $service->status != App\Enums\EServiceType::Cancelled)
 
