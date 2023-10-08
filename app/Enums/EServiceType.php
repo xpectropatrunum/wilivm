@@ -14,6 +14,7 @@ final class EServiceType extends Enum
     const Deploying =   5;
     const Refund =   6;
     const Suspended =   7;
+    const Terminated =   8;
 
 
 

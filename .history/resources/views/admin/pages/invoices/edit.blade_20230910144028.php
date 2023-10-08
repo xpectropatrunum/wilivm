@@ -1,0 +1,179 @@
+@extends('admin.layouts.master')
+
+@section('title', 'Edit invoice')
+
+@section('content_header')
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Edit invoice</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb @if (app()->getLocale() == 'fa') float-sm-left @else float-sm-right @endif">
+                <li class="breadcrumb-item"><a href="{{ route('admin.invoices.index') }}">List invoices</a></li>
+                <li class="breadcrumb-item active">Edit invoice</li>
+            </ol>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Create invoice</h3>
+                </div>
+                <form action="{{ route('admin.invoices.update', $invoice->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                @if ($invoice->transactions()->first()?->status == 1)
+                                Paid with
+                                <strong>{{ ucfirst($invoice->transactions()->latest()->first()?->method) }}</strong> at
+                                {{ $invoice->transactions()->latest()->first()?->updated_at }}<br>
+                                Tx id: <strong>{{ $invoice->transactions()->latest()->first()?->tx_id }}</strong>
+                            @else
+                                Not paid
+                            @endif
+                            </div>
+
+                            <div class="col-12">
+                                ${{number_format($invoice->price)}}
+                            </div>
+                           
+
+                            <div class="form-group col-lg-3">
+                                <label>User</label>
+                                <select name="user_id" class="form-control select2" disabled>
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}"
+                                            @if ($user->id == old('user_id', $invoice->user_id)) ) selected @endif>
+                                            {{ $user->first_name }} {{ $user->last_name }} - {{ $user->email }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+                            <div class="col-lg-3 col-12">
+
+                                <div class="form-group">
+                                    <label>Billing Cycle</label>
+
+                                    <select name="cycle" class="form-select select2">
+                                        @foreach (config('admin.cycle') as $key => $item)
+                                            <option @if ($invoice->cycle == $key) selected @endif
+                                                value="{{ $key }}">{{ $item }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="form-group col-lg-3">
+                                <label>Inform user via email</label>
+                                <div class="form-check">
+                                    <input type="checkbox" name="inform" class="form-check-input" value="1">
+                                    <label class="form-check-label" for="exampleCheck2"> Yes</label>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer text-left">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+
+                </form>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+
+        <div class="col-12">
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Invoice items</h3>
+                </div>
+
+                <div class="col-12 mt-2">
+
+                    <div>
+                        <button type="button" class="btn btn-primary btn-icon-text add-variable">
+                            Add item
+                            <i class="btn-icon-append" data-feather="plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="table variants-table mt-2">
+
+                        <div>
+                            <div class="row w-100">
+                                <div class="col-lg-3">Title</div>
+                                <div class="col-lg-2">Order</div>
+                                <div class="col-lg-2">Cycle</div>
+                                <div class="col-lg-2">Price</div>
+                                <div class="col-lg-3">Actions</div>
+
+                            </div>
+                        </div>
+
+                        <div class="variables-tbody">
+
+                            @foreach ($invoice->items ?? [] as $item)
+                                <form class="row w-100 my-1">
+                                    <div class="col-lg-3">{{ $item->title }}</div>
+                                    <div class="col-lg-2">{{ $item->order_id > 0 ? "#" .$item->order_id : "--" }}</div>
+                                    <div class="col-lg-2">{{ config('admin.cycle')[$item->cycle] }}</div>
+                                    <div class="col-lg-2">{{ number_format($item->price) }}</div>
+                                    <div class="col-lg-3">
+                                        <a data-url="{{ route('admin.invoices.items.remove', $item->id) }}">
+                                            <button type="button" class="btn btn-danger">Remove</button>
+                                        </a>
+                                    </div>
+                                </form>
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('admin_css')
+    <link rel="stylesheet" href="{{ asset('admin-panel/libs/simplebox/simplebox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin-panel/libs/miladi-datepicker/datepicker.min.css') }}">
+@endpush
+
+@push('admin_js')
+    <script></script>
+@endpush

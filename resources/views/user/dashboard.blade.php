@@ -48,7 +48,8 @@
                                         @foreach ($services = auth()->user()->services()->where('status', '!=', '1')->latest()->take(5)->get() as $item)
                                             <tr>
 
-                                                <td style="
+                                                <td
+                                                    style="
                                                 width: 5%;
                                             ">
 
@@ -77,6 +78,15 @@
                                                         <span
                                                             class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                                     @elseif ($item->status == 4)
+                                                        <span
+                                                            class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
+                                                    @elseif ($item->status == 5)
+                                                        <span
+                                                            class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
+                                                    @elseif ($item->status == 6)
+                                                        <span
+                                                            class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
+                                                    @elseif ($item->status == 7)
                                                         <span
                                                             class="badge bg-danger">{{ App\Enums\EServiceType::getKey($item->status) }}</span>
                                                     @endif
@@ -130,7 +140,7 @@
                                         @foreach (auth()->user()->notifications()->where('new', 1)->take(5)->get() as $item)
                                             <tr>
 
-                                                <td >
+                                                <td>
                                                     @if ($item->type == App\Enums\ENotificationType::Ticket)
                                                         <i class="bi bi-chat-right-text"></i>
                                                     @elseif($item->type == App\Enums\ENotificationType::Deploying || $item->type == App\Enums\ENotificationType::Requests)
@@ -193,9 +203,8 @@
                         <div class="recent-message d-flex px-4 py-3">
 
 
-                            @if (auth()->user()->orders()->latest()->take(5)->get()->count() == 0
-                            
-                            && auth()->user()->invoices()->latest()->take(5)->get()->count() == 0)
+                            @if (auth()->user()->orders()->latest()->take(5)->get()->count() == 0 &&
+                                    auth()->user()->invoices()->latest()->take(5)->get()->count() == 0)
 
                                 <div class="name ms-4 w-100">
                                     <div class="mb-1 text-muted" style="text-align: center">You have no invoice</div>
@@ -247,47 +256,47 @@
                                             </tr>
                                         @endforeach
                                         @foreach (auth()->user()->invoices()->latest()->take(5)->get() as $item)
-                                        <tr>
+                                            <tr>
 
 
-                                            <td>
-                                                <div style="width:40px;height:40px">
-                                                    <i class="bi bi-receipt"
-                                                        style="
+                                                <td>
+                                                    <div style="width:40px;height:40px">
+                                                        <i class="bi bi-receipt"
+                                                            style="
                                                         background: #f3f3f3;
                                                         border-radius: 5px;
                                                         font-size: 27px;
                                                         padding: 2px 7px;
                                             "></i>
-                                                </div>
-
-
-
-
-                                            </td>
-
-
-                                            <td>
-                                                <div>
-                                                    <strong>
-                                                        ${{ $item->price }}
-                                                    </strong>
-                                                    <div class="text-muted" style="font-size:0.9em">
-                                                        Invoice #{{ $item->id }} - Due was
-                                                        {{ MyHelper::due($item, 1) }}
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td style="text-align:right">
-                                                @if ($item->transactions()->latest()->first()?->status == 1)
-                                                    <span class="badge bg-success">Paid</span>
-                                                @else
-                                                    <span class="badge bg-warning">Unpaid</span>
-                                                @endif
-                                            </td>
 
-                                        </tr>
-                                    @endforeach
+
+
+
+                                                </td>
+
+
+                                                <td>
+                                                    <div>
+                                                        <strong>
+                                                            ${{ $item->price }}
+                                                        </strong>
+                                                        <div class="text-muted" style="font-size:0.9em">
+                                                            Invoice #{{ $item->id }} - Due was
+                                                            {{ MyHelper::due($item, 1) }}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:right">
+                                                    @if ($item->transactions()->latest()->first()?->status == 1)
+                                                        <span class="badge bg-success">Paid</span>
+                                                    @else
+                                                        <span class="badge bg-warning">Unpaid</span>
+                                                    @endif
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
 
@@ -338,7 +347,7 @@
 
 
 
-      
+
 
 
 
