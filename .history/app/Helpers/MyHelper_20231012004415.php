@@ -83,6 +83,8 @@ class MyHelper
             $user_fullname = ($user->first_name . " " . $user->last_name);
 
             foreach ($admins as $admin) {
+
+
                 $phone = $admin->phone;
                 if (!in_array($type, json_decode($admin->sms))) {
                     continue;
@@ -93,7 +95,6 @@ class MyHelper
                 }
                 $append = "";
 
-                $token = "6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k";
 
                 switch ($type) {
                     case ESmsType::Order:
@@ -117,12 +118,11 @@ class MyHelper
                         break;
                     case ESmsType::Suspension:
                         $order = $data["order"];
-                        $message = urlencode(str_replace(
+                        echo $message = urlencode(str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
                             config("admin.suspension_tg")
                         ));
-                        $token = "6413333087:AAGLIPn6Jjbg4UShwz1LGGsO4vQKEbM5anw";
 
 
                         break;
@@ -161,9 +161,9 @@ class MyHelper
                             break;
                 }
 
-                
+                echo "pre send";
                 try {
-                    $url = "https://api.telegram.org/bot$token/sendMessage?text=$message&parse_mode=html&chat_id={$admin->tg_id}";
+                    $url = "https://api.telegram.org/bot6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k/sendMessage?text=$message&parse_mode=html&chat_id={$admin->tg_id}";
                     $handler = curl_init($url);
                     curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                     $response2 = curl_exec($handler);
@@ -171,6 +171,7 @@ class MyHelper
                     $response2;
                 } catch (\Exception $e) {
                     Log::warning("send tg bot: " . $e->getMessage());
+                    echo $e->getMessage();
                 }
             }
         }

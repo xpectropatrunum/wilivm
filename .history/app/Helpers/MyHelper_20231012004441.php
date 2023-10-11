@@ -93,7 +93,6 @@ class MyHelper
                 }
                 $append = "";
 
-                $token = "6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k";
 
                 switch ($type) {
                     case ESmsType::Order:
@@ -122,7 +121,6 @@ class MyHelper
                             [$user_fullname, $user->email, $order->id],
                             config("admin.suspension_tg")
                         ));
-                        $token = "6413333087:AAGLIPn6Jjbg4UShwz1LGGsO4vQKEbM5anw";
 
 
                         break;
@@ -163,7 +161,7 @@ class MyHelper
 
                 
                 try {
-                    $url = "https://api.telegram.org/bot$token/sendMessage?text=$message&parse_mode=html&chat_id={$admin->tg_id}";
+                    $url = "https://api.telegram.org/bot6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k/sendMessage?text=$message&parse_mode=html&chat_id={$admin->tg_id}";
                     $handler = curl_init($url);
                     curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
                     $response2 = curl_exec($handler);

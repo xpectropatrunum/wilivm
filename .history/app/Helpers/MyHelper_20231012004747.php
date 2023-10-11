@@ -93,7 +93,7 @@ class MyHelper
                 }
                 $append = "";
 
-                $token = "6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k";
+                $oken = "6497424366:AAFXCUt3fxmsx_Jgy9veiJlD7en0g1a3s6k";
 
                 switch ($type) {
                     case ESmsType::Order:
