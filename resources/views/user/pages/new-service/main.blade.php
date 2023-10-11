@@ -44,7 +44,7 @@
                                 <div class="col-lg-6 col-xl-3 p-1">
                                     <div class="card">
                                         <div class="card-header text-center">
-                                            <h4 class="card-title" style="font-size:46px!important">{{ $item[0]->type->name }}</h4>
+                                            <h4 class="card-title" style="font-size:38px!important">{{ $item[0]->type->name }}</h4>
 
                                         </div>
                                         {{--  <h1 class="price" style="margin-bottom:0">${{ min(array_column($item, 'price')) }}</h1>  --}}
