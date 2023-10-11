@@ -195,6 +195,7 @@
                 title: "{{ $plan->type->name }} {{ $plan->plan->name }}",
                 type: "{{ $plan->type->id }}",
                 plan: "{{ $plan->plan->id }}",
+                count: 1,
             }
             addToCart($item)
             window.location.href = "/cart"

@@ -32,11 +32,14 @@
                         <div class="col-lg-3">
                             Title
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             Cycle
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             Price
+                        </div>
+                        <div class="col-lg-2">
+                            Count
                         </div>
                         <div class="col-lg-3">
                             Actions
@@ -112,10 +115,21 @@
             <div class="col-lg-3">
                 ${i.title}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 ${i.cycle_text}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
+               <span> ${i.count}</span><span>
+                <a href="javascript:{}" onclick="addRow(this, ${i.id})">
+                    <div class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-add"></i>
+                        Remove
+                    </div>
+
+                </a>
+               </span>
+            </div>
+            <div class="col-lg-2">
                 $${i.price}
             </div>
             <div class="col-lg-3">

@@ -185,13 +185,17 @@
 
         $(".add-to-cart").click(function(){
             $item = {
-                price: $(".final-price").text(),
+
+                id: "{{ $plan->type->id }}/{{ $plan->plan->id }}/" + $("[name=location]").val() + "/" + $("[name=cycle]").val(),
+                price: parseFloat($(".final-price").text().replace("$", "")),
                 location: $("[name=location]").val(),
+                os: $("[name=os]").val(),
                 cycle: $("[name=cycle]").val(),
                 cycle_text: $("[name=cycle] option:selected").text().trim(),
                 title: "{{ $plan->type->name }} {{ $plan->plan->name }}",
                 type: "{{ $plan->type->id }}",
                 plan: "{{ $plan->plan->id }}",
+                count: 1,
             }
             addToCart($item)
             window.location.href = "/cart"

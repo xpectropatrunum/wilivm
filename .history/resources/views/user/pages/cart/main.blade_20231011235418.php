@@ -28,15 +28,18 @@
                     Manage Your Cart
                 </div>
                 <div class="card-body">
-                    <div class="row cart-header" style="font-weight: 600;">
+                    <div class="row cart-header" style="font-weight: 900;">
                         <div class="col-lg-3">
                             Title
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             Cycle
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             Price
+                        </div>
+                        <div class="col-lg-2">
+                            Count
                         </div>
                         <div class="col-lg-3">
                             Actions
@@ -92,10 +95,16 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data) {
-                    alert(data);
+                    if(data.success){
+                        emptyCart()
+                        window.location.href = data.url
+                    }
                 },
                 error: function(errMsg) {
-                    alert(errMsg);
+                    Swal.fire({
+                        icon: "error",
+                        'title': "Something went wrong! try again later"
+                    })
                 }
             });
         })
@@ -106,10 +115,21 @@
             <div class="col-lg-3">
                 ${i.title}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 ${i.cycle_text}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
+               <span> ${i.count}</span><span>
+                <a href="javascript:{}" onclick="addRow(this, ${i.id})">
+                    <div class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-add"></i>
+                        Remove
+                    </div>
+
+                </a>
+               </span>
+            </div>
+            <div class="col-lg-2">
                 $${i.price}
             </div>
             <div class="col-lg-3">
@@ -124,7 +144,7 @@
         </div>`)
 
         })
-        $(".final-price").text(total)
+        $(".final-price").text(Math.round(total*100)/100)
 
         function removeRow(item, id) {
             removeFromCart(id);
@@ -134,7 +154,7 @@
             cart.forEach((i) => {
                 total += i.price
             })
-            $(".final-price").text(total)
+            $(".final-price").text(Math.round(total*100)/100)
 
 
             if (cart.length == 0) {
