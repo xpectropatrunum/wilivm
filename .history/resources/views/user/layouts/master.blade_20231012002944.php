@@ -219,14 +219,7 @@
             cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             updateCart()
         }
-        function minusFromCart(id) {
-            if (cart.find(i => i.id == id)?.count > 1) {
-                cart.find(i => i.id == id).count -= 1;
-            }
-            localStorage.setItem("cart", JSON.stringify(cart));
-            cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-            updateCart()
-        }
+
         function removeFromCart(id) {
             try {
                 cart.splice(cart.indexOf(find(i => i.id == id)), 1);
