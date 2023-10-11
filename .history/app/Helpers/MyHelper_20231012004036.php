@@ -116,7 +116,7 @@ class MyHelper
                         break;
                     case ESmsType::Suspension:
                         $order = $data["order"];
-                        $message = urlencode(str_replace(
+                        echo $message = urlencode(str_replace(
                             ["%name%", "%email%", "%number%"],
                             [$user_fullname, $user->email, $order->id],
                             config("admin.suspension_tg")
@@ -169,6 +169,7 @@ class MyHelper
                     $response2;
                 } catch (\Exception $e) {
                     Log::warning("send tg bot: " . $e->getMessage());
+                    echo $e->getMessage();
                 }
             }
         }
