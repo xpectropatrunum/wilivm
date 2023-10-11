@@ -2,6 +2,8 @@
 
 use App\Enums\EEmailType;
 use App\Enums\EServiceType;
+use App\Enums\ESmsType;
+use App\Helpers\MyHelper;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BlockedUserController;
@@ -67,8 +69,11 @@ use Spatie\Permission\Models\Role;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/31", function () {
+$order = Order::find(784689);
+MyHelper::sendTg(ESmsType::Suspension, ["user" =>  $order->user, "order" => $order]);
 
-
+});
 Route::get("/3", function () {
     $orders = Order::whereHas("transactions", function ($query) {
         $query->where("status", 1);

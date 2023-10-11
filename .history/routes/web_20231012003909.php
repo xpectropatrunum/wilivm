@@ -2,6 +2,8 @@
 
 use App\Enums\EEmailType;
 use App\Enums\EServiceType;
+use App\Enums\ESmsType;
+use App\Helpers\MyHelper;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\BlockedUserController;
@@ -34,6 +36,7 @@ use App\Http\Controllers\User\Auth\ForgotPasswordController;
 use App\Http\Controllers\User\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\User\Auth\RegisterController;
 use App\Http\Controllers\User\BulletinController as UserBulletinController;
+use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\NotificationController as UserNotificationController;
@@ -66,8 +69,11 @@ use Spatie\Permission\Models\Role;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("/31", function () {
+$order = Order::find(784689);
+MyHelper::sendTg(ESmsType::Suspension, ["user" =>  $order->user, "order" => $order]);
 
-
+});
 Route::get("/3", function () {
     $orders = Order::whereHas("transactions", function ($query) {
         $query->where("status", 1);
@@ -191,6 +197,10 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::resource('blocked-users', BlockedUserController::class);
         Route::post('blocked-users/{blockedUser}/status', [BlockedUserController::class, 'changeStatus'])->name('blocked-users.status');
         Route::resource('admins', AdminController::class);
+
+        Route::get('users/trashed/last', [UserController::class, 'trashed'])->name("users.trashed");
+        Route::post('users/recover/{order}', [UserController::class, 'recover'])->name("users.recover");
+        Route::delete('users/permanent/{order}', [UserController::class, 'permDestry'])->name("users.permanent_destroy");
         Route::post('users/status/{user}', [UserController::class, "changeStatus"])->name("users.status");
         Route::post('users/send-email/{user}', [UserController::class, "sendEmail"])->name("users.send-email");
         Route::get('users/login/{user}', [UserController::class, "loginAsUser"])->name("users.login");
@@ -219,18 +229,27 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::get('orders/create/{user}', [OrderController::class, "create_for_user"])->name("orders.create_for_user");
         Route::post('orders/store/{user}', [OrderController::class, "store"])->name("orders.new");
 
-        Route::resource('invoices', AdminInvoiceController::class);
+        Route::get('invoices/next', [AdminInvoiceController::class, "getNextInvoiceID"])->name("invoices.next");
+        Route::get('invoices/merger', [AdminInvoiceController::class, "merger"])->name("invoices.merger");
+        Route::post('invoices/doMerge', [AdminInvoiceController::class, "doMerge"])->name("invoices.doMerge");
 
-        
-        Route::prefix("invoices/items")->name("products.items.")->group(function () {
+        Route::get('invoices/trashed/last', [AdminInvoiceController::class, 'trashed'])->name("invoices.trashed");
+        Route::post('invoices/recover/{order}', [AdminInvoiceController::class, 'recover'])->name("invoices.recover");
+        Route::delete('invoices/permanent/{order}', [AdminInvoiceController::class, 'permDestry'])->name("invoices.permanent_destroy");
+        Route::resource('invoices', AdminInvoiceController::class);
+        Route::prefix("invoices/items")->name("invoices.items.")->group(function () {
             Route::post('add/{invoice}',  [AdminInvoiceController::class, 'addItem'])->name("add");
             Route::post('remove/{invoiceItem}',  [AdminInvoiceController::class, 'removeItem'])->name("remove");
+            Route::post('separate/{invoiceItem}',  [AdminInvoiceController::class, 'separateItem'])->name("separate");
         });
+
+        
         Route::get('invoices/excel/dl', [AdminInvoiceController::class, "excel"])->name("invoices.excel");
 
         Route::delete('emails/{sentEmail}', [UserController::class, "destroySentEmail"])->name("sent-emails.destroy");
 
 
+        Route::get('payments/excel/dl', [PaymentController::class, "excel"])->name("payments.excel");
         Route::resource('payments', PaymentController::class);
         Route::post('payments/updateStatus/{transaction}', [PaymentController::class, 'updateStatus']);
 
@@ -241,7 +260,12 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::resource('notifications', NotificationController::class);
         Route::resource('bulletins', BulletinController::class);
 
+        Route::get('tickets/trashed', [TicketController::class, 'trashed'])->name("tickets.trashed");
+        Route::post('tickets/recover/{ticket}', [TicketController::class, 'recover'])->name("tickets.recover");
+        Route::delete('tickets/permanent/{ticket}', [TicketController::class, 'permDestry'])->name("tickets.permanent_destroy");
         Route::resource('tickets', TicketController::class);
+
+
         Route::resource('ticket-templates', TicketTemplateController::class);
         Route::post('ticket-templates/{ticketTemplate}/status', [TicketTemplateController::class, "changeStatus"])->name("ticket-templates.status");
         Route::resource('ticket-template-types', TicketTemplateTypeController::class);
@@ -267,6 +291,10 @@ Route::prefix("admin")->name("admin.")->group(function () {
         Route::post('plans/status/{plan}', [PlanController::class, "changeStatus"])->name("plans.status");
 
 
+
+        Route::get('orders/trashed/last', [OrderController::class, 'trashed'])->name("orders.trashed");
+        Route::post('orders/recover/{order}', [OrderController::class, 'recover'])->name("orders.recover");
+        Route::delete('orders/permanent/{order}', [OrderController::class, 'permDestry'])->name("orders.permanent_destroy");
         Route::resource('orders', OrderController::class);
         Route::post('sendmail/{order}', [OrderController::class, "sendMail"])->name("sendmail");
 
@@ -300,7 +328,9 @@ Route::name("panel.")->group(function () {
 
         Route::get('notifications', [UserNotificationController::class, 'index'])->name("notifications");
         Route::get('new-service', [ServiceController::class, 'new_service'])->name("new-service");
+        Route::get('cart', [CartController::class, 'index'])->name("cart");
         Route::get('new-service/{id}/{_id}', [ServiceController::class, 'order_form'])->name("new-service.make");
+        Route::post('checkout', [ServiceController::class, 'checkout'])->name("checkout");
         Route::post('new-service/{id}/{_id}', [ServiceController::class, 'submit_order'])->name("new-service.submit");
         Route::get('resend-email', [UserDashboardController::class, 'resend_email'])->name("resend-email")->middleware('throttle:api');;
 
