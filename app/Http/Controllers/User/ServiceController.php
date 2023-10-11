@@ -108,30 +108,32 @@ class ServiceController extends Controller
         }
         $items = json_decode($request->getContent());
         foreach ($items as $item) {
-            $server = Server::where(["server_plan_id" => $item->plan, "server_type_id" => $item->type, "enabled" => 1])->firstOrFail();
-            $new_server = auth()->user()->services()->create([
-                "type" => $server->type->name, "plan" => $server->plan->name,
-                "ram" => $server->ram, "cpu" => $server->cpu,
-                "storage" => $server->storage, "bandwith" => $server->bandwith,
-                "location" => $item->location, "os" => $item->os,
-            ]);
-            if ($new_server) {
-                $item_price = round($item->cycle * ($server->price + $server->locations->pluck("price", "id")[$item->location]), 2);
-                $new_order = auth()->user()->orders()->create([
-                    "server_id" => $new_server->id, "price" =>  $item_price,
-                    "expires_at" => time() + $item->cycle * 86400 * 30,
-                    "due_date" => time() + $item->cycle * 86400 * 30,
-                    "cycle" => $item->cycle
+            for ($i = 0; $i < $item->count; $i++) {
+                $server = Server::where(["server_plan_id" => $item->plan, "server_type_id" => $item->type, "enabled" => 1])->firstOrFail();
+                $new_server = auth()->user()->services()->create([
+                    "type" => $server->type->name, "plan" => $server->plan->name,
+                    "ram" => $server->ram, "cpu" => $server->cpu,
+                    "storage" => $server->storage, "bandwith" => $server->bandwith,
+                    "location" => $item->location, "os" => $item->os,
                 ]);
-                InvoiceItem::create([
-                    "invoice_id" => $next_id,
-                    "title" => $item->title,
-                    "discount" => 0,
-                    "price" => $item_price,
-                    "cycle" => $item->cycle,
-                    "expires_at" =>  time() + $item->cycle * 86400 * 30,
-                    "order_id" => $new_order->id,
-                ]);
+                if ($new_server) {
+                    $item_price = round($item->cycle * ($server->price + $server->locations->pluck("price", "id")[$item->location]), 2);
+                    $new_order = auth()->user()->orders()->create([
+                        "server_id" => $new_server->id, "price" =>  $item_price,
+                        "expires_at" => time() + $item->cycle * 86400 * 30,
+                        "due_date" => time() + $item->cycle * 86400 * 30,
+                        "cycle" => $item->cycle
+                    ]);
+                    InvoiceItem::create([
+                        "invoice_id" => $next_id,
+                        "title" => $item->title,
+                        "discount" => 0,
+                        "price" => $item_price,
+                        "cycle" => $item->cycle,
+                        "expires_at" =>  time() + $item->cycle * 86400 * 30,
+                        "order_id" => $new_order->id,
+                    ]);
+                }
             }
         }
         // $new_transaction = $new_order->transactions()->create(["tx_id" => md5("wil4li" . $new_order->id)]);

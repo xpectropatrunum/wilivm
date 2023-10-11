@@ -15,6 +15,8 @@ use App\Models\Doctor;
 use App\Models\DoctorImage;
 use App\Models\DoctorSpecialty;
 use App\Models\Email;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Request as ModelsRequest;
@@ -99,40 +101,81 @@ class ServiceController extends Controller
     }
     public function checkout(Request $request)
     {
-        return $request->body();
-        $server = Server::where(["server_plan_id" => $plan, "server_type_id" => $type, "enabled" => 1])->firstOrFail();
-        $new_server = auth()->user()->services()->create([
-            "type" => $server->type->name, "plan" => $server->plan->name,
-            "ram" => $server->ram, "cpu" => $server->cpu,
-            "storage" => $server->storage, "bandwith" => $server->bandwith,
-            "location" => $request->location, "os" => $request->os,
-        ]);
-        if ($new_server) {
-            $new_order = auth()->user()->orders()->create([
-                "server_id" => $new_server->id, "price" =>  $request->cycle * ($server->price + $server->locations->pluck("price", "id")[$request->location]),
-                "expires_at" => time() + $request->cycle * 86400 * 30,
 
-                "due_date" => time() + $request->cycle * 86400 * 30,
-                "cycle" => $request->cycle
-
-
-            ]);
-            $new_transaction = $new_order->transactions()->create(["tx_id" => md5("wil4li" . $new_order->id)]);
-            $email = Email::where("type", EEmailType::New_order)->first();
-            Mail::to($new_order->user->email)->send(new MailTemplate($email, (object)["user" => $new_order->user, "order" => $new_order]));
-            if ($new_transaction) {
-                MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
-                return redirect()->route("panel.invoices.show", ["order" => $new_order->id]);
+        $next_id =  $this->getNextInvoiceID();
+        if (!Invoice::find($next_id)) {
+            InvoiceItem::where("invoice_id", $next_id)->delete();
+        }
+        $items = json_decode($request->getContent());
+        foreach ($items as $item) {
+            for ($i = 0; $i < $item->count; $i++) {
+                $server = Server::where(["server_plan_id" => $item->plan, "server_type_id" => $item->type, "enabled" => 1])->firstOrFail();
+                $new_server = auth()->user()->services()->create([
+                    "type" => $server->type->name, "plan" => $server->plan->name,
+                    "ram" => $server->ram, "cpu" => $server->cpu,
+                    "storage" => $server->storage, "bandwith" => $server->bandwith,
+                    "location" => $item->location, "os" => $item->os,
+                ]);
+                if ($new_server) {
+                    $item_price = round($item->cycle * ($server->price + $server->locations->pluck("price", "id")[$item->location]), 2);
+                    $new_order = auth()->user()->orders()->create([
+                        "server_id" => $new_server->id, "price" =>  $item_price,
+                        "expires_at" => time() + $item->cycle * 86400 * 30,
+                        "due_date" => time() + $item->cycle * 86400 * 30,
+                        "cycle" => $item->cycle
+                    ]);
+                    InvoiceItem::create([
+                        "invoice_id" => $next_id,
+                        "title" => $item->title,
+                        "discount" => 0,
+                        "price" => $item_price,
+                        "cycle" => $item->cycle,
+                        "expires_at" =>  time() + $item->cycle * 86400 * 30,
+                        "order_id" => $new_order->id,
+                    ]);
+                }
             }
         }
-        return redirect()->back()->withError("Something went wrong");
+        // $new_transaction = $new_order->transactions()->create(["tx_id" => md5("wil4li" . $new_order->id)]);
+        // $email = Email::where("type", EEmailType::New_order)->first();
+        // Mail::to($new_order->user->email)->send(new MailTemplate($email, (object)["user" => $new_order->user, "order" => $new_order]));
+        // if ($new_transaction) {
+        //     MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
+        //     return redirect()->route("panel.invoices.show", ["order" => $new_order->id]);
+        // }
+
+
+
+        $total = InvoiceItem::where("invoice_id", $next_id)->get()->sum("price");
+
+        if ($invoice = auth()->user()->invoices()->create([
+            "id" => $next_id,
+            "price" => round($total, 2),
+            "cycle" => $item->cycle,
+            "title" => "",
+            "description" => "",
+            "discount" => 0,
+            "expires_at" =>  time() + $item->cycle * 86400 * 30
+        ])) {
+            $invoice->transactions()->create(["tx_id" => md5(time())]);
+
+            $email = Email::where("type", EEmailType::New_order)->first();
+            Mail::to($new_order->user->email)->send(new MailTemplate($email, (object)["user" => $new_order->user, "order" => $new_order]));
+
+            MyHelper::sendTg(ESmsType::Draft, ["user" =>  $new_order->user, "order" => $new_order]);
+
+
+            return ["success" => 1, "url" => "/e-invoices/show/" . $invoice->id];
+        }
+
+
+        return ["success" => 0];
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    public function getNextInvoiceID()
+    {
+        $statement = \DB::select("show table status like 'invoices'");
+        return $statement[0]->Auto_increment;
+    }
     public function renew(Request $request, UserService $service)
     {
         $request->validate([
