@@ -207,10 +207,10 @@
             cart = JSON.parse(localStorage.getItem("cart")) ?? [];
             updateCart()
         }
-        function plusToCart(id) {
-            console.log("pre")
-            if (cart.find(i => i.id ==id)) {
-                cart.find(i => i.id ==id).count += 1;
+        function plusToCart(item) {
+            onsole.log("pre")
+            if (cart.find(i => i.id == item.id)) {
+                cart.find(i => i.id == item.id).count += 1;
                 console.log("added")
             }
             localStorage.setItem("cart", JSON.stringify(cart));
