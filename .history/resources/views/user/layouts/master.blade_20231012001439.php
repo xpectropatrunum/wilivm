@@ -41,7 +41,7 @@
                         <div class="my-wallet btn btn-outline-primary btn-md" style="margin-right: 5px">
 
                             <i class="fa fa-plus"></i>
-                          Add Funds
+                            Add Funds
 
 
 
@@ -59,9 +59,17 @@
                         </div>
 
                     </a>
+                    <a href="{{ route('panel.cart') }}" style="margin-right:5px"> 
+                        <div class=" btn btn-light" style="padding:4px">
+                            <i class="fa fa-shopping-cart" style="font-size:15px"></i>
+                            <span class="badge badge-red cart-items" style="background: red;font-size: 8px;top: 5px;left: -14px;">0</span>
+
+
+                        </div>
+
+                    </a>
                     <div class="dropdown">
-                        <a href="#" id="topbarUserDropdown"
-                            class="user-dropdown d-flex align-items-center dropend dropdown-toggle"
+                            <a class="user-dropdown d-flex align-items-center dropend dropdown-toggle"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div id="profileImage">
                             </div>
@@ -131,14 +139,15 @@
     </div>
     <style>
         @media screen and (max-width: 600px) {
-            .add-fund{
+            .add-fund {
                 display: none;
             }
-            .header-top-right{
+
+            .header-top-right {
                 justify-content: space-between;
                 width: 100%
             }
-          }
+        }
     </style>
     <script src="{{ asset('assets/js/pages/jquery.js') }}"></script>
 
@@ -177,39 +186,57 @@
         })();
 
         let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-        function addToCart(item){
-            if(cart.find(i => i.id == item.id)){
-                cart.splice(cart.find(i => i.id == item.id).id, 1);
+        updateCart()
+        function updateCart(){
+            $(".cart-items").text(cart.length)
+        }
+        
+        function emptyCart() {
+           
+            cart = []
+            localStorage.setItem("cart", JSON.stringify(cart));
+            cart = JSON.parse(localStorage.getItem("cart")) ?? [];
+            updateCart()
+        }
+        function addToCart(item) {
+            if (cart.find(i => i.id == item.id)) {
+                cart.splice(cart.indexOf(find(i => i.id == item.id)), 1);
             }
             cart.push(item);
             localStorage.setItem("cart", JSON.stringify(cart));
             cart = JSON.parse(localStorage.getItem("cart")) ?? [];
+            updateCart()
         }
-        function removeFromCart(id){
-            try{
-                cart.splice(cart.find(i => i.id == id).id, 1);
+
+        function removeFromCart(id) {
+            try {
+                cart.splice(cart.indexOf(find(i => i.id == id)), 1);
                 localStorage.setItem("cart", JSON.stringify(cart));
                 cart = JSON.parse(localStorage.getItem("cart")) ?? [];
-            }catch(e){
+            } catch (e) {
                 console.log(e)
 
             }
-          
+            updateCart()
+
         }
-        function editCart(id, item){
-            try{
+       
+        function editCart(id, item) {
+            try {
                 for (var i = 0; i < cart.length; ++i) {
                     if (cart[i]['id'] == id) {
                         cart[i] = item;
                     }
                 }
-            }catch(e){
+                localStorage.setItem("cart", JSON.stringify(cart));
+                cart = JSON.parse(localStorage.getItem("cart")) ?? [];
+            } catch (e) {
                 console.log(e)
 
             }
-      
-            localStorage.setItem("cart", JSON.stringify(cart));
-            cart = JSON.parse(localStorage.getItem("cart")) ?? [];
+
+         
+            updateCart()
         }
     </script>
     @stack('admin_js')

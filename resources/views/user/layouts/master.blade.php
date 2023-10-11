@@ -220,7 +220,7 @@
             updateCart()
 
         }
-
+       
         function editCart(id, item) {
             try {
                 for (var i = 0; i < cart.length; ++i) {

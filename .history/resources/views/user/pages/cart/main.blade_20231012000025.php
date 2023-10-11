@@ -160,27 +160,7 @@
 
             total = 0;
             cart.forEach((i) => {
-                total += i.price * i.count
-            })
-            $(".final-price").text(Math.round(total * 100) / 100)
-
-
-            if (cart.length == 0) {
-                $(".cart-header").html(`
-                <div class="col-12 text-center">
-                    Your cart is empty
-                </div>`)
-                $(".action-section").hide()
-
-            }
-        }
-        function addRow(item, id) {
-            addToCart(id);
-            $(item).parent().parent().html("")
-
-            total = 0;
-            cart.forEach((i) => {
-                total += i.price * i.count
+                total += i.price
             })
             $(".final-price").text(Math.round(total * 100) / 100)
 

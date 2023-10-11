@@ -41,7 +41,7 @@
                         <div class="col-lg-2">
                             Price
                         </div>
-
+                       
                         <div class="col-lg-3">
                             Actions
                         </div>
@@ -88,15 +88,15 @@
         $(".make-order").click(function() {
             $.ajax({
                 type: "POST",
-                url: "{{ route('panel.checkout') }}",
+                url: "{{route('panel.checkout')}}",
                 data: JSON.stringify(cart),
                 headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    'X-CSRF-TOKEN': "{{csrf_token()}}"
                 },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(data) {
-                    if (data.success) {
+                    if(data.success){
                         emptyCart()
                         window.location.href = data.url
                     }
@@ -111,7 +111,7 @@
         })
         var total = 0;
         cart.forEach((i) => {
-            total += i.price * i.count
+            total += i.price
             $(".cart-items-list").append(`<div class="row my-1">
             <div class="col-lg-3">
                 ${i.title}
@@ -120,20 +120,13 @@
                 ${i.cycle_text}
             </div>
             <div class="col-lg-2">
-               <span> ${i.count}</span>
-             
-               <span>
-                <a href="javascript:{}" onclick="minusRow(this, ${i.id})">
-                    <div class="btn btn-outline-primary btn-sm">
-                        <i class="fa fa-minus"></i>
-                    </div>
-                </a>
-               </span>
-               <span>
+               <span> ${i.count}</span><span>
                 <a href="javascript:{}" onclick="addRow(this, ${i.id})">
                     <div class="btn btn-outline-primary btn-sm">
-                        <i class="fa fa-plus"></i>
+                        <i class="fa fa-add"></i>
+                        +
                     </div>
+
                 </a>
                </span>
             </div>
@@ -152,7 +145,7 @@
         </div>`)
 
         })
-        $(".final-price").text(Math.round(total * 100) / 100)
+        $(".final-price").text(Math.round(total*100)/100)
 
         function removeRow(item, id) {
             removeFromCart(id);
@@ -160,29 +153,9 @@
 
             total = 0;
             cart.forEach((i) => {
-                total += i.price * i.count
+                total += i.price
             })
-            $(".final-price").text(Math.round(total * 100) / 100)
-
-
-            if (cart.length == 0) {
-                $(".cart-header").html(`
-                <div class="col-12 text-center">
-                    Your cart is empty
-                </div>`)
-                $(".action-section").hide()
-
-            }
-        }
-        function addRow(item, id) {
-            addToCart(id);
-            $(item).parent().parent().html("")
-
-            total = 0;
-            cart.forEach((i) => {
-                total += i.price * i.count
-            })
-            $(".final-price").text(Math.round(total * 100) / 100)
+            $(".final-price").text(Math.round(total*100)/100)
 
 
             if (cart.length == 0) {
