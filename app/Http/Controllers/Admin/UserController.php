@@ -124,6 +124,10 @@ class UserController extends Controller
     }
     public function show(User $user)
     {
+        if(!$user->wallet){
+            $user->wallet()->create();
+
+        }
         return view('admin.pages.users.show', compact('user'));
     }
     public function excel(Request $request)
